@@ -8,6 +8,7 @@ import { LocalStorageItem } from '../storage/local-storage.js';
 import { idb } from '../storage/idb.js';
 import { uuid } from '../storage/uuid.js';
 
+import API from './api.js';
 import { workouts as workoutsFile }  from '../workouts/workouts.js';
 import { zwo } from '../workouts/zwo.js';
 import { fileHandler } from '../file.js';
@@ -480,9 +481,14 @@ class DataTileSwitch extends Model {
     }
 }
 
+class Activity {
+}
+
 class Workout extends Model {
     postInit(args) {
         const self = this;
+        self.api = args.api;
+        console.log(args);
     }
     defaultValue() { return this.parse((first(workoutsFile))); }
     defaultIsValid(value) {
@@ -505,25 +511,12 @@ class Workout extends Model {
         return zwo.readToInterval(result);
     }
     fileName () {
-        const self = this;
-        const now = new Date();
-        return `workout-${dateToDashString(now)}.fit`;
-    }
-    toFitRecords(db) {
-        return db.records;
-    }
-    toFitLaps(db) {
-        return db.laps;
-    }
-    toFitEvents(db) {
-        return db.events;
+        return `workout-${dateToDashString(new Date())}.fit`;
     }
     encode(db) {
-        const self = this;
-
-        const records = self.toFitRecords(db);
-        const laps = self.toFitLaps(db);
-        const events = self.toFitEvents(db);
+        const records = db.records;
+        const laps = db.laps;
+        const events = db.events;
 
         return fit.localActivity.encode({
             records,
@@ -531,14 +524,21 @@ class Workout extends Model {
             events,
         });
     }
-    download(activity) {
-        const self = this;
-        const blob = new Blob([activity], {type: 'application/octet-stream'});
-        fileHandler.saveFile()(blob, self.fileName());
+    download(db) {
+        fileHandler.download()(this.encode(db), this.fileName(), fileHandler.Type.OctetStream);
     }
-    save(db) {
-        const self = this;
-        self.download(self.encode(db));
+    send(db) {
+        const name = this.fileName();
+        const blob = fileHandler.toBlob(this.encode(db));
+
+        console.log(blob);
+
+        this.api.upload_workout(blob);
+
+        return {
+            name,
+            blob,
+        };
     }
 }
 
@@ -1147,6 +1147,7 @@ class TSS {
 }
 
 
+const api = API();
 
 const power = new Power({prop: 'power'});
 const cadence = new Cadence({prop: 'cadence'});
@@ -1176,7 +1177,7 @@ const dataTileSwitch = new DataTileSwitch({prop: 'dataTileSwitch', storage: Loca
 const power1s = new PropInterval({prop: 'db:power', effect: 'power1s', interval: 1000});
 const powerInZone = new PowerInZone({ftpModel: ftp});
 
-const workout = new Workout({prop: 'workout'});
+const workout = new Workout({prop: 'workout', api: api});
 const workouts = new Workouts({prop: 'workouts', workoutModel: workout});
 
 const session = Session();

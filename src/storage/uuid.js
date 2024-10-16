@@ -97,7 +97,11 @@ class Xuid {
 }
 
 function uuid() {
+    if('crypto' in window) {
+        return crypto.randomUUID();
+    }
     return Xuid.v4New;
 }
 
 export { uuid };
+

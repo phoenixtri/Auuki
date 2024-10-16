@@ -1061,15 +1061,10 @@
                 <div class="auth">
                     <auth-forms>
                         <div id="signup--form--section" class="signup--form--section active">
-                            <h2>Sign Up</h2>
-                            <div class="webauthn--section">
-                                <p>This project uses <a href="https://webauthn.guide/" target="_blank">Web Authentication</a></p>
-
-                                <p>A better alternative for securing our sensitive information online</p>
-                            </div>
-                            <form id="signup--form">
+                            <h2>Register</h2>
+                            <form id="register--form">
                                 <div>
-                                    <input id="signup--email--input"
+                                    <input id="register--email--input"
                                            class="input"
                                            name="email"
                                            type="email"
@@ -1079,7 +1074,7 @@
                                     />
                                 </div>
                                 <div>
-                                    <input id="signup--password--input"
+                                    <input id="register--password--input"
                                            class="input"
                                            name="password"
                                            type="password"
@@ -1089,9 +1084,9 @@
                                     />
                                 </div>
                                 <div>
-                                    <input id="signup--password-confirmation--input"
+                                    <input id="register--password-confirmation--input"
                                            class="input"
-                                           name="password-confirmation"
+                                           name="password_confirmation"
                                            placeholder="Confirm Password"
                                            type="password"
                                            value=""
@@ -1099,9 +1094,9 @@
                                     />
                                 </div>
                                 <div class="form--submit--section">
-                                    <button id="signup--submit"
+                                    <button id="register--submit"
                                             class="btn"
-                                            type="submit">Sign Up</button>
+                                            type="submit">Register</button>
                                     <div id="to-login--button"
                                          class="tab--button"
                                          index="1">Login instead</div>
@@ -1111,11 +1106,6 @@
                         <br/>
                         <div id="login--form--section" class="login--form--section">
                             <h2>Login</h2>
-                            <div class="webauthn--section">
-                                <p>This project uses <a href="https://webauthn.guide/" target="_blank">Web Authentication</a></p>
-
-                                <p>A better alternative for securing our sensitive information online</p>
-                            </div>
                             <form id="login--form">
                                 <div>
                                     <input id="login--email--input"
@@ -1139,11 +1129,27 @@
                                             type="submit">Login</button>
                                     <div id="to-signup--button"
                                          class="tab--button"
-                                         index="0">Sign Up instaed</div>
+                                         index="0">Register instaed</div>
                                 </div>
                             </form>
                         </div>
                     </auth-forms>
+                    <div>
+                        <button id="logout--button"
+                                class="btn"
+                                type="button">Logout</button>
+                    </div>
+                    <div>
+                        <button id="upload--button"
+                                class="btn"
+                                type="button">Upload</button>
+                    </div>
+                    <div>
+                        <button
+                            class="btn"
+                            type="button">Strava Connect</button>
+
+                    </div>
                 </div>
 
                 <div class="app-connections">

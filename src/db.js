@@ -287,9 +287,10 @@ xf.reg('ui:workout:upload', async function(file, db) {
     models.workouts.add(db.workouts, workout);
     xf.dispatch('db:workouts', db);
 });
+// download the current activity as a .fit file
 xf.reg('ui:activity:save', (_, db) => {
     try {
-        models.workout.save(db);
+        models.workout.download(db);
         xf.dispatch('activity:save:success');
     } catch (err) {
         console.error(`Error on activity save: `, err);
@@ -305,6 +306,10 @@ xf.reg('activity:save:success', (e, db) => {
     db.resistanceTarget = 0;
     db.slopeTarget = 0;
     db.powerTarget = 0;
+});
+// send the current activity to the api
+xf.reg('ui:activity:send', (_, db) => {
+    models.workout.send(db);
 });
 
 xf.reg('course:index', (index, db) => {
@@ -345,34 +350,6 @@ xf.reg(`ant:search:stopped`, (x, db) => {
 });
 
 
-// API
-function SignUp() {
-    const url = "http://localhost:8080/api/sign_up";
-    const $form = document.querySelector("#signup--form");
-    $form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        submit();
-    });
-
-    async function submit() {
-        const formData = new FormData($form);
-
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(Object.fromEntries(formData)),
-            });
-
-            const result = await response.json();
-        } catch(error) {
-            console.log(error);
-        }
-    }
-}
-// END API
 
 //
 xf.reg('app:start', async function(_, db) {
@@ -407,7 +384,6 @@ xf.reg('app:start', async function(_, db) {
     const sound = Sound({volume: db.volume});
     sound.start();
 
-    // SignUp();
     // TRAINER MOCK
     // trainerMock.init();
 });
