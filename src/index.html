@@ -996,71 +996,9 @@
                     </div>
                 </div> <!-- end moxy-monitor settings -->
 
-                <div class="switch--btn--group">
-                    <div class="device-card border-top">
-                        <div class="switch--btn">
-                            <div class="switch--btn--label">Sound</div>
-                            <sound-control class="sound--row switch--btn--value">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    id="sound--mute"
-                                    class="sound--control sound--row--item"
-                                    viewBox="0 0 24 24"
-                                    fill="#FFFFFF">
-                                    <path d="M0 0h24v24H0V0z" fill="none"/>
-                                    <path d="M7 9v6h4l5 5V4l-5 5H7z"/>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    id="sound--down"
-                                    class="sound--control sound--row--item"
-                                    viewBox="0 0 24 24"
-                                    fill="#FFFFFF">
-                                    <path d="M0 0h24v24H0V0z" fill="none"/>
-                                    <path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/>
-                                </svg>
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                        id="sound--up"
-                                        class="sound--control sound--row--item"
-                                        viewBox="0 0 24 24"
-                                        fill="#FFFFFF">
-                                    <path d="M0 0h24v24H0V0z" fill="none"/>
-                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                                </svg>
-                                <div id="sound--volume" class="sound--volume sound--row--item">
-                                    100%
-                                </div>
-                            </sound-control>
-                        </div>
-                    </div>
-
-                    <div class="device-card">
-                        <div class="switch--btn">
-                            <div class="switch--btn--label">Simulation</div>
-                            <virtual-state-source class="switch--btn--value">power</virtual-state-source>
-                        </div>
-                    </div>
-
-                    <div class="device-card">
-                        <div class="switch--btn">
-                            <div class="switch--btn--label">Auto Pause</div>
-                            <auto-pause class="switch--btn--value">
-                                OFF
-                            </auto-pause>
-                        </div>
-                    </div>
-
-                    <div class="device-card">
-                        <div class="switch--btn">
-                            <div class="switch--btn--label">Theme</div>
-                            <theme-layout class="switch--btn--value">
-                                DARK
-                            </theme-layout>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="auth">
                     <auth-forms>
-                        <div id="signup--form--section" class="signup--form--section active">
+                        <div id="register--form--section" class="register--form--section">
                             <h2>Register</h2>
                             <form id="register--form">
                                 <div>
@@ -1127,43 +1065,162 @@
                                     <button id="login--submit"
                                             class="btn"
                                             type="submit">Login</button>
-                                    <div id="to-signup--button"
+                                    <div id="to-register--button"
                                          class="tab--button"
                                          index="0">Register instaed</div>
                                 </div>
                             </form>
                         </div>
+                        <div id="auth-error--section" class="error">
+                            Auth error
+                        </div>
                     </auth-forms>
-                    <div>
-                        <button id="logout--button"
-                                class="btn"
-                                type="button">Logout</button>
-                    </div>
-                    <div>
-                        <button id="upload--button"
-                                class="btn"
-                                type="button">Upload</button>
-                    </div>
-                    <div>
-                        <button
-                            class="btn"
-                            type="button">Strava Connect</button>
-
+                    <div id="profile" class="profile">
+                        <h2>Profile</h2>
+                        <div></div>
+                        <div>
+                            <button id="logout--button"
+                                    class="btn"
+                                    type="button">Logout</button>
+                        </div>
+                        <div>
+                            <button id="upload--button"
+                                    class="btn"
+                                    type="button">Upload</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="app-connections">
-                    <h2 class="page--heading">Connections</h2>
-                    <div class="app-connection">
-                        <img class="app-connection--icon" alt="GC" src="images/connections/garmin-connect.png"/>
-                        <div class="app-connection--content">
+                <!-- Options -->
+                <div class="list--sub-section">
+                    <div class="list--heading--cont">
+                        <h2 class="list--sub-heading">Options</h2>
+                    </div>
+                    <div class="list--row--outer border-top">
+                        <div class="list--row--inner option">
+                            <div class="option--name">Sound</div>
+                            <sound-control class="option--value sound--row">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    id="sound--mute"
+                                    class="sound--control sound--row--item"
+                                    viewBox="0 0 24 24"
+                                    fill="#FFFFFF">
+                                    <path d="M0 0h24v24H0V0z" fill="none"/>
+                                    <path d="M7 9v6h4l5 5V4l-5 5H7z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    id="sound--down"
+                                    class="sound--control sound--row--item"
+                                    viewBox="0 0 24 24"
+                                    fill="#FFFFFF">
+                                    <path d="M0 0h24v24H0V0z" fill="none"/>
+                                    <path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                        id="sound--up"
+                                        class="sound--control sound--row--item"
+                                        viewBox="0 0 24 24"
+                                        fill="#FFFFFF">
+                                    <path d="M0 0h24v24H0V0z" fill="none"/>
+                                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                </svg>
+                                <div id="sound--volume" class="sound--volume sound--row--item">
+                                    100%
+                                </div>
+                            </sound-control>
+                        </div>
+                    </div>
+
+                    <div class="list--row--outer">
+                        <div class="list--row--inner option">
+                            <div class="option--name">Simulation</div>
+                            <virtual-state-source class="option--value">power</virtual-state-source>
+                        </div>
+                    </div>
+
+                    <div class="list--row--outer">
+                        <div class="list--row--inner option">
+                            <div class="option--name">Auto Pause</div>
+                            <auto-pause class="option--value">
+                                OFF
+                            </auto-pause>
+                        </div>
+                    </div>
+
+                    <div class="list--row--outer">
+                        <div class="list--row--inner option">
+                            <div class="option--name">Theme</div>
+                            <theme-layout class="option--value">
+                                DARK
+                            </theme-layout>
+                        </div>
+                    </div>
+                </div> <!-- END Options -->
+
+                <div class="list--sub-section app-connections">
+                    <div class="list--heading--cont">
+                        <h2 class="list--sub-heading">Connections</h2>
+                    </div>
+                    <div class="list--row--outer border-top">
+                        <div class="list--row--inner app-connection">
+                            <svg class="app-connection--icon"
+                                  width="64" height="64" viewBox="0 0 64 64">
+                                <path d="M41.03 47.852l-5.572-10.976h-8.172L41.03 64l13.736-27.124h-8.18" fill="#f9b797"/>
+                                <path d="M27.898 21.944l7.564 14.928h11.124L27.898 0 9.234 36.876H20.35" fill="#f05222"/>
+                            </svg>
+                            <h3 class="app-connection--heading">Strava</h3>
+                            <div
+                                id="strava--connect--button"
+                                class="app-connection--button"
+                                type="button">Connect</div>
+                        </div>
+                    </div>
+
+                    <div class="list--row--outer">
+                        <div class="app-connection list--row--inner">
+                            <img class="app-connection--icon" alt="Int" src="images/connections/intervals-logo.png"/>
+                            <h3 class="app-connection--heading">Intervals.icu</h3>
+                            <div
+                                id="strava--connect--button"
+                                class="app-connection--button"
+                                type="button">Connect</div>
+                        </div>
+                    </div>
+
+                    <div class="list--row--outer">
+                        <div class="app-connection list--row--inner">
+                            <img class="app-connection--icon" alt="GC" src="images/connections/garmin-connect.png"/>
                             <h3 class="app-connection--heading">Garmin</h3>
-                            <a class="app-connection--link a"
+                            <a class="app-connection--button app-connection--link a"
                                href="https://connect.garmin.com/modern/import-data"
-                               target="_blank">Garmin Connect Import Page</a>
+                               target="_blank">Import</a>
                         </div>
                     </div>
                 </div> <!-- end connections -->
+
+                <!-- activites -->
+                <div class="list--sub-section">
+                    <div class="list--heading--cont">
+                        <h2 class="list--sub-heading">Activities</h2>
+                    </div>
+                    <activity-list class="activity--list">
+                    </activity-list>
+                    <template id="template--activity--item">
+                        <activity-item>
+                            <div class="list--row--outer border-top">
+                                <div class="list--row--inner activity--cont">
+                                    <div class="activity--date">
+                                    </div>
+                                    <div class="activity--duration">
+                                    </div>
+                                    <div class="activity--upload">
+                                        Upload
+                                    </div>
+                                </div>
+                            </div>
+                        </activity-item>
+                    </template>
+                </div> <!-- end activities -->
 
                 <div id="about">
                     <h2 class="page--heading">About</h2>

@@ -1857,33 +1857,6 @@ div.graph--bar-group {
     cursor: pointer;
 }
 
-.sound--row {
-    display: flex;
-    vertical-align: baseline;
-    justify-content: center;
-    max-width: var(--inner-max-width);
-    margin: 0em auto;
-}
-
-.sound--row--item {
-    max-width: 25%;
-    width: 7rem;
-    height: 3rem;
-    line-height: 3rem;
-    margin: 1rem 0rem;
-}
-
-.sound--control {
-    cursor: pointer;
-    fill: var(--foreground-color);
-}
-
-.sound--volume {
-    font-size: 2rem;
-    font-weight: bold;
-    line-height: 3rem;
-}
-
 .connection-icon-switch--icon {
     fill: var(--foreground-color);
     width: var(--size--icon);
@@ -2027,11 +2000,20 @@ div.graph--bar-group {
         line-height: 3rem;
         text-transform: uppercase;
     }
-    #login--form--section.active, #signup--form--section.active {
+    #login--form--section.active, #register--form--section.active {
         display: block;
     }
-    #login--form--section, #signup--form--section {
+    #login--form--section, #register--form--section {
         display: none;
+    }
+    #auth-error--section {
+        display: none;
+    }
+    #auth-error--section.active {
+        display: block;
+    }
+    .error {
+        color: var(--red);
     }
     .tab--button {
         font-size: 1.2rem;
@@ -2049,33 +2031,149 @@ div.graph--bar-group {
         margin: 1rem 0;
     }
 }
+#profile {
+    display: none;
+}
+#profile.active {
+    display: block;
+}
 
 /* App Connections */
+.list--section {
+    width: 100%;
+}
+.list--row--outer {
+    width: 100%;
+    border-bottom: 1px solid var(--white-opacity-01);
+}
+.list--row--inner {
+    max-width: var(--inner-max-width);
+    margin: 0 auto;
+    padding: 1em;
+}
+.list--heading--cont {
+    max-width: var(--inner-max-width);
+    margin: 0 auto;
+}
+.list--heading {
+    font-size: 1.8em;
+    line-height: 1.8em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: left;
+}
+.list--sub-section {
+    width: 100%;
+    margin: 3rem 0;
+}
+.list--sub-heading {
+    font-size: 1.2em;
+    line-height: 1.4em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 1rem 0em 1rem 1rem;
+    color: var(--gray);
+}
+
+
+.none {
+    display: none;
+}
+.some {
+    display: block;
+}
+
+
+.option {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    align-items: center;
+}
+.option--name {
+    text-align: left;
+    font-size: 1.2em;
+    line-height: 4rem;
+    text-transform: uppercase;
+}
+.option--value {
+    font-size: 1.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.sound--row {
+    display: flex;
+    vertical-align: baseline;
+    justify-content: center;
+    margin: 0em auto;
+}
+.sound--row--item {
+    max-width: 25%;
+    width: 7rem;
+    height: 4rem;
+    line-height: 4rem;
+}
+.sound--control {
+    cursor: pointer;
+}
+
+.sound--volume {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.activity--cont {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    line-height: 4rem;
+}
+.activity--date {
+    font-size: 1.2em;
+    text-align: left;
+}
+.activity--duration {
+    font-size: 1.2em;
+    text-align: left;
+}
+.activity--upload {
+    font-size: 1.2em;
+    text-transform: uppercase;
+    color: var(--zone-blue);
+    cursor: pointer;
+    text-align: right;
+}
+
+
 .app-connections {
     margin: 1.4em auto;
 }
 
 .app-connection {
-    display: flex;
-    max-width: var(--inner-max-width);
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 5em 1fr 1fr;
     align-items: center;
-    padding: 1em 1em;
+    padding: 1rem 1rem;
 }
 
 .app-connection--icon {
     width: 4em;
     height: 4em;
-    margin-right: 1em;
+    margin-right: 1rem;
 }
 
 .app-connection--heading {
-    font-size: 1em;
+    font-size: 1.4em;
     text-align: left;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
-.app-connection--content {
+.app-connection--button {
+    font-size: 1.2em;
+    text-align: right;
+    text-transform: uppercase;
+    color: var(--zone-blue);
+    cursor: pointer;
 }
 
 /* About */

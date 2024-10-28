@@ -481,14 +481,50 @@ class DataTileSwitch extends Model {
     }
 }
 
-class Activity {
+
+class Activity extends Model {
+    // [
+    //     {id: UUID, date: Int, duration: Int, status: String},
+    // ]
+    name = 'activity';
+    defaultValue() { return []; }
+    createFromCurrent(db) {
+        const id = uuid();
+        const blob = fileHandler.toBlob(this.encode(db));
+
+        const activity = {
+            id,
+            date: Date.now(),
+            duration: db.elapsed ?? 0,
+            status: 'uploading',
+        };
+        const record = {
+            id,
+            blob,
+        };
+
+        idb.put('activity', record);
+        xf.dispatch('activity', activity);
+    }
+    add(activity, activityList) {
+        activityList.push(activity);
+        return activityList;
+    }
+    test() {
+        const activity = {
+            id: uuid(), timestamp: Date.now(), duration: 74 * 60 + 38, status: 'Uploading'
+        };
+        xf.dispatch('activity:add', activity);
+        console.log('test ui:activity:add');
+    }
 }
 
+// TODO: This is a cross between the current active workout and the currently recorded
+// activity. It's not a workout in the workout list. It needs to be split in the future
 class Workout extends Model {
     postInit(args) {
         const self = this;
         self.api = args.api;
-        console.log(args);
     }
     defaultValue() { return this.parse((first(workoutsFile))); }
     defaultIsValid(value) {
@@ -533,7 +569,7 @@ class Workout extends Model {
 
         console.log(blob);
 
-        this.api.upload_workout(blob);
+        this.api.upload_workout_strava(blob);
 
         return {
             name,
@@ -1177,6 +1213,7 @@ const dataTileSwitch = new DataTileSwitch({prop: 'dataTileSwitch', storage: Loca
 const power1s = new PropInterval({prop: 'db:power', effect: 'power1s', interval: 1000});
 const powerInZone = new PowerInZone({ftpModel: ftp});
 
+const activity = new Activity({prop: 'activity'});
 const workout = new Workout({prop: 'workout', api: api});
 const workouts = new Workouts({prop: 'workouts', workoutModel: workout});
 
@@ -1219,11 +1256,14 @@ let models = {
     measurement,
     dataTileSwitch,
 
+    activity,
     workout,
     workouts,
     session,
 
     PropInterval,
+
+    api,
 };
 
 export { models };

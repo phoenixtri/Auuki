@@ -3,6 +3,7 @@ import { models } from './models/models.js';
 import { Sound } from './sound.js';
 import { idb } from './storage/idb.js';
 import { ControlMode, } from './ble/enums.js';
+import { TimerStatus, } from './activity/enums.js';
 
 // import { trainerMock } from './simulation-scripts.js';
 
@@ -63,10 +64,14 @@ let db = {
     powerSmoothing: 0,
     dataTileSwitch: models.dataTileSwitch.default,
     librarySwitch: 0,
+    auth: ':login',
 
     // Workouts
     workouts: [],
     workout: models.workout.default,
+
+    // Activities
+    activity: models.activity.default,
 
     // Recording
     records: [],
@@ -83,8 +88,8 @@ let db = {
     stepIndex: 0,
     intervalDuration: 0,
     stepDuration: 0,
-    watchStatus: 'stopped',
-    workoutStatus: 'stopped',
+    watchStatus: TimerStatus.stopped,
+    workoutStatus: TimerStatus.stopped,
 
     // Course
     courseIndex: 0,
@@ -272,6 +277,12 @@ xf.reg(`ui:volume-up`, (_, db) => {
 });
 
 // Workouts
+xf.reg('watch', (_, db) => {
+    console.log(db.watchStatus);
+    if(db.watchStatus === TimerStatus.stopped) {
+        models.activity.createFromCurrent(db);
+    }
+});
 xf.reg('workout', (workout, db) => {
     db.workout = models.workout.set(workout);
 });
@@ -286,6 +297,10 @@ xf.reg('ui:workout:upload', async function(file, db) {
     const workout = models.workout.parse(result, name);
     models.workouts.add(db.workouts, workout);
     xf.dispatch('db:workouts', db);
+});
+xf.reg('activity:add', (activity, db) => {
+    models.activity.add(activity, db.activity);
+    xf.dispatch('activity:add', activity);
 });
 // download the current activity as a .fit file
 xf.reg('ui:activity:save', (_, db) => {
@@ -349,6 +364,9 @@ xf.reg(`ant:search:stopped`, (x, db) => {
     db.antSearchList = [];
 });
 
+xf.reg('auth', (x, db) => {
+    console.log(`xf.reg('auth') `, x);
+});
 
 
 //
@@ -363,10 +381,8 @@ xf.reg('app:start', async function(_, db) {
 
     db.sources = models.sources.set(models.sources.restore());
 
-    // IndexedDB Schema Version 1
-    // await idb.start('store', 1, ['session']);
-    // IndexedDB Schema Version 2
-    await idb.start('store', 2, ['session', 'workouts']);
+    // IndexedDB Schema Version 3
+    await idb.start('store', 3, ['session', 'workouts', 'activity']);
     db.workouts = await models.workouts.restore();
     db.workout = models.workout.restore(db);
 
@@ -384,8 +400,11 @@ xf.reg('app:start', async function(_, db) {
     const sound = Sound({volume: db.volume});
     sound.start();
 
+    models.api.status();
+
     // TRAINER MOCK
     // trainerMock.init();
+    // models.activity.test();
 });
 
 function start () {
@@ -409,3 +428,4 @@ function start () {
 start();
 
 export { db };
+

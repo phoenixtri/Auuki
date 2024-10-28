@@ -1,4 +1,4 @@
-import { xf, exists, existance, validate, equals, isNumber, last, empty, avg, toFixed } from '../functions.js';
+import { xf, exists, existance, validate, equals, isNumber, last, empty, avg, toFixed, formatDate, } from '../functions.js';
 import { formatTime } from '../utils.js';
 import { models } from '../models/models.js';
 
@@ -1183,29 +1183,156 @@ class AuthForms extends HTMLElement {
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
-        this.$signup = document.querySelector('#signup--form--section'); // tab 0
+        this.$register = document.querySelector('#register--form--section'); // tab 0
         this.$login = document.querySelector('#login--form--section');   // tab 1
-        this.$toSignUp = document.querySelector('#to-signup--button');
-        this.$toLogin= document.querySelector('#to-login--button');
+        this.$toRegister = document.querySelector('#to-register--button');
+        this.$toLogin = document.querySelector('#to-login--button');
+        this.$profile = document.querySelector('#profile');
+        this.$error = document.querySelector('#auth-error--section');
+        this.$pwds = document.querySelectorAll('input[type="password"]');
 
-        this.$toSignUp.addEventListener('pointerup', self.toSignup.bind(this));
-        this.$toLogin.addEventListener('pointerup', self.toLogin.bind(this));
+        this.$toRegister.addEventListener('pointerup', (e) => {
+            xf.dispatch('ui:auth-set', ':register');
+        });
+        this.$toLogin.addEventListener('pointerup', (e) => {
+            xf.dispatch('ui:auth-set', ':login');
+        });
+        xf.sub('ui:auth-set', self.onAuthSet.bind(this));
     }
     disconnectedCallback() {
         this.abortController.abort();
         this.unsubs();
     }
-    toSignup() {
+    onAuthSet(param) {
+        console.log(param);
+        if(param === ':register') {
+            this.toRegister();
+            return;
+        }
+        if(param === ':login') {
+            this.toLogin();
+            return;
+        }
+        if(param === ':profile') {
+            this.toProfile();
+        }
+        if(param === ':logout') {
+            this.toLogin();
+        }
+        if(param === ':error') {
+            this.toError();
+        }
+    }
+    toRegister() {
+        this.$error.classList.remove('active');
         this.$login.classList.remove('active');
-        this.$signup.classList.add('active');
+        this.$profile.classList.remove('active');
+        this.$register.classList.add('active');
     }
     toLogin() {
-        this.$signup.classList.remove('active');
+        this.$error.classList.remove('active');
+        this.$register.classList.remove('active');
+        this.$profile.classList.remove('active');
         this.$login.classList.add('active');
+    }
+    toProfile() {
+        this.$error.classList.remove('active');
+        this.$register.classList.remove('active');
+        this.$login.classList.remove('active');
+        this.$profile.classList.add('active');
+    }
+    toError() {
+        this.$error.classList.add('active');
+        this.$pwds.forEach(($el) => $el.value = '');
     }
 }
 
 customElements.define('auth-forms', AuthForms);
+
+
+class ActivityList extends HTMLElement {
+    constructor() {
+        super();
+        this.capacity = 3;
+    }
+    connectedCallback() {
+        const self = this;
+        this.abortController = new AbortController();
+        this.signal = { signal: self.abortController.signal };
+
+        this.$items = [];
+
+        for(let i=0; i < this.capacity; i++) {
+            self.insertAdjacentHTML("beforeend", self.template(i));
+            self.$items[i] = self.querySelector(`#i${i}--activity--item`);
+        }
+
+        console.log(this.$items);
+
+        xf.sub('activity:add', self.onAdd.bind(this));
+    }
+    disconnectedCallback() {
+        this.abortController.abort();
+        this.unsubs();
+    }
+    onUpdate(items) {
+        var self = this;
+        items.forEach(function(item) {
+        });
+    }
+    onAdd(a) {
+        if(this.childElementCount >= 3) {
+        }
+    }
+    id(data) {
+        return data.id;
+    }
+    date(data) {
+        return formatDate({date: new Date(data.timestamp)});
+    }
+    duration(data) {
+        return formatTime({value: data.duration});
+    }
+    template(i) {
+        return `
+            <activity-item id="i${i}--activity--item" class="none" data-id="">
+                <div class="list--row--outer border-top">
+                    <div class="list--row--inner activity--cont">
+                        <div id="i${i}--activity--date" class="activity--date">
+                        </div>
+                        <div id="i${i}--activity--duration" class="activity--duration">
+                        </div>
+                        <div id="i${i}--activity--upload" class="activity--upload">
+                            Upload
+                        </div>
+                    </div>
+                </div>
+            </activity-item>
+        `;
+    }
+}
+
+customElements.define('activity-list', ActivityList);
+
+class ActivityItem extends HTMLElement {
+    constructor() {
+        super();
+    }
+    connectedCallback() {
+        const self = this;
+        this.abortController = new AbortController();
+        this.signal = { signal: self.abortController.signal };
+    }
+    disconnectedCallback() {
+        this.abortController.abort();
+        this.unsubs();
+    }
+    render() {
+    }
+}
+
+customElements.define('activity-item', ActivityItem);
+
 
 
 class MeasurementUnit extends DataView {
