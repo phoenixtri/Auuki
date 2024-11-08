@@ -277,12 +277,6 @@ xf.reg(`ui:volume-up`, (_, db) => {
 });
 
 // Workouts
-xf.reg('watch', (_, db) => {
-    console.log(db.watchStatus);
-    if(db.watchStatus === TimerStatus.stopped) {
-        models.activity.createFromCurrent(db);
-    }
-});
 xf.reg('workout', (workout, db) => {
     db.workout = models.workout.set(workout);
 });
@@ -298,9 +292,11 @@ xf.reg('ui:workout:upload', async function(file, db) {
     models.workouts.add(db.workouts, workout);
     xf.dispatch('db:workouts', db);
 });
-xf.reg('activity:add', (activity, db) => {
-    models.activity.add(activity, db.activity);
-    xf.dispatch('activity:add', activity);
+xf.reg('watch:stopped', (_, db) => {
+    models.activity.createFromCurrent(db);
+});
+xf.sub('ui:activity:upload:by:id', (id) => {
+    models.activity.upload(id);
 });
 // download the current activity as a .fit file
 xf.reg('ui:activity:save', (_, db) => {
@@ -321,10 +317,6 @@ xf.reg('activity:save:success', (e, db) => {
     db.resistanceTarget = 0;
     db.slopeTarget = 0;
     db.powerTarget = 0;
-});
-// send the current activity to the api
-xf.reg('ui:activity:send', (_, db) => {
-    models.workout.send(db);
 });
 
 xf.reg('course:index', (index, db) => {
@@ -384,10 +376,12 @@ xf.reg('app:start', async function(_, db) {
     // IndexedDB Schema Version 3
     await idb.start('store', 3, ['session', 'workouts', 'activity']);
     db.workouts = await models.workouts.restore();
+    db.activity = await models.activity.restore();
     db.workout = models.workout.restore(db);
 
     await models.session.restore(db);
     xf.dispatch('workout:restore');
+    xf.dispatch('activity:restore');
 
     models.kcal.restore(db);
     models.powerLap.restore(db);
@@ -400,7 +394,7 @@ xf.reg('app:start', async function(_, db) {
     const sound = Sound({volume: db.volume});
     sound.start();
 
-    models.api.status();
+    // models.api.status();
 
     // TRAINER MOCK
     // trainerMock.init();

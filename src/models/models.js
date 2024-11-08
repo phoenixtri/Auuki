@@ -484,38 +484,63 @@ class DataTileSwitch extends Model {
 
 class Activity extends Model {
     // [
-    //     {id: UUID, date: Int, duration: Int, status: String},
+    //     {id: UUID, timestamp: Int, duration: Int, status: String},
     // ]
     name = 'activity';
+    postInit(args) {
+        this.api = args.api;
+        this.capacity = 3;
+    }
     defaultValue() { return []; }
     createFromCurrent(db) {
         const id = uuid();
         const blob = fileHandler.toBlob(this.encode(db));
 
-        const activity = {
+        const summary = {
             id,
-            date: Date.now(),
+            timestamp: Date.now(),
             duration: db.elapsed ?? 0,
             status: 'uploading',
         };
         const record = {
             id,
             blob,
+            summary,
         };
 
+        this.add(summary, db.activity);
         idb.put('activity', record);
-        xf.dispatch('activity', activity);
+        xf.dispatch('activity:add', summary);
     }
     add(activity, activityList) {
-        activityList.push(activity);
+        activityList.unshift(activity);
+        if(activityList.length > this.capacity) {
+            const summary = activityList.pop();
+            idb.remove('activity', summary.id);
+        }
         return activityList;
     }
-    test() {
-        const activity = {
-            id: uuid(), timestamp: Date.now(), duration: 74 * 60 + 38, status: 'Uploading'
-        };
-        xf.dispatch('activity:add', activity);
-        console.log('test ui:activity:add');
+    async upload(id) {
+        const record = await idb.get('activity', id);
+        const res = await this.api.upload_workout_strava(record.blob);
+        xf.dispatch(`activity:upload:by:id:${id}`, res);
+    }
+    encode(db) {
+        const records = db.records;
+        const laps = db.laps;
+        const events = db.events;
+
+        return fit.localActivity.encode({
+            records,
+            laps,
+            events,
+        });
+    }
+    async restore() {
+        const records = await idb.getAll('activity') ?? [];
+        return records
+            .map((record) => record.summary)
+            .sort((a, b) => b.timestamp - a.timestamp);
     }
 }
 
@@ -566,8 +591,6 @@ class Workout extends Model {
     send(db) {
         const name = this.fileName();
         const blob = fileHandler.toBlob(this.encode(db));
-
-        console.log(blob);
 
         this.api.upload_workout_strava(blob);
 
@@ -1213,7 +1236,7 @@ const dataTileSwitch = new DataTileSwitch({prop: 'dataTileSwitch', storage: Loca
 const power1s = new PropInterval({prop: 'db:power', effect: 'power1s', interval: 1000});
 const powerInZone = new PowerInZone({ftpModel: ftp});
 
-const activity = new Activity({prop: 'activity'});
+const activity = new Activity({prop: 'activity', api: api});
 const workout = new Workout({prop: 'workout', api: api});
 const workouts = new Workouts({prop: 'workouts', workoutModel: workout});
 

@@ -22,6 +22,16 @@
 
     <body id="theme" class="dark-theme">
         <div class="wrapper">
+            <modal-error>
+                <dialog id="dialog--error" class="dialog error">
+                    <p class="dialog--message"></p>
+                    <button type="submit"
+                            class="dialog--dismiss--btn"
+                            formmethod="dialog">
+                        dismiss
+                    </button>
+                </dialog>
+            </modal-error>
             <page-group prop="page">
                 <compatibility-check></compatibility-check>
                 <div id="home-page" class="page active" page="home">
@@ -996,101 +1006,6 @@
                     </div>
                 </div> <!-- end moxy-monitor settings -->
 
-                <div class="auth">
-                    <auth-forms>
-                        <div id="register--form--section" class="register--form--section">
-                            <h2>Register</h2>
-                            <form id="register--form">
-                                <div>
-                                    <input id="register--email--input"
-                                           class="input"
-                                           name="email"
-                                           type="email"
-                                           placeholder="Email"
-                                           value=""
-                                           required
-                                    />
-                                </div>
-                                <div>
-                                    <input id="register--password--input"
-                                           class="input"
-                                           name="password"
-                                           type="password"
-                                           placeholder="Password"
-                                           value=""
-                                           required
-                                    />
-                                </div>
-                                <div>
-                                    <input id="register--password-confirmation--input"
-                                           class="input"
-                                           name="password_confirmation"
-                                           placeholder="Confirm Password"
-                                           type="password"
-                                           value=""
-                                           required
-                                    />
-                                </div>
-                                <div class="form--submit--section">
-                                    <button id="register--submit"
-                                            class="btn"
-                                            type="submit">Register</button>
-                                    <div id="to-login--button"
-                                         class="tab--button"
-                                         index="1">Login instead</div>
-                                </div>
-                            </form>
-                        </div>
-                        <br/>
-                        <div id="login--form--section" class="login--form--section">
-                            <h2>Login</h2>
-                            <form id="login--form">
-                                <div>
-                                    <input id="login--email--input"
-                                        class="input"
-                                        name="email"
-                                        type="email"
-                                        placeholder="Email"
-                                        value=""/>
-                                </div>
-                                <div>
-                                    <input id="login--password--input"
-                                        class="input"
-                                        name="password"
-                                        type="Password"
-                                        placeholder="Password"
-                                        value=""/>
-                                </div>
-                                <div class="form--submit--section">
-                                    <button id="login--submit"
-                                            class="btn"
-                                            type="submit">Login</button>
-                                    <div id="to-register--button"
-                                         class="tab--button"
-                                         index="0">Register instaed</div>
-                                </div>
-                            </form>
-                        </div>
-                        <div id="auth-error--section" class="error">
-                            Auth error
-                        </div>
-                    </auth-forms>
-                    <div id="profile" class="profile">
-                        <h2>Profile</h2>
-                        <div></div>
-                        <div>
-                            <button id="logout--button"
-                                    class="btn"
-                                    type="button">Logout</button>
-                        </div>
-                        <div>
-                            <button id="upload--button"
-                                    class="btn"
-                                    type="button">Upload</button>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Options -->
                 <div class="list--sub-section">
                     <div class="list--heading--cont">
@@ -1161,7 +1076,7 @@
                     <div class="list--heading--cont">
                         <h2 class="list--sub-heading">Connections</h2>
                     </div>
-                    <div class="list--row--outer border-top">
+                    <div class="list--row--outer border-top strava">
                         <div class="list--row--inner app-connection">
                             <svg class="app-connection--icon"
                                   width="64" height="64" viewBox="0 0 64 64">
@@ -1177,7 +1092,7 @@
                     </div>
 
                     <div class="list--row--outer">
-                        <div class="app-connection list--row--inner">
+                        <div class="app-connection list--row--inner intervals">
                             <img class="app-connection--icon" alt="Int" src="images/connections/intervals-logo.png"/>
                             <h3 class="app-connection--heading">Intervals.icu</h3>
                             <div
@@ -1205,22 +1120,198 @@
                     </div>
                     <activity-list class="activity--list">
                     </activity-list>
-                    <template id="template--activity--item">
-                        <activity-item>
-                            <div class="list--row--outer border-top">
-                                <div class="list--row--inner activity--cont">
-                                    <div class="activity--date">
-                                    </div>
-                                    <div class="activity--duration">
-                                    </div>
-                                    <div class="activity--upload">
-                                        Upload
-                                    </div>
-                                </div>
-                            </div>
-                        </activity-item>
-                    </template>
                 </div> <!-- end activities -->
+
+                <!-- auth -->
+                <div class="auth">
+                    <auth-forms>
+                        <div class="auth--tab--controls">
+                            <div id="passkey--tab--switch"
+                                 class="auth--tab--switch"
+                                 index="0">
+                                <h2>Passkey</h2>
+                            </div>
+                            <div id="password--tab--switch"
+                                 class="auth--tab--switch active"
+                                 index="1">
+                                <h2>Password</h2>
+                            </div>
+                        </div>
+                        <div id="passkey--forms">
+                            <div id="webauthn--register--form--section" class="register--form--section">
+                                <h2>Register</h2>
+                                <form id="webauthn--register--form">
+                                    <div>
+                                        <input id="webauthn--register--email--input"
+                                            class="input"
+                                            name="email"
+                                            type="email"
+                                            placeholder="Email"
+                                            value=""
+                                            required
+                                        />
+                                    </div>
+                                    <div class="form--submit--section">
+                                        <button id="webauthn--register--submit"
+                                                class="btn"
+                                                type="submit">Register</button>
+                                        <div id="webauthn--to-login--button"
+                                            class="tab--button"
+                                            index="1">Login instead</div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="webauthn--login--form--section" class="login--form--section active">
+                                <h2>Login</h2>
+                                <form id="webauthn--login--form">
+                                    <div>
+                                        <input id="webauthn--login--email--input"
+                                            class="input"
+                                            name="email"
+                                            type="email"
+                                            placeholder="Email"
+                                            value=""
+                                            required
+                                        />
+                                    </div>
+                                    <div class="form--submit--section">
+                                        <button id="webauthn--login--submit"
+                                                class="btn"
+                                                type="submit">Login</button>
+                                        <div id="webauthn--to-register--button"
+                                            class="tab--button"
+                                            index="2">Register</div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        <div id="password--forms">
+                            <div id="register--form--section" class="register--form--section">
+                                <h2>Register</h2>
+                                <form id="register--form">
+                                    <div>
+                                        <input id="register--email--input"
+                                            class="input"
+                                            name="email"
+                                            type="email"
+                                            placeholder="Email"
+                                            value=""
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <input id="register--password--input"
+                                            class="input"
+                                            name="password"
+                                            type="password"
+                                            pattern=".{8,64}"
+                                            title="8 characters minimum"
+                                            placeholder="Password"
+                                            value=""
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <input id="register--password-confirmation--input"
+                                            class="input"
+                                            name="password_confirmation"
+                                            pattern=".{8,64}"
+                                            title="8 characters minimum"
+                                            placeholder="Confirm Password"
+                                            type="password"
+                                            value=""
+                                            required
+                                        />
+                                    </div>
+                                    <div class="form--submit--section">
+                                        <button id="register--submit"
+                                                class="btn"
+                                                type="submit">Register</button>
+                                        <div id="register-to-login--button"
+                                            class="tab--button"
+                                            index="1">Login instead</div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="login--form--section" class="login--form--section">
+                                <h2>Login</h2>
+                                <form id="login--form">
+                                    <div>
+                                        <input id="login--email--input"
+                                            class="input"
+                                            name="email"
+                                            type="email"
+                                            placeholder="Email"
+                                            value=""
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <input id="login--password--input"
+                                            class="input"
+                                            name="password"
+                                            type="Password"
+                                            pattern=".{8,64}"
+                                            title="8 characters minimum"
+                                            placeholder="Password"
+                                            value=""
+                                            required
+                                        />
+                                    </div>
+                                    <div class="form--submit--section">
+                                        <button id="login--submit"
+                                                class="btn"
+                                                type="submit">Login</button>
+                                        <div id="to-register--button"
+                                            class="tab--button"
+                                            index="2">Register</div>
+                                        <div id="to-reset--button"
+                                            class="tab--button"
+                                            index="3">Reset</div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="reset--form--section" class="reset--form--section">
+                                <h2>Reset</h2>
+                                <form id="reset--form">
+                                    <div>
+                                        <input id="reset--email--input"
+                                            class="input"
+                                            name="email"
+                                            type="email"
+                                            placeholder="Email"
+                                            value=""
+                                            required
+                                        />
+                                    </div>
+                                    <div class="form--submit--section">
+                                        <button id="reset--submit"
+                                                class="btn"
+                                                type="submit">Reset</button>
+                                        <div id="reset-to-login--button"
+                                            class="tab--button"
+                                            index="1">Login instaed</div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="auth-error--section" class="error">
+                            Wrong credentials or Authentication error
+                        </div>
+                    </auth-forms>
+                    <div id="profile" class="profile">
+                        <h2>Profile</h2>
+                        <div></div>
+                        <div>
+                            <button id="logout--button"
+                                    class="btn"
+                                    type="button">Logout</button>
+                        </div>
+                    </div>
+                </div><!-- END auth -->
+
 
                 <div id="about">
                     <h2 class="page--heading">About</h2>
@@ -1228,7 +1319,7 @@
                         <p class="">This is an open-source project. For more information, please visit the <a class="a" href="https://github.com/dvmarinoff/Auuki">github</a> page. There you can get support or join the discussions.</p>
                     </div>
                     <div class="about--version">
-                        <p class="">Latest version: 0.1.62</p>
+                        <p class="">Latest version: 0.1.63</p>
                     </div>
                     <div class="about--version">
                         <p class="">Old stable version still available here: <a class="a" href="https://stable.auuki.com">0.1.43</a></p>

@@ -105,10 +105,6 @@ input, button, textarea {
     font-family: var(--ssr-font-family);
 }
 
-input {
-    color: #fff;
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button,
 input[type="number"] {
@@ -394,7 +390,7 @@ body {
 body.dark-theme {
     --background-color: var(--dark);
     --background-color-2: var(--chrome);
-    --foreground-color: var(--white); 
+    --foreground-color: var(--white);
     --foreground-color-inactive: var(--gray);
     --border-color: var(--white-opacity-01);
     --progress: #fff4;
@@ -405,10 +401,15 @@ body.dark-theme {
 body.white-theme {
     --background-color: var(--white);
     --background-color-2: var(--chrome-white);
-    --foreground-color: var(--dark); 
+    --foreground-color: var(--dark);
     --foreground-color-inactive: var(--gray);
     --border-color: var(--black-opacity-01);
     --progress: #6f6f6f44;
+
+    input {
+        color: var(--dark);
+        background-color: var(--background-color);
+    }
 }
 /* End White Theme */
 body {
@@ -416,10 +417,6 @@ body {
     background-color: var(--background-color);
 }
 
-input {
-    color: var(--foreground-color);
-    background-color: var(--background-color);
-}
 .chrome-bg {
     background-color: var(--background-color-2);
 }
@@ -447,6 +444,7 @@ input {
 
 .mode.active {
     fill: var(--foreground-color);
+    color: var(--foreground-color);
 }
 
 .icon-btn .icon {
@@ -1400,7 +1398,7 @@ div.graph--bar-group {
     font-size: var(--workout--description-font-size);
     line-height: 1.4em;
     margin: 0 2em 2em 2em;
-    color: var(--foreground-color-inactive);
+    /* color: var(--foreground-color-inactive); */
 }
 /* END Workout List */
 
@@ -1594,6 +1592,10 @@ div.graph--bar-group {
 .editor--row {
     display: grid;
     grid-template-columns: 10% repeat(6, 15%);
+
+    input {
+        color: #fff;
+    }
 }
 
 .editor--th {
@@ -1966,16 +1968,45 @@ div.graph--bar-group {
 /* END ANT Device Request */
 
 /* User Auth */
+/* TODO: fix the display overwrite when the api is ready */
 .auth {
-    display: grid;
-    /* display: none; */
-    min-height: 300px;
+    display: none!important;
+}
+.app-connections {
+    .strava, .intervals {
+        display: none!important;
+    }
+}
+.auth {
+    display: block;
+    min-height: 26rem;
+    margin: 3rem auto 0;
+
+    .auth--tab--controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: 3rem;
+    }
+    .auth--tab--switch {
+        height: 3rem;
+        color: var(--foreground-color-inactive);
+
+        h2 {
+            display: inline-block;
+            cursor: pointer;
+        }
+        &.active {
+            color: var(--foreground-color);
+        }
+    }
 
     .input {
         margin: 1rem 0;
         padding: 0 1rem;
         height: 3rem;
-        color: var(--dark)
+        color: var(--dark);
+        background-color: #fff;
+        border: none;
     }
     .btn {
         margin: 1rem 0;
@@ -2000,10 +2031,24 @@ div.graph--bar-group {
         line-height: 3rem;
         text-transform: uppercase;
     }
-    #login--form--section.active, #register--form--section.active {
+    #passkey--forms.active,
+    #password--forms.active,
+    #webauthn--register--form--section.active,
+    #webauthn--login--form--section.active,
+    #login--form--section.active,
+    #register--form--section.active,
+    #reset--form--section.active {
         display: block;
     }
-    #login--form--section, #register--form--section {
+
+    #passkey--forms,
+    #password--forms,
+    #login--form--section,
+    #register--form--section,
+    #reset--form--section,
+    #webauthn--register--form--section,
+    #webauthn--login--form--section
+    {
         display: none;
     }
     #auth-error--section {
@@ -2013,6 +2058,9 @@ div.graph--bar-group {
         display: block;
     }
     .error {
+        font-size: 1.2em;
+        margin: 1em auto;
+
         color: var(--red);
     }
     .tab--button {
@@ -2110,8 +2158,8 @@ div.graph--bar-group {
 .sound--row--item {
     max-width: 25%;
     width: 7rem;
-    height: 4rem;
-    line-height: 4rem;
+    height: 3rem;
+    line-height: 3rem;
 }
 .sound--control {
     cursor: pointer;
@@ -2143,7 +2191,42 @@ div.graph--bar-group {
     cursor: pointer;
     text-align: right;
 }
+.activity--upload.success {
+    color: var(--zone-green);
+}
+.activity--upload.error {
+    color: var(--zone-red);
+}
+.activity--upload.progress {
+    color: var(--zone-yellow);
+}
 
+dialog {
+    margin: auto;
+}
+.dialog.error {
+    max-width: 30rem;
+    padding: 1rem;
+
+    color: var(--foreground-color);
+    background-color: var(--background-color-2);
+    border: 1px solid var(--yellow);
+
+    p {
+        font-size: 1.4em;
+        line-height: 1.4em;
+        margin: 1em auto;
+    }
+    button {
+        margin: 1em auto;
+
+        color: var(--foreground-color);
+        background: none;
+        border: none;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+}
 
 .app-connections {
     margin: 1.4em auto;

@@ -1,6 +1,8 @@
 import { xf, exists, existance, validate, equals, isNumber, last, empty, avg, toFixed, formatDate, } from '../functions.js';
 import { formatTime } from '../utils.js';
 import { models } from '../models/models.js';
+import { DialogMsg } from '../models/enums.js';
+
 
 //
 // DataView
@@ -1047,10 +1049,6 @@ class SwitchGroup extends HTMLElement {
     }
     onSwitch(e) {
         const element = this.eventOwner(e);
-        console.log(e);
-        console.log(element);
-        console.log(element.attributes.index);
-        console.log(exists(element.attributes.index));
 
         if(exists(element.attributes.index)) {
 
@@ -1171,6 +1169,10 @@ class LibrarySwitchGroup extends SwitchGroup {
 
 customElements.define('library-switch-group', LibrarySwitchGroup);
 
+
+
+// TODO: This needs refactoring to something more general with
+// declarative configuration. Something that will work for all tabs and switches.
 class AuthForms extends HTMLElement {
     constructor() {
         super();
@@ -1183,20 +1185,60 @@ class AuthForms extends HTMLElement {
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
-        this.$register = document.querySelector('#register--form--section'); // tab 0
-        this.$login = document.querySelector('#login--form--section');   // tab 1
-        this.$toRegister = document.querySelector('#to-register--button');
-        this.$toLogin = document.querySelector('#to-login--button');
+        this.$passkeyTab = document.querySelector('#passkey--forms');
+        this.$passwordTab = document.querySelector('#password--forms');
+
+        this.$passkeyTabSwitch = document.querySelector('#passkey--tab--switch');
+        this.$passwordTabSwitch = document.querySelector('#password--tab--switch');
+
+        this.$register = this.querySelector('#register--form--section');
+        this.$login = this.querySelector('#login--form--section');
+        this.$reset = this.querySelector('#reset--form--section');
+        this.$webauthnRegister = this.querySelector('#webauthn--register--form--section');
+        this.$webauthnLogin = this.querySelector('#webauthn--login--form--section');
+
         this.$profile = document.querySelector('#profile');
         this.$error = document.querySelector('#auth-error--section');
         this.$pwds = document.querySelectorAll('input[type="password"]');
 
+
+        this.$toRegister = this.querySelector('#to-register--button');
+        this.$resetToLogin = this.querySelector('#register-to-login--button');
+        this.$registerToLogin = this.querySelector('#reset-to-login--button');
+        this.$toReset = this.querySelector('#to-reset--button');
+        this.$webauthnToRegister = this.querySelector('#webauthn--to-register--button');
+        this.$webauthnToLogin = this.querySelector('#webauthn--to-login--button');
+
+
+        this.$profile = document.querySelector('#profile');
+        this.$error = document.querySelector('#auth-error--section');
+        this.$pwds = document.querySelectorAll('input[type="password"]');
+
+        this.$passkeyTabSwitch.addEventListener('pointerup', (e) => {
+            xf.dispatch('ui:auth-set', ':passkey');
+        });
+        this.$passwordTabSwitch.addEventListener('pointerup', (e) => {
+            xf.dispatch('ui:auth-set', ':password');
+        });
         this.$toRegister.addEventListener('pointerup', (e) => {
             xf.dispatch('ui:auth-set', ':register');
         });
-        this.$toLogin.addEventListener('pointerup', (e) => {
+        this.$registerToLogin.addEventListener('pointerup', (e) => {
             xf.dispatch('ui:auth-set', ':login');
         });
+        this.$resetToLogin.addEventListener('pointerup', (e) => {
+            xf.dispatch('ui:auth-set', ':login');
+        });
+        this.$toReset.addEventListener('pointerup', (e) => {
+            xf.dispatch('ui:auth-set', ':reset');
+        });
+        this.$webauthnToRegister.addEventListener('pointerup', (e) => {
+            xf.dispatch('ui:auth-set', ':webauthn-register');
+        });
+        this.$webauthnToLogin.addEventListener('pointerup', (e) => {
+            xf.dispatch('ui:auth-set', ':webauthn-login');
+        });
+
         xf.sub('ui:auth-set', self.onAuthSet.bind(this));
     }
     disconnectedCallback() {
@@ -1210,7 +1252,12 @@ class AuthForms extends HTMLElement {
             return;
         }
         if(param === ':login') {
+            this.toPassword();
             this.toLogin();
+            return;
+        }
+        if(param === ':reset') {
+            this.toReset();
             return;
         }
         if(param === ':profile') {
@@ -1219,27 +1266,71 @@ class AuthForms extends HTMLElement {
         if(param === ':logout') {
             this.toLogin();
         }
+        if(param === ':webauthn-register') {
+            this.toWebauthnRegister();
+        }
+        if(param === ':webauthn-login') {
+            this.toWebauthnLogin();
+        }
         if(param === ':error') {
             this.toError();
         }
+        if(param === ':passkey') {
+            this.toPasskey();
+        }
+        if(param === ':password') {
+            this.toPassword();
+        }
+    }
+    toPasskey() {
+        this.$passwordTabSwitch.classList.remove('active');
+        this.$passkeyTabSwitch.classList.add('active');
+        this.$passwordTab.classList.remove('active');
+        this.$passkeyTab.classList.add('active');
+    }
+    toPassword() {
+        this.$passkeyTabSwitch.classList.remove('active');
+        this.$passwordTabSwitch.classList.add('active');
+        this.$passkeyTab.classList.remove('active');
+        this.$passwordTab.classList.add('active');
     }
     toRegister() {
         this.$error.classList.remove('active');
         this.$login.classList.remove('active');
         this.$profile.classList.remove('active');
+        this.$reset.classList.remove('active');
         this.$register.classList.add('active');
     }
     toLogin() {
         this.$error.classList.remove('active');
         this.$register.classList.remove('active');
         this.$profile.classList.remove('active');
+        this.$reset.classList.remove('active');
         this.$login.classList.add('active');
+    }
+    toReset() {
+        this.$error.classList.remove('active');
+        this.$register.classList.remove('active');
+        this.$profile.classList.remove('active');
+        this.$login.classList.remove('active');
+        this.$reset.classList.add('active');
     }
     toProfile() {
         this.$error.classList.remove('active');
         this.$register.classList.remove('active');
         this.$login.classList.remove('active');
+        this.$reset.classList.remove('active');
         this.$profile.classList.add('active');
+    }
+    toWebauthnLogin() {
+        this.$error.classList.remove('active');
+        this.$webauthnRegister.classList.remove('active');
+        this.$webauthnLogin.classList.add('active');
+    }
+    toWebauthnRegister() {
+        this.$error.classList.remove('active');
+        this.$webauthnLogin.classList.remove('active');
+        this.$webauthnRegister.classList.add('active');
     }
     toError() {
         this.$error.classList.add('active');
@@ -1254,22 +1345,15 @@ class ActivityList extends HTMLElement {
     constructor() {
         super();
         this.capacity = 3;
+        this.index = 0;
     }
     connectedCallback() {
         const self = this;
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
-        this.$items = [];
-
-        for(let i=0; i < this.capacity; i++) {
-            self.insertAdjacentHTML("beforeend", self.template(i));
-            self.$items[i] = self.querySelector(`#i${i}--activity--item`);
-        }
-
-        console.log(this.$items);
-
         xf.sub('activity:add', self.onAdd.bind(this));
+        xf.sub('db:activity', self.onRestore.bind(this));
     }
     disconnectedCallback() {
         this.abortController.abort();
@@ -1280,9 +1364,21 @@ class ActivityList extends HTMLElement {
         items.forEach(function(item) {
         });
     }
-    onAdd(a) {
-        if(this.childElementCount >= 3) {
+    onAdd(activity) {
+        const self = this;
+        self.insertAdjacentHTML("afterbegin", self.template(this.index, activity));
+
+        if(this.childElementCount > 3) {
+            self.removeChild(self.lastElementChild);
         }
+
+        this.index++;
+    }
+    onRestore(activities) {
+        const self = this;
+        activities.forEach((a) => {
+            self.insertAdjacentHTML("beforeend", self.template(this.index, a));
+        });
     }
     id(data) {
         return data.id;
@@ -1293,14 +1389,16 @@ class ActivityList extends HTMLElement {
     duration(data) {
         return formatTime({value: data.duration});
     }
-    template(i) {
+    template(i, data) {
         return `
-            <activity-item id="i${i}--activity--item" class="none" data-id="">
+            <activity-item id="i${i}--activity--item" class="some" data-id="${this.id(data)}">
                 <div class="list--row--outer border-top">
                     <div class="list--row--inner activity--cont">
                         <div id="i${i}--activity--date" class="activity--date">
+                            ${this.date(data)}
                         </div>
                         <div id="i${i}--activity--duration" class="activity--duration">
+                            ${this.duration(data)}
                         </div>
                         <div id="i${i}--activity--upload" class="activity--upload">
                             Upload
@@ -1322,17 +1420,74 @@ class ActivityItem extends HTMLElement {
         const self = this;
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
+
+        this.$uploadBtn = this.querySelector(`.activity--upload`);
+        this.id = this.dataset.id;
+
+        this.$uploadBtn.addEventListener('pointerup', this.onUpload.bind(this), this.signal);
+        xf.sub(`activity:upload:by:id:${this.id}`, this.onUploadResult.bind(this), this.signal);
     }
     disconnectedCallback() {
         this.abortController.abort();
-        this.unsubs();
     }
-    render() {
+    onUpload() {
+        this.$uploadBtn.classList.remove('error');
+        this.$uploadBtn.classList.remove('success');
+        this.$uploadBtn.classList.add('progress');
+        xf.dispatch(`ui:activity:upload:by:id`, this.id);
+    }
+    onUploadResult(result) {
+        console.log(result);
+        if(result.success) {
+            this.$uploadBtn.classList.remove('error');
+            this.$uploadBtn.classList.remove('progress');
+            this.$uploadBtn.classList.add('success');
+        } else {
+            this.$uploadBtn.classList.remove('success');
+            this.$uploadBtn.classList.remove('progress');
+            this.$uploadBtn.classList.add('error');
+        }
     }
 }
 
 customElements.define('activity-item', ActivityItem);
 
+
+class ModalError extends HTMLElement {
+    constructor() {
+        super();
+    }
+    connectedCallback() {
+        const self = this;
+        this.abortController = new AbortController();
+        this.signal = { signal: self.abortController.signal };
+
+        this.$dialog = this.querySelector(`dialog`);
+        this.$dismissBtn = this.querySelector(`.dialog--dismiss--btn`);
+        this.$message = this.querySelector(`.dialog--message`);
+
+        xf.sub(`ui:modal:error:open`, this.onOpen.bind(this), this.signal);
+        this.$dismissBtn.addEventListener('pointerup', this.onClose.bind(this), this.signal);
+    }
+    disconnectedCallback() {
+        this.abortController.abort();
+    }
+    onOpen(msg) {
+        this.$dialog.showModal();
+        this.$message.innerHTML = this.message(msg);
+    }
+    onClose(result) {
+        this.$dialog.close();
+    }
+    message(msg) {
+        if(msg === DialogMsg.noAuth) {
+            return `Your session is over. You need to login again.`;
+        };
+        return '';
+    }
+}
+
+customElements.define('modal-error', ModalError);
 
 
 class MeasurementUnit extends DataView {

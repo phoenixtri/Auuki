@@ -1,16 +1,24 @@
-import { xf } from '../functions.js';
+import { exists, xf } from '../functions.js';
+import { DialogMsg } from './enums.js';
 
 // TODO:
 // - split the view logic
 // - extract handlers
 function API() {
-    const api_uri = process.env.API_URI;
-    const pwa_uri = process.env.PWA_URI;
-    const strava_client_id = process.env.STRAVA_CLIENT_ID;
+    if(!exists(process)) {
+        var process = {
+            env: {}
+        };
+    }
+
+    const api_uri = process.env.API_URI ?? '';
+    const pwa_uri = process.env.PWA_URI ?? '';
+    const strava_client_id = process.env.STRAVA_CLIENT_ID ?? 0;
 
     // DOM
     const $registerForm = document.querySelector('#register--form');
     const $loginForm = document.querySelector('#login--form');
+    const $resetForm = document.querySelector('#reset--form');
     const $logoutButton = document.querySelector('#logout--button');
     const $uploadWorkoutButton = document.querySelector('#upload--button');
 
@@ -34,8 +42,9 @@ function API() {
         logout();
     }, signal);
 
-    $uploadWorkoutButton.addEventListener('pointerup', (e) => {
-        xf.dispatch('ui:activity:send');
+    $resetForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        request_password_reset();
     }, signal);
 
     $stravaConnectButton.addEventListener('pointerup', (e) => {
@@ -47,18 +56,24 @@ function API() {
         const url = `${api_uri}/api/register`;
         const formData = new FormData($registerForm);
 
+        const data = Object.fromEntries(formData);
+
+        if(data.email.trim() === '' ||
+           data.password.trim() === '' ||
+           data.password_confirmation.trim() === ''
+          ) {
+            return;
+        }
+
         try {
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json',},
-                body: JSON.stringify(Object.fromEntries(formData)),
+                body: JSON.stringify(data),
             });
 
             const status = response.status;
             const json = await response.json();
-
-            // TODO: remove
-            console.log(json);
 
             if(json.error) {
                 console.log(`register: ui:auth-set :error`);
@@ -74,6 +89,8 @@ function API() {
             console.log(`register: :none`);
         } catch(error) {
             console.log(error);
+        } finally {
+            $registerForm.reset();
         }
     }
 
@@ -81,18 +98,21 @@ function API() {
         const url = `${api_uri}/api/login`;
         const formData = new FormData($loginForm);
 
+        const data = Object.fromEntries(formData);
+
+        if(data.email.trim() === '' || data.password.trim() === '') {
+            return;
+        }
+
         try {
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json',},
                 credentials: 'include',
-                body: JSON.stringify(Object.fromEntries(formData)),
+                body: JSON.stringify(data),
             });
 
             const json = await response.json();
-
-            // TODO: remove
-            console.log(json);
 
             if(json.error) {
                 console.log(`login: ui:auth-set :error`);
@@ -109,6 +129,8 @@ function API() {
             console.log(`login: :none`);
         } catch(error) {
             console.log(error);
+        } finally {
+            $loginForm.reset();
         }
     }
 
@@ -130,12 +152,37 @@ function API() {
         }
     }
 
+    async function request_password_reset() {
+        const url = `${api_uri}/api/request-reset`;
+        const formData = new FormData($resetForm);
+
+        const data = Object.fromEntries(formData);
+
+        if(data.email.trim() === '') {
+            return;
+        }
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json',},
+                credentials: 'include',
+                body: JSON.stringify(data),
+            });
+
+            xf.dispatch('ui:auth-set', ':login');
+        } catch(error) {
+            console.log(error);
+        } finally {
+            $resetForm.reset();
+        }
+    }
+
     async function upload_workout_strava(blob) {
         const url = `${api_uri}/api/strava/upload`;
 
         const formData = new FormData();
         formData.append('file', blob);
-        // formData.append('data_type', 'fit');
 
         try {
             const response = await fetch(url, {
@@ -144,9 +191,19 @@ function API() {
                 body: formData,
             });
 
-            const result = await response.json();
+            if(response.ok) {
+                return {success: true};
+            } else {
+                if(response.status === 403) {
+                    console.log(`No Auth`);
+                    xf.dispatch('ui:auth-set', ':login');
+                    xf.dispatch('ui:modal:error:open', DialogMsg.noAuth);
+                }
+                return {success: false};
+            }
         } catch(error) {
             console.log(error);
+            return {success: false};
         }
     }
 
@@ -158,25 +215,10 @@ function API() {
               new URLSearchParams({
                   client_id: strava_client_id,
                   redirect_uri: pwa_uri,
-                  // redirect_uri: 'http://localhost:1234/',
                   response_type: 'code',
                   scope: 'activity:write',
               }).toString();
         window.location.replace(url);
-
-        // const url = `${api_uri}/api/strava/oauth/authorize`;
-
-        // try {
-        //     const response = await fetch(url, {
-        //         method: 'POST',
-        //         credentials: 'include',
-        //     });
-
-        //     const result = await response.text();
-        //     console.log(result);
-        // } catch(error) {
-        //     console.log(error);
-        // }
     }
 
     async function strava_disconnect() {
@@ -233,7 +275,7 @@ function API() {
                 }),
             });
 
-            console.log(response);
+            // console.log(response);
             const status = response.status;
 
             if(status === 200) {
