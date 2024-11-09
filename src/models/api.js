@@ -5,15 +5,17 @@ import { DialogMsg } from './enums.js';
 // - split the view logic
 // - extract handlers
 function API() {
-    if(!exists(process)) {
-        var process = {
-            env: {}
-        };
-    }
+    var process = process ?? {
+        env: {
+            API_URI: "http://localhost:8080",
+            PWA_URI: "http://localhost:1234",
+            STRAVA_CLIENT_ID: 0,
+        }
+    };
 
-    const api_uri = process.env.API_URI ?? '';
-    const pwa_uri = process.env.PWA_URI ?? '';
-    const strava_client_id = process.env.STRAVA_CLIENT_ID ?? 0;
+    const api_uri = process.env.API_URI;
+    const pwa_uri = process.env.PWA_URI;
+    const strava_client_id = process.env.STRAVA_CLIENT_ID;
 
     // DOM
     const $registerForm = document.querySelector('#register--form');
@@ -286,7 +288,8 @@ function API() {
                 console.log(`No Auth`);
                 xf.dispatch('ui:auth-set', ':login');
             }
-            if(status === 500) {
+
+            if(status === 500 || status === 405) {
                 console.log(`No API`);
                 xf.dispatch('ui:auth-set', ':no-api');
             }

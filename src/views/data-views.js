@@ -1281,6 +1281,9 @@ class AuthForms extends HTMLElement {
         if(param === ':password') {
             this.toPassword();
         }
+        if(param === ':no-api') {
+            this.toNoApi();
+        }
     }
     toPasskey() {
         this.$passwordTabSwitch.classList.remove('active');
@@ -1293,6 +1296,14 @@ class AuthForms extends HTMLElement {
         this.$passwordTabSwitch.classList.add('active');
         this.$passkeyTab.classList.remove('active');
         this.$passwordTab.classList.add('active');
+    }
+    toNoApi() {
+        this.$passkeyTabSwitch.classList.remove('active');
+        this.$passwordTabSwitch.classList.remove('active');
+        this.$passkeyTab.classList.remove('active');
+        this.$passwordTab.classList.remove('active');
+
+        this.toError('The API service is currently offline.');
     }
     toRegister() {
         this.$error.classList.remove('active');
@@ -1332,7 +1343,10 @@ class AuthForms extends HTMLElement {
         this.$webauthnLogin.classList.remove('active');
         this.$webauthnRegister.classList.add('active');
     }
-    toError() {
+    toError(msg = '') {
+        if(msg !== '') {
+            this.$error.textContent = msg;
+        }
         this.$error.classList.add('active');
         this.$pwds.forEach(($el) => $el.value = '');
     }
