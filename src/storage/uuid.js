@@ -97,7 +97,7 @@ class Xuid {
 }
 
 function uuid() {
-    if('crypto' in window) {
+    if('crypto' in window && crypto.randomUUID) {
         return crypto.randomUUID();
     }
     return Xuid.v4New;
