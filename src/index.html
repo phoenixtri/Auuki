@@ -1126,179 +1126,206 @@
                 <div class="auth">
                     <auth-forms>
                         <div class="auth--tab--controls">
-                            <div id="passkey--tab--switch"
-                                 class="auth--tab--switch"
-                                 index="0">
-                                <h2>Passkey</h2>
-                            </div>
-                            <div id="password--tab--switch"
-                                 class="auth--tab--switch active"
-                                 index="1">
-                                <h2>Password</h2>
-                            </div>
+                            <view-action action=":passkey" topic=":auth">
+                                <div id="passkey--tab--switch"
+                                    class="auth--tab--switch">
+                                    <h2>Passkey</h2>
+                                </div>
+                            </view-action>
+                            <view-action action=":password" topic=":auth">
+                                <div id="password--tab--switch"
+                                    class="auth--tab--switch active">
+                                    <h2>Password</h2>
+                                </div>
+                            </view-action>
                         </div>
                         <div id="passkey--forms">
-                            <div id="webauthn--register--form--section" class="register--form--section">
+                            <form id="passkey--register--form" class="register--form">
                                 <h2>Register</h2>
-                                <form id="webauthn--register--form">
-                                    <div>
-                                        <input id="webauthn--register--email--input"
-                                            class="input"
-                                            name="email"
-                                            type="email"
-                                            placeholder="Email"
-                                            value=""
-                                            required
-                                        />
-                                    </div>
-                                    <div class="form--submit--section">
-                                        <button id="webauthn--register--submit"
-                                                class="btn"
-                                                type="submit">Register</button>
-                                        <div id="webauthn--to-login--button"
-                                            class="tab--button"
-                                            index="1">Login instead</div>
-                                    </div>
-                                </form>
-                            </div>
+                                <div>
+                                    <input id="webauthn--register--email--input"
+                                        class="input"
+                                        name="email"
+                                        type="email"
+                                        placeholder="Email"
+                                        value=""
+                                        required
+                                    />
+                                </div>
+                                <div class="form--submit--section">
+                                    <button id="webauthn--register--submit"
+                                            class="btn"
+                                            type="submit">Register</button>
 
-                            <div id="webauthn--login--form--section" class="login--form--section active">
+                                    <view-action action=":passkey:login" topic=":auth">
+                                    <div class="tab--button">Login instead</div>
+                                </view-action>
+                                </div>
+                            </form>
+                            <form id="passkey--login--form" class="login--form active">
                                 <h2>Login</h2>
-                                <form id="webauthn--login--form">
-                                    <div>
-                                        <input id="webauthn--login--email--input"
-                                            class="input"
-                                            name="email"
-                                            type="email"
-                                            placeholder="Email"
-                                            value=""
-                                            required
-                                        />
-                                    </div>
-                                    <div class="form--submit--section">
-                                        <button id="webauthn--login--submit"
-                                                class="btn"
-                                                type="submit">Login</button>
-                                        <div id="webauthn--to-register--button"
-                                            class="tab--button"
-                                            index="2">Register</div>
-                                    </div>
-                                </form>
-                            </div>
+                                <div>
+                                    <input id="webauthn--login--email--input"
+                                        class="input"
+                                        name="email"
+                                        type="email"
+                                        placeholder="Email"
+                                        value=""
+                                        required
+                                    />
+                                </div>
+                                <div class="form--submit--section">
+                                    <button id="webauthn--login--submit"
+                                            class="btn"
+                                            type="submit">Login</button>
 
+                                    <view-action action=":passkey:register" topic=":auth">
+                                        <div class="tab--button"
+                                                index="2">Register</div>
+                                    </view-action>
+                                </div>
+                            </form>
                         </div>
-                        <div id="password--forms">
-                            <div id="register--form--section" class="register--form--section">
+                        <div id="password--forms" class="active">
+                            <form id="register--form" class="register--form">
                                 <h2>Register</h2>
-                                <form id="register--form">
-                                    <div>
-                                        <input id="register--email--input"
-                                            class="input"
-                                            name="email"
-                                            type="email"
-                                            placeholder="Email"
-                                            value=""
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <input id="register--password--input"
-                                            class="input"
-                                            name="password"
-                                            type="password"
-                                            pattern=".{8,64}"
-                                            title="8 characters minimum"
-                                            placeholder="Password"
-                                            value=""
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <input id="register--password-confirmation--input"
-                                            class="input"
-                                            name="password_confirmation"
-                                            pattern=".{8,64}"
-                                            title="8 characters minimum"
-                                            placeholder="Confirm Password"
-                                            type="password"
-                                            value=""
-                                            required
-                                        />
-                                    </div>
-                                    <div class="form--submit--section">
-                                        <button id="register--submit"
-                                                class="btn"
-                                                type="submit">Register</button>
-                                        <div id="register-to-login--button"
-                                            class="tab--button"
-                                            index="1">Login instead</div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div id="login--form--section" class="login--form--section">
+                                <div>
+                                    <input id="register--email--input"
+                                        class="input"
+                                        name="email"
+                                        type="email"
+                                        placeholder="Email"
+                                        value=""
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <input id="register--password--input"
+                                        class="input"
+                                        name="password"
+                                        type="password"
+                                        pattern=".{8,64}"
+                                        title="8 characters minimum"
+                                        placeholder="Password"
+                                        value=""
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <input id="register--password-confirmation--input"
+                                        class="input"
+                                        name="password_confirmation"
+                                        pattern=".{8,64}"
+                                        title="8 characters minimum"
+                                        placeholder="Confirm Password"
+                                        type="password"
+                                        value=""
+                                        required
+                                    />
+                                </div>
+                                <div class="form--submit--section">
+                                    <button id="register--submit"
+                                            class="btn"
+                                            type="submit">Register</button>
+
+                                    <view-action action=":password:login" topic=":auth">
+                                        <div class="tab--button"
+                                                index="1">Login instead</div>
+                                    </view-action>
+                                </div>
+                            </form>
+                            <form id="login--form" class="login--form active">
                                 <h2>Login</h2>
-                                <form id="login--form">
-                                    <div>
-                                        <input id="login--email--input"
-                                            class="input"
-                                            name="email"
-                                            type="email"
-                                            placeholder="Email"
-                                            value=""
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <input id="login--password--input"
-                                            class="input"
-                                            name="password"
-                                            type="Password"
-                                            pattern=".{8,64}"
-                                            title="8 characters minimum"
-                                            placeholder="Password"
-                                            value=""
-                                            required
-                                        />
-                                    </div>
-                                    <div class="form--submit--section">
-                                        <button id="login--submit"
-                                                class="btn"
-                                                type="submit">Login</button>
-                                        <div id="to-register--button"
-                                            class="tab--button"
-                                            index="2">Register</div>
-                                        <div id="to-reset--button"
-                                            class="tab--button"
-                                            index="3">Reset</div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div id="reset--form--section" class="reset--form--section">
+                                <div>
+                                    <input id="login--email--input"
+                                        class="input"
+                                        name="email"
+                                        type="email"
+                                        placeholder="Email"
+                                        value=""
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <input id="login--password--input"
+                                        class="input"
+                                        name="password"
+                                        type="Password"
+                                        pattern=".{8,64}"
+                                        title="8 characters minimum"
+                                        placeholder="Password"
+                                        value=""
+                                        required
+                                    />
+                                </div>
+                                <div class="form--submit--section">
+                                    <button id="login--submit"
+                                            class="btn"
+                                            type="submit">Login</button>
+
+                                    <view-action action=":password:register" topic=":auth">
+                                        <div class="tab--button">Register</div>
+                                    </view-action>
+                                    <view-action action=":password:forgot" topic=":auth">
+                                        <div class="tab--button">Forgot</div>
+                                    </view-action>
+                                </div>
+                            </form>
+                            <form id="forgot--form" class="forgot--form">
+                                <h2>Forgot</h2>
+                                <div>
+                                    <input id="forgot--email--input"
+                                        class="input"
+                                        name="email"
+                                        type="email"
+                                        placeholder="Email"
+                                        value=""
+                                        required
+                                    />
+                                </div>
+                                <div class="form--submit--section">
+                                    <button id="forgot--submit"
+                                            class="btn"
+                                            type="submit">Forgot</button>
+                                    <view-action action=":password:login" topic=":auth">
+                                        <div class="tab--button">Login instead</div>
+                                    </view-action>
+                                </div>
+                            </form>
+                            <form id="reset--form" class="reset--form">
                                 <h2>Reset</h2>
-                                <form id="reset--form">
-                                    <div>
-                                        <input id="reset--email--input"
-                                            class="input"
-                                            name="email"
-                                            type="email"
-                                            placeholder="Email"
-                                            value=""
-                                            required
-                                        />
-                                    </div>
-                                    <div class="form--submit--section">
-                                        <button id="reset--submit"
-                                                class="btn"
-                                                type="submit">Reset</button>
-                                        <div id="reset-to-login--button"
-                                            class="tab--button"
-                                            index="1">Login instaed</div>
-                                    </div>
-                                </form>
-                            </div>
+                                <div>
+                                    <input id="reset--password--input"
+                                        class="input"
+                                        name="password"
+                                        type="password"
+                                        pattern=".{8,64}"
+                                        title="8 characters minimum"
+                                        placeholder="Password"
+                                        value=""
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <input id="reset--password-confirmation--input"
+                                        class="input"
+                                        name="password_confirmation"
+                                        pattern=".{8,64}"
+                                        title="8 characters minimum"
+                                        placeholder="Confirm Password"
+                                        type="password"
+                                        value=""
+                                        required
+                                    />
+                                </div>
+                                <div class="form--submit--section">
+                                    <button id="reset--submit"
+                                            class="btn"
+                                            type="submit">Reset</button>
+                                </div>
+                            </form>
                         </div>
                         <div id="auth-error--section" class="error">
-                            Wrong credentials or Authentication error
                         </div>
                     </auth-forms>
                     <div id="profile" class="profile">

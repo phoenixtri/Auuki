@@ -394,7 +394,7 @@ xf.reg('app:start', async function(_, db) {
     const sound = Sound({volume: db.volume});
     sound.start();
 
-    // models.api.status();
+    models.api.status();
 
     // TRAINER MOCK
     // trainerMock.init();

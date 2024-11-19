@@ -1968,15 +1968,17 @@ div.graph--bar-group {
 /* END ANT Device Request */
 
 /* User Auth */
+
 /* TODO: fix the display overwrite when the api is ready */
-.auth {
-    display: none!important;
-}
-.app-connections {
-    .strava, .intervals {
-        display: none!important;
-    }
-}
+/* .auth { */
+/*     display: none!important; */
+/* } */
+/* .app-connections { */
+/*     .strava, .intervals { */
+/*         display: none!important; */
+/*     } */
+/* } */
+
 .auth {
     display: block;
     min-height: 26rem;
@@ -2033,21 +2035,23 @@ div.graph--bar-group {
     }
     #passkey--forms.active,
     #password--forms.active,
-    #webauthn--register--form--section.active,
-    #webauthn--login--form--section.active,
-    #login--form--section.active,
-    #register--form--section.active,
-    #reset--form--section.active {
+    #passkey--register--form.active,
+    #passkey--login--form.active,
+    #login--form.active,
+    #register--form.active,
+    #forgot--form.active,
+    #reset--form.active {
         display: block;
     }
 
     #passkey--forms,
     #password--forms,
-    #login--form--section,
-    #register--form--section,
-    #reset--form--section,
-    #webauthn--register--form--section,
-    #webauthn--login--form--section
+    #login--form,
+    #register--form,
+    #reset--form,
+    #forgot--form,
+    #passkey--register--form,
+    #passkey--login--form
     {
         display: none;
     }

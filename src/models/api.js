@@ -1,8 +1,9 @@
-import { exists, xf } from '../functions.js';
+import { exists, xf, print, } from '../functions.js';
 import { DialogMsg } from './enums.js';
+import { uuid } from '../storage/uuid.js';
 
 // TODO:
-// - split the view logic
+// - split the remaining view logic
 // - extract handlers
 function API() {
     var process = process ?? {
@@ -18,47 +19,22 @@ function API() {
     const strava_client_id = process.env.STRAVA_CLIENT_ID;
 
     // DOM
-    const $registerForm = document.querySelector('#register--form');
-    const $loginForm = document.querySelector('#login--form');
-    const $resetForm = document.querySelector('#reset--form');
-    const $logoutButton = document.querySelector('#logout--button');
-    const $uploadWorkoutButton = document.querySelector('#upload--button');
-
     const $stravaConnectButton = document.querySelector('#strava--connect--button');
 
     // Sub
     let abortController = new AbortController();
     let signal = { signal: abortController.signal };
 
-    $registerForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        register();
-    }, signal);
-
-    $loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        login();
-    }, signal);
-
-    $logoutButton.addEventListener('pointerup', (e) => {
-        logout();
-    }, signal);
-
-    $resetForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        request_password_reset();
-    }, signal);
-
     $stravaConnectButton.addEventListener('pointerup', (e) => {
         strava_connect();
-    });
+    }, signal);
 
     // Handlers
-    async function register() {
-        const url = `${api_uri}/api/register`;
-        const formData = new FormData($registerForm);
 
-        const data = Object.fromEntries(formData);
+    // {data: {FormData}} -> Void
+    async function register(args = {}) {
+        const url = `${api_uri}/api/register`;
+        const data = args.data;
 
         if(data.email.trim() === '' ||
            data.password.trim() === '' ||
@@ -78,29 +54,26 @@ function API() {
             const json = await response.json();
 
             if(json.error) {
-                console.log(`register: ui:auth-set :error`);
-                xf.dispatch('ui:auth-set', ':error');
+                console.log(':api :register :error');
+                xf.dispatch('action:auth', ':error');
                 return;
             }
             if(json?.result?.success) {
-                console.log(`register: ui:auth-set :login`);
-                xf.dispatch('ui:auth-set', ':login');
+                console.log(':api :register :success');
+                xf.dispatch('action:auth', ':password:login');
                 return;
             }
 
             console.log(`register: :none`);
         } catch(error) {
             console.log(error);
-        } finally {
-            $registerForm.reset();
         }
     }
 
-    async function login() {
+    // {data: {FormData}} -> Void
+    async function login(args = {}) {
         const url = `${api_uri}/api/login`;
-        const formData = new FormData($loginForm);
-
-        const data = Object.fromEntries(formData);
+        const data = args.data;
 
         if(data.email.trim() === '' || data.password.trim() === '') {
             return;
@@ -117,22 +90,20 @@ function API() {
             const json = await response.json();
 
             if(json.error) {
-                console.log(`login: ui:auth-set :error`);
-                xf.dispatch('ui:auth-set', ':error');
+                console.log(`:api :login :error`);
+                xf.dispatch('action:auth', ':error');
                 return;
             }
 
             if(json?.result?.success) {
-                console.log(`login: ui:auth-set :profile`);
-                xf.dispatch('ui:auth-set', ':profile');
+                console.log(`:api :login :success`);
+                xf.dispatch('action:auth', ':password:profile');
                 return;
             }
 
-            console.log(`login: :none`);
+            console.log(`:api :login :none`);
         } catch(error) {
             console.log(error);
-        } finally {
-            $loginForm.reset();
         }
     }
 
@@ -148,17 +119,17 @@ function API() {
             });
 
             const result = await response.json();
-            xf.dispatch('ui:auth-set', ':login');
+            console.log(`:api :logout :success`);
+            xf.dispatch('action:auth', ':password:logout');
         } catch(error) {
             console.log(error);
         }
     }
 
-    async function request_password_reset() {
-        const url = `${api_uri}/api/request-reset`;
-        const formData = new FormData($resetForm);
-
-        const data = Object.fromEntries(formData);
+    // {data: {FormData}} -> Void
+    async function forgot(args = {}) {
+        const url = `${api_uri}/api/forgot-password`;
+        const data = args.data;
 
         if(data.email.trim() === '') {
             return;
@@ -172,11 +143,45 @@ function API() {
                 body: JSON.stringify(data),
             });
 
-            xf.dispatch('ui:auth-set', ':login');
+            console.log(`:api :forgot :success`);
+            xf.dispatch('action:auth', ':password:login');
+            // TODO: display message email has been send if email exists
         } catch(error) {
             console.log(error);
-        } finally {
-            $resetForm.reset();
+        }
+    }
+
+    // {data: {FormData}} -> Void
+    async function reset(args = {}) {
+        const params = (new URL(document.location)).searchParams;
+        const token = params.get('token') ?? '';
+
+        const url = `${api_uri}/api/reset-password` + '?' +
+              new URLSearchParams({token,}).toString();
+
+        const data = args.data;
+
+        if(data.password.trim() === '' ||
+           data.password_confirmation.trim() === '') {
+            return;
+        }
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json',},
+                body: JSON.stringify(data),
+            });
+
+            if(response.ok) {
+                console.log(`:api :reset :success`);
+                // TODO: remove the query params
+                // clear();
+            } else {
+                console.error(`:api :reset :fail`);
+            }
+        } catch(e) {
+            console.error(`:api :reset :error `, e);
         }
     }
 
@@ -197,8 +202,9 @@ function API() {
                 return {success: true};
             } else {
                 if(response.status === 403) {
-                    console.log(`No Auth`);
-                    xf.dispatch('ui:auth-set', ':login');
+                    console.log(`:api :no-auth`);
+                    xf.dispatch('action:auth', ':password:login');
+
                     xf.dispatch('ui:modal:error:open', DialogMsg.noAuth);
                 }
                 return {success: false};
@@ -228,27 +234,21 @@ function API() {
     }
 
     // Step 3
-    async function handleStravaRedirect() {
-        const params = (new URL(document.location)).searchParams;
-        const state  = params.get('state');
-        const code   = params.get('code');
-        const scope  = params.get('scope');
-        const error  = params.get('error');
+    async function strava_params_handler(args = {}) {
+        const state = args.state ?? '';
+        const code = args.code ?? '';
+        const scope = args.scope ?? '';
 
-        if(error) {
-            console.error(`Strava authorize step 1 error `, error);
-        }
+        const url = `${api_uri}/api/strava/oauth/code` +
+              '?' +
+              new URLSearchParams({
+                  state: state,
+                  code: code,
+                  scope: scope,
+              })
+              .toString();
 
-        if(code && scope && !error) {
-            const url = `${api_uri}/api/strava/oauth/code` +
-                '?' +
-                new URLSearchParams({
-                    state: state ?? '',
-                    code: code,
-                    scope: scope,
-                })
-                .toString();
-
+        try {
             const response = await fetch(url, {
                 method: 'POST',
                 credentials: 'include',
@@ -256,11 +256,40 @@ function API() {
 
             const result = await response.text();
             console.log(result);
-
-            window.history.pushState({}, document.title, window.location.pathname);
+        } catch (e) {
+            console.log(``, e);
         }
     }
 
+    async function onQueryParams() {
+        const params = (new URL(document.location)).searchParams;
+        let hasParams = params.size > 0;
+        if(!hasParams) return;
+
+        // strava params
+        const state  = params.get('state');
+        const code   = params.get('code');
+        const scope  = params.get('scope');
+        const error  = params.get('error');
+        // reset param
+        const token = params.get('token');
+
+        // switch
+        if(error) {
+            console.error(`param error `, error);
+        }
+        if(!error && code && scope) {
+            await strava_params_handler({state, code, scope});
+        }
+        if(!error && token) {
+            return;
+        }
+        clear();
+    }
+
+    function clear() {
+        window.history.pushState({}, document.title, window.location.pathname);
+    }
 
     async function status() {
         const url = `${api_uri}/api/rpc`;
@@ -271,7 +300,7 @@ function API() {
                 headers: {'Content-Type': 'application/json',},
                 credentials: 'include',
                 body: JSON.stringify({
-                    id: crypto.randomUUID(),
+                    id: uuid(),
                     method: 'status_handler',
                     params: {data: {}},
                 }),
@@ -281,30 +310,36 @@ function API() {
             const status = response.status;
 
             if(status === 200) {
-                console.log(`Profile`);
-                xf.dispatch('ui:auth-set', ':profile');
+                console.log(`:api :profile`);
+                xf.dispatch('action:auth', ':password:profile');
             }
             if(status === 403) {
-                console.log(`No Auth`);
-                xf.dispatch('ui:auth-set', ':login');
+                console.log(`:api :no-auth`);
+                xf.dispatch('action:auth', ':password:login');
             }
-
             if(status === 500 || status === 405) {
-                console.log(`No API`);
-                xf.dispatch('ui:auth-set', ':no-api');
+                console.log(`:api :no-api`);
+                xf.dispatch('action:auth', ':no-api');
             }
         } catch(error) {
+            console.log(`:api :no-api`);
+            xf.dispatch('action:auth', ':no-api');
             console.log(error);
         }
     }
 
     function onLoad() {
-        handleStravaRedirect();
+        onQueryParams();
     }
 
     onLoad();
 
     return Object.freeze({
+        register,
+        login,
+        logout,
+        forgot,
+        reset,
         upload_workout_strava,
         status,
     });

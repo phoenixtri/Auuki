@@ -1169,186 +1169,184 @@ class LibrarySwitchGroup extends SwitchGroup {
 
 customElements.define('library-switch-group', LibrarySwitchGroup);
 
-
-
-// TODO: This needs refactoring to something more general with
-// declarative configuration. Something that will work for all tabs and switches.
-class AuthForms extends HTMLElement {
+class ViewAction extends HTMLElement {
     constructor() {
         super();
-        this.postInit();
-    }
-    postInit() {
     }
     connectedCallback() {
         const self = this;
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
-        this.$passkeyTab = document.querySelector('#passkey--forms');
-        this.$passwordTab = document.querySelector('#password--forms');
+        this.action = this.getAttribute('action');
+        this.topic = this.getAttribute('topic') ?? '';
 
-        this.$passkeyTabSwitch = document.querySelector('#passkey--tab--switch');
-        this.$passwordTabSwitch = document.querySelector('#password--tab--switch');
+        if(this.action === undefined || this.action === '') {
+            throw Error(`need to setup action attribute on view-action `, self);
+        }
 
-        this.$register = this.querySelector('#register--form--section');
-        this.$login = this.querySelector('#login--form--section');
-        this.$reset = this.querySelector('#reset--form--section');
-        this.$webauthnRegister = this.querySelector('#webauthn--register--form--section');
-        this.$webauthnLogin = this.querySelector('#webauthn--login--form--section');
+        this.addEventListener('pointerup', (e) => {
+            xf.dispatch(`action${self.topic}`, self.action);
+        }, this.signal);
+    }
+    disconnectedCallback() {
+        this.abortController.abort();
+    }
+}
 
-        this.$profile = document.querySelector('#profile');
-        this.$error = document.querySelector('#auth-error--section');
-        this.$pwds = document.querySelectorAll('input[type="password"]');
+customElements.define('view-action', ViewAction);
 
+// TODO: This needs refactoring to something more general with
+// declarative configuration. Something that will work for all tabs and switches.
+class AuthForms extends HTMLElement {
+    constructor() {
+        super();
+    }
+    connectedCallback() {
+        const self = this;
+        this.abortController = new AbortController();
+        this.signal = { signal: self.abortController.signal };
 
-        this.$toRegister = this.querySelector('#to-register--button');
-        this.$resetToLogin = this.querySelector('#register-to-login--button');
-        this.$registerToLogin = this.querySelector('#reset-to-login--button');
-        this.$toReset = this.querySelector('#to-reset--button');
-        this.$webauthnToRegister = this.querySelector('#webauthn--to-register--button');
-        this.$webauthnToLogin = this.querySelector('#webauthn--to-login--button');
+        this.el = {
+            // each subset is exclusive or with css class .active
+            //
+            // tabs
+            // passkey, password
+            // forms
+            // passkey -> login, register -> profile
+            // password -> login, register, forgot, reset -> profile
+            // error
+            switch: {
+                $passkey: document.querySelector('#passkey--tab--switch'),
+                $password: document.querySelector('#password--tab--switch'),
+            },
+            tab: {
+                $passkey:  document.querySelector('#passkey--forms'),
+                $password: document.querySelector('#password--forms'),
+            },
+            password: {
+                $register: self.querySelector('#register--form'),
+                $login: self.querySelector('#login--form'),
+                $forgot: self.querySelector('#forgot--form'),
+                $reset: self.querySelector('#reset--form'),
+                $profile: document.querySelector('#profile'),
+            },
+            passkey: {
+                $register: self.querySelector('#passkey--register--form'),
+                $login: self.querySelector('#passkey--login--form'),
+                $profile: document.querySelector('#profile'),
+            },
+            $logout: document.querySelector('#logout--button'),
+            $error: document.querySelector('#auth-error--section'),
+            $pwds: document.querySelectorAll('input[type="password"]'),
+        };
 
+        this.subForm('password', '$login', 'login');
+        this.subForm('password', '$register', 'register');
+        this.subForm('password', '$forgot', 'forgot');
+        this.subForm('password', '$reset', 'reset');
 
-        this.$profile = document.querySelector('#profile');
-        this.$error = document.querySelector('#auth-error--section');
-        this.$pwds = document.querySelectorAll('input[type="password"]');
-
-        this.$passkeyTabSwitch.addEventListener('pointerup', (e) => {
-            xf.dispatch('ui:auth-set', ':passkey');
+        this.el.$logout.addEventListener('pointerup', (e) => {
+            models.api.logout();
         });
-        this.$passwordTabSwitch.addEventListener('pointerup', (e) => {
-            xf.dispatch('ui:auth-set', ':password');
-        });
-        this.$toRegister.addEventListener('pointerup', (e) => {
-            xf.dispatch('ui:auth-set', ':register');
-        });
-        this.$registerToLogin.addEventListener('pointerup', (e) => {
-            xf.dispatch('ui:auth-set', ':login');
-        });
-        this.$resetToLogin.addEventListener('pointerup', (e) => {
-            xf.dispatch('ui:auth-set', ':login');
-        });
-        this.$toReset.addEventListener('pointerup', (e) => {
-            xf.dispatch('ui:auth-set', ':reset');
-        });
-        this.$webauthnToRegister.addEventListener('pointerup', (e) => {
-            xf.dispatch('ui:auth-set', ':webauthn-register');
-        });
-        this.$webauthnToLogin.addEventListener('pointerup', (e) => {
-            xf.dispatch('ui:auth-set', ':webauthn-login');
-        });
 
-        xf.sub('ui:auth-set', self.onAuthSet.bind(this));
+        xf.sub('action:auth', self.onAction.bind(this));
     }
     disconnectedCallback() {
         this.abortController.abort();
         this.unsubs();
     }
-    onAuthSet(param) {
-        console.log(param);
-        if(param === ':register') {
-            this.toRegister();
-            return;
-        }
-        if(param === ':login') {
-            this.toPassword();
-            this.toLogin();
-            return;
-        }
-        if(param === ':reset') {
-            this.toReset();
-            return;
-        }
-        if(param === ':profile') {
-            this.toProfile();
-        }
-        if(param === ':logout') {
-            this.toLogin();
-        }
-        if(param === ':webauthn-register') {
-            this.toWebauthnRegister();
-        }
-        if(param === ':webauthn-login') {
-            this.toWebauthnLogin();
-        }
-        if(param === ':error') {
-            this.toError();
-        }
-        if(param === ':passkey') {
-            this.toPasskey();
-        }
-        if(param === ':password') {
-            this.toPassword();
-        }
-        if(param === ':no-api') {
-            this.toNoApi();
-        }
-    }
-    toPasskey() {
-        this.$passwordTabSwitch.classList.remove('active');
-        this.$passkeyTabSwitch.classList.add('active');
-        this.$passwordTab.classList.remove('active');
-        this.$passkeyTab.classList.add('active');
-    }
-    toPassword() {
-        this.$passkeyTabSwitch.classList.remove('active');
-        this.$passwordTabSwitch.classList.add('active');
-        this.$passkeyTab.classList.remove('active');
-        this.$passwordTab.classList.add('active');
-    }
-    toNoApi() {
-        this.$passkeyTabSwitch.classList.remove('active');
-        this.$passwordTabSwitch.classList.remove('active');
-        this.$passkeyTab.classList.remove('active');
-        this.$passwordTab.classList.remove('active');
+    subForm(group, form, method) {
+        const $form = this.el[group][form];
 
-        this.toError('The API service is currently offline.');
+        $form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData($form));
+            await models.api[method]({data,});
+            $form.reset();
+        }, this.signal);
     }
-    toRegister() {
-        this.$error.classList.remove('active');
-        this.$login.classList.remove('active');
-        this.$profile.classList.remove('active');
-        this.$reset.classList.remove('active');
-        this.$register.classList.add('active');
-    }
-    toLogin() {
-        this.$error.classList.remove('active');
-        this.$register.classList.remove('active');
-        this.$profile.classList.remove('active');
-        this.$reset.classList.remove('active');
-        this.$login.classList.add('active');
-    }
-    toReset() {
-        this.$error.classList.remove('active');
-        this.$register.classList.remove('active');
-        this.$profile.classList.remove('active');
-        this.$login.classList.remove('active');
-        this.$reset.classList.add('active');
-    }
-    toProfile() {
-        this.$error.classList.remove('active');
-        this.$register.classList.remove('active');
-        this.$login.classList.remove('active');
-        this.$reset.classList.remove('active');
-        this.$profile.classList.add('active');
-    }
-    toWebauthnLogin() {
-        this.$error.classList.remove('active');
-        this.$webauthnRegister.classList.remove('active');
-        this.$webauthnLogin.classList.add('active');
-    }
-    toWebauthnRegister() {
-        this.$error.classList.remove('active');
-        this.$webauthnLogin.classList.remove('active');
-        this.$webauthnRegister.classList.add('active');
-    }
-    toError(msg = '') {
-        if(msg !== '') {
-            this.$error.textContent = msg;
+    onAction(action) {
+        const self = this;
+        console.log(action);
+
+        if(action === ':password') {
+            this.switch('$password', this.el.tab);
+            this.switch('$password', this.el.switch);
+            return;
         }
-        this.$error.classList.add('active');
-        this.$pwds.forEach(($el) => $el.value = '');
+        if(action === ':passkey') {
+            // TODO: fix when webauthn is ready
+            // this.switch('$passkey', this.el.tab);
+            // this.switch('$passkey', this.el.switch);
+            return;
+        }
+        if(action === ':password:login') {
+            this.switch('$login', this.el.password);
+            return;
+        }
+        if(action === ':password:register') {
+            this.switch('$register', this.el.password);
+            return;
+        }
+        if(action === ':password:forgot') {
+            this.switch('$forgot', this.el.password);
+            return;
+        }
+        if(action === ':password:reset') {
+            this.switch('$reset', this.el.password);
+            return;
+        }
+        if(action === ':password:profile') {
+            this.switch('$profile', this.el.password);
+            return;
+        }
+        if(action === ':password:logout') {
+            this.switch('$login', this.el.password);
+            return;
+        }
+        if(action === ':passkey:login') {
+            this.switch('$login', this.el.passkey);
+            return;
+        }
+        if(action === ':passkey:register') {
+            this.switch('$register', this.el.passkey);
+            return;
+        }
+        if(action === ':error') {
+            this.error('Wrong credentials or Authentication error');
+            return;
+        }
+        if(action === ':no-api') {
+            this.switch('', this.el.tab);
+            this.switch('', this.el.password);
+            this.switch('', this.el.passkey);
+            this.error('No internet connection or the API service is currently offline.');
+            return;
+        }
+    }
+    switch(target, elements) {
+        this.el.$error.classList.remove('active');
+
+        // prevent potential content flash
+        // by first removing and only after that adding .active
+        // if there is no target element this is not an error,
+        // it means all content should be 'non-active'
+        for(let prop in elements) {
+            if(!(target === prop)) {
+                elements[prop].classList.remove('active');
+            }
+        }
+        if(target) {
+            elements[target].classList.add('active');
+        }
+    }
+    error(msg = '') {
+        if(msg !== '') {
+            this.el.$error.textContent = msg;
+        }
+        this.el.$error.classList.add('active');
+        this.el.$pwds.forEach(($el) => $el.value = '');
     }
 }
 
