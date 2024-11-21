@@ -643,6 +643,9 @@
                                                    use="ble:controllable">
                                         <h3 class="device-card--tile--header">Power</h3>
                                         <power-value class="data-view device-card--tile--value" prop="db:power1s">--</power-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                                 <div class="device-card--tile">
@@ -651,6 +654,9 @@
                                                    use="ble:controllable">
                                         <h3 class="device-card--tile--header">Cadence</h3>
                                         <cadence-value class="data-view device-card--tile--value">--</cadence-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                                 <div class="device-card--tile">
@@ -659,6 +665,10 @@
                                                    use="ble:controllable">
                                         <h3 class="device-card--tile--header">Speed</h3>
                                         <speed-value class="data-view device-card--tile--value">--</speed-value>
+
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                                 <div class="device-card--tile">
@@ -667,64 +677,14 @@
                                                    use="ble:controllable">
                                         <h3 class="device-card--tile--header">Heart Rate</h3>
                                         <heart-rate-value class="data-view device-card--tile--value">--</heart-rate-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                             </div>
                             <!-- end ble controllable -->
 
-                            <!-- ant controllable -->
-                            <div class="device-card--body--row second ant-not-supported"
-                                 id="ant-controllable-settings">
-                                <connection-switch for="ant:controllable"
-                                                   indicatorClass="connection-icon-switch--indicator"
-                                                   class="connection-icon-switch">
-                                    <svg class="connection-icon-switch--icon icon disabled" xmlns="http://www.w3.org/2000/svg"
-                                         height="24" viewBox="0 0 24 24" width="24">
-                                        <path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2zm-4 10H4V5h14v14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"/>
-                                        <path d="M0 0h24v24H0zm0 0h24v24H0z" fill="none"/>
-                                    </svg>
-                                    <div class="connection-icon-switch--indicator off"></div>
-                                </connection-switch>
-                                <div class="device-card--tile name">
-                                    <h3 class="device-card--tile--header">Name</h3>
-                                    <data-view class="device-card--tile--value"
-                                               prop="ant:controllable:name">--</data-view>
-                                </div>
-                                <div class="device-card--tile">
-                                    <source-switch class="source-switch"
-                                                   for="power"
-                                                   use="ant:controllable">
-                                        <h3 class="device-card--tile--header">Power</h3>
-                                        <power-value class="data-view device-card--tile--value" prop="db:power1s">--</power-value>
-                                    </source-switch>
-                                </div>
-                                <div class="device-card--tile">
-                                    <source-switch class="source-switch"
-                                                   for="cadence"
-                                                   use="ant:controllable">
-                                        <h3 class="device-card--tile--header">Cadence</h3>
-                                        <cadence-value class="data-view device-card--tile--value">--</cadence-value>
-                                    </source-switch>
-                                </div>
-                                <div class="device-card--tile">
-                                    <source-switch class="source-switch"
-                                                   for="speed"
-                                                   use="ant:controllable">
-                                        <h3 class="device-card--tile--header">Speed</h3>
-                                        <speed-value class="data-view device-card--tile--value">--</speed-value>
-                                    </source-switch>
-                                </div>
-
-                                <div class="device-card--tile">
-                                    <source-switch class="source-switch"
-                                                   for="heartRate"
-                                                   use="ant:controllable">
-                                        <h3 class="device-card--tile--header">Heart Rate</h3>
-                                        <heart-rate-value class="data-view device-card--tile--value">--</heart-rate-value>
-                                    </source-switch>
-                                </div>
-                            </div>
-                            <!-- end ant controllable -->
                         </div>
                     </div>
                 </div> <!-- end controlable settings -->
@@ -759,6 +719,9 @@
                                                    use="ble:powerMeter">
                                         <h3 class="device-card--tile--header">Power</h3>
                                         <power-value class="data-view device-card--tile--value" prop="db:power1s">--</power-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                                 <div class="device-card--tile">
@@ -767,6 +730,10 @@
                                                    use="ble:powerMeter">
                                         <h3 class="device-card--tile--header">Cadence</h3>
                                         <cadence-value class="data-view device-card--tile--value">--</cadence-value>
+
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                                 <div class="device-card--tile">
@@ -775,6 +742,9 @@
                                                    use="ble:powerMeter">
                                         <h3 class="device-card--tile--header">Speed</h3>
                                         <speed-value class="data-view device-card--tile--value">--</speed-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                             </div>
@@ -812,6 +782,9 @@
                                                    use="ble:speedCadenceSensor">
                                         <h3 class="device-card--tile--header">Cadence</h3>
                                         <cadence-value class="data-view device-card--tile--value">--</cadence-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                                 <div class="device-card--tile">
@@ -820,6 +793,9 @@
                                                    use="ble:speedCadenceSensor">
                                         <h3 class="device-card--tile--header">Speed</h3>
                                         <speed-value class="data-view device-card--tile--value">--</speed-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                             </div>
@@ -856,6 +832,9 @@
                                                    use="ble:heartRateMonitor">
                                         <h3 class="device-card--tile--header">Cadence</h3>
                                         <cadence-value class="data-view device-card--tile--value">--</cadence-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                                 <div class="device-card--tile"></div>
@@ -866,6 +845,9 @@
                                         <h3 class="device-card--tile--header">Heart Rate</h3>
                                         <heart-rate-value id="hrm-heartRate"
                                                         class="data-view device-card--tile--value">--</heart-rate-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                             </div>
@@ -939,6 +921,9 @@
                                                    use="ble:smo2">
                                         <h3 class="device-card--tile--header">SmO2</h3>
                                         <smo2-value class="data-view device-card--tile--value">--</smo2-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                                 <div class="device-card--tile">
@@ -947,6 +932,9 @@
                                                    use="ble:smo2">
                                         <h3 class="device-card--tile--header">THb</h3>
                                         <thb-value class="data-view device-card--tile--value">--</thb-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                             </div>
@@ -983,6 +971,9 @@
                                                    use="ble:coreTemp">
                                         <h3 class="device-card--tile--header">Core</h3>
                                         <core-body-temperature-value class="data-view device-card--tile--value">--</core-body-temperature-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                                 <div class="device-card--tile">
@@ -991,6 +982,9 @@
                                                    use="ble:coreTemp">
                                         <h3 class="device-card--tile--header">Skin</h3>
                                         <skin-temperature-value class="data-view device-card--tile--value">--</skin-temperature-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                                 <div class="device-card--tile">
@@ -999,6 +993,9 @@
                                                    use="ble:coreTemp">
                                         <h3 class="device-card--tile--header">Heart Rate</h3>
                                         <heart-rate-value class="data-view device-card--tile--value">--</heart-rate-value>
+                                        <toggle-button class="flat-toggle">
+                                            <div class="toggle"></div>
+                                        </toggle-button>
                                     </source-switch>
                                 </div>
                             </div>

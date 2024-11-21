@@ -1824,6 +1824,8 @@ div.graph--bar-group {
 }
 
 .device-card--tile--value {
+    display: block;
+    padding: 0.5em 0;
     font-size: var(--font-size-value);
     font-weight: bold;
 }
@@ -1886,6 +1888,65 @@ div.graph--bar-group {
 .source-switch.active {
     color: var(--foreground-color);
 }
+
+.ios-toggle {
+    position: relative;
+    display: block;
+    width: 3.3em;
+    height: 2em;
+    border-radius: 1em;
+    background-color: var(--zone-gray);
+
+    .toggle {
+        position: absolute;
+        top: 0.15em;
+        left: 0.15em;
+        width: 1.7em;
+        height: 1.7em;
+        background-color: #fff;
+        border-radius: 50%;
+    }
+
+    &.active {
+        background-color: var(--zone-green);
+
+        .toggle {
+            left: 1.40em;
+        }
+    }
+}
+
+.flat-toggle {
+    position: relative;
+    display: block;
+    width: 3.3em;
+    height: 2em;
+    margin: 0.5em 0;
+    border-radius: 1em;
+    border: 0.3em solid var(--gray);
+
+    .toggle {
+        position: absolute;
+        top: 0.2em;
+        left: 0.2em;
+        width: 1em;
+        height: 1em;
+        background-color: var(--gray);
+        border-radius: 50%;
+    }
+
+    &.active {
+        border: 0.3em solid var(--white);
+
+        .toggle {
+            background-color: var(--white);
+            left: 1.50em;
+        }
+    }
+
+}
+
+
 
 /* ANT Device Request */
 #ant-device-request {
