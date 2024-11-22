@@ -1815,6 +1815,10 @@ div.graph--bar-group {
 
 .device-card--tile {
     text-align: left;
+
+    &.name {
+        overflow: hidden;
+    }
 }
 
 .device-card--tile--header {
@@ -1828,6 +1832,9 @@ div.graph--bar-group {
     padding: 0.5em 0;
     font-size: var(--font-size-value);
     font-weight: bold;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .switch--btn--group {
@@ -1881,6 +1888,7 @@ div.graph--bar-group {
 
 .source-switch {
     display: block;
+    text-align: center;
     color: var(--foreground-color-inactive);
     cursor: pointer;
 }
@@ -1894,7 +1902,7 @@ div.graph--bar-group {
     display: block;
     width: 3.3em;
     height: 2em;
-    margin: 0.5em 0;
+    margin: 0.5em auto;
     border-radius: 1em;
     border: 0.3em solid var(--gray);
 
