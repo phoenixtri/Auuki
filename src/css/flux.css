@@ -1802,7 +1802,7 @@ div.graph--bar-group {
 .device-card--body--row {
     display: grid;
     grid-template-columns: var(--grid-template-columns--device-card--body--row);
-    padding: 0 5px 0 0;
+    padding: 0 1em 0 0;
 }
 
 .ant-not-supported {
