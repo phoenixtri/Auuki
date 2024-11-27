@@ -1444,9 +1444,59 @@ class ActivityList extends HTMLElement {
                         <div id="i${i}--activity--duration" class="activity--duration">
                             ${this.duration(data)}
                         </div>
-                        <div id="i${i}--activity--upload" class="activity--upload">
-                            Upload
-                        </div>
+                        <view-action
+                            class="activity--action"
+                            action=":download"
+                            topic=":activity:${this.id(data)}">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="activity--icon"
+                                height="24px"
+                                width="24px"
+                                viewBox="0 0 24 24" fill="#FFFFFF">
+                                <path d="M0 0h24v24H0V0z" fill="none"/>
+                                <path d="M19 12v7H5v-7H3v9h18v-9h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2v9.67z"/>
+                            </svg>
+                        </view-action>
+                        <view-action
+                            class="activity--action"
+                            action=":strava:upload"
+                            topic=":activity:${this.id(data)}">
+                            <svg class="activity--icon strava--icon"
+                                width="64" height="64" viewBox="0 0 64 64">
+                                <path d="M41.03 47.852l-5.572-10.976h-8.172L41.03 64l13.736-27.124h-8.18" fill="#f9b797"/>
+                                <path d="M27.898 21.944l7.564 14.928h11.124L27.898 0 9.234 36.876H20.35" fill="#f05222"/>
+                            </svg>
+                            <div class="connection-icon-switch--indicator off strava"></div>
+                        </view-action>
+                        <view-action
+                            class="activity--action"
+                            action=":intervals:upload"
+                            topic=":activity:${this.id(data)}">
+                            <svg
+                                class="activity--icon intervals--icon"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24px"
+                                height="24px"
+                                viewBox="0 0 163.28571 163.28572"
+                                >
+                                <g transform="translate(-22.678572,-31.75)">
+                                    <rect
+                                        style="fill:#dd0447;stroke-width:0.264583"
+                                        id="rect844"
+                                        width="163.28571"
+                                        height="163.28572"
+                                        x="22.678572"
+                                        y="31.75" />
+                                    <g transform="matrix(1.504571,0,0,1.504571,29.141305,37.164828)"
+                                        fill="#ffffff">
+                                        <path
+                                        d="M 98.569,57.02 77.278,54.093 69.022,17.449 69.01,17.389 C 68.621,15.678 67.296,14.25 65.473,13.817 62.921,13.212 60.361,14.79 59.756,17.342 L 48.048,66.696 37.007,32.288 36.992,32.24 c -0.437,-1.327 -1.514,-2.415 -2.965,-2.803 -2.286,-0.612 -4.636,0.746 -5.247,3.032 L 22.842,54.662 1.464,57.02 c -0.633,0.07 -1.156,0.57 -1.229,1.229 -0.084,0.763 0.466,1.449 1.229,1.534 l 24.618,2.715 c 1.702,0.189 3.342,-0.871 3.825,-2.573 l 0.123,-0.434 3.177,-11.179 11.488,35.134 c 0.433,1.292 1.5,2.371 2.918,2.735 2.224,0.571 4.491,-0.769 5.062,-2.993 l 0.007,-0.026 11.338,-44.156 4.502,20.453 0.132,0.603 c 0.465,2.084 2.459,3.497 4.611,3.201 l 25.302,-3.479 c 0.604,-0.083 1.104,-0.558 1.191,-1.191 0.108,-0.765 -0.426,-1.468 -1.189,-1.573 z"
+                                        id="path847" />
+                                    </g>
+                                </g>
+                            </svg>
+                            <div class="connection-icon-switch--indicator off intervals"></div>
+                        </view-action>
                     </div>
                 </div>
             </activity-item>
@@ -1465,32 +1515,59 @@ class ActivityItem extends HTMLElement {
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
-        this.$uploadBtn = this.querySelector(`.activity--upload`);
+        this.$indicatorStrava = this.querySelector(`.connection-icon-switch--indicator.strava`);
+        this.$indicatorIntervals = this.querySelector(`.connection-icon-switch--indicator.intervals`);
         this.id = this.dataset.id;
 
-        this.$uploadBtn.addEventListener('pointerup', this.onUpload.bind(this), this.signal);
-        xf.sub(`activity:upload:by:id:${this.id}`, this.onUploadResult.bind(this), this.signal);
+        xf.sub(`action:activity:${self.id}`, this.onAction.bind(this), this.signal);
     }
     disconnectedCallback() {
         this.abortController.abort();
     }
-    onUpload() {
-        this.$uploadBtn.classList.remove('error');
-        this.$uploadBtn.classList.remove('success');
-        this.$uploadBtn.classList.add('progress');
-        xf.dispatch(`ui:activity:upload:by:id`, this.id);
-    }
-    onUploadResult(result) {
-        console.log(result);
-        if(result.success) {
-            this.$uploadBtn.classList.remove('error');
-            this.$uploadBtn.classList.remove('progress');
-            this.$uploadBtn.classList.add('success');
-        } else {
-            this.$uploadBtn.classList.remove('success');
-            this.$uploadBtn.classList.remove('progress');
-            this.$uploadBtn.classList.add('error');
+    onAction(action) {
+        console.log(action, this.id);
+
+        if(action === ':download') {
+            models.activity.download(this.id);
+            return;
         }
+        if(action === ':strava:upload') {
+            models.activity.upload('strava', this.id);
+            this.onLoading(this.$indicatorStrava);
+            return;
+        }
+        if(action === ':intervals:upload') {
+            models.activity.upload('intervals', this.id);
+            this.onLoading(this.$indicatorIntervals);
+            return;
+        }
+        if(action === ':strava:upload:success') {
+            this.onSuccess(this.$indicatorStrava);
+        }
+        if(action === ':strava:upload:fail') {
+            this.onFail(this.$indicatorStrava);
+        }
+        if(action === ':intervals:upload:success') {
+            this.onSuccess(this.$indicatorIntervals);
+        }
+        if(action === ':intervals:upload:fail') {
+            this.onFail(this.$indicatorIntervals);
+        }
+    }
+    onLoading($el) {
+        $el.classList.remove('off');
+        $el.classList.remove('on');
+        $el.classList.add('loading');
+    }
+    onSuccess($el) {
+        $el.classList.remove('off');
+        $el.classList.remove('loading');
+        $el.classList.add('on');
+    }
+    onFail($el) {
+        $el.classList.remove('on');
+        $el.classList.remove('loading');
+        $el.classList.add('off');
     }
 }
 

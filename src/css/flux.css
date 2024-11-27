@@ -2211,7 +2211,7 @@ div.graph--bar-group {
 
 .activity--cont {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     justify-content: center;
     line-height: 4rem;
 }
@@ -2222,6 +2222,21 @@ div.graph--bar-group {
 .activity--duration {
     font-size: 1.2em;
     text-align: left;
+}
+.activity--action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    .connection-icon-switch--indicator {
+        margin: 0em 1em;
+    }
+}
+.activity--icon {
+    display: block;
+    width: 2.4rem;
+    height: 2.4rem;
 }
 .activity--upload {
     font-size: 1.2em;

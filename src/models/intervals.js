@@ -73,7 +73,7 @@ function Intervals(args = {}) {
             });
 
             if(response.ok) {
-                return {success: true};
+                return ':success';
             } else {
                 if(response.status === 403) {
                     console.log(`:api :no-auth`);
@@ -81,11 +81,11 @@ function Intervals(args = {}) {
 
                     xf.dispatch('ui:modal:error:open', DialogMsg.noAuth);
                 }
-                return {success: false};
+                return ':fail';
             }
         } catch(error) {
             console.log(error);
-            return {success: false};
+            return ':fail';
         }
     }
 

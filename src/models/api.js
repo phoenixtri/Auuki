@@ -62,28 +62,35 @@ function Router(args = {}) {
     const auth = args.handlers.auth;
 
     async function start() {
-        const hasParams = onQueryParams();
-        console.log(hasParams);
+        await auth.status();
 
-        if(!hasParams) {
-            auth.status();
+        const params = getParams();
+        if(hasParams(params)) {
+            console.log(params);
+            onQueryParams(params);
         }
     }
 
-    function onQueryParams() {
-        const params = (new URL(document.location)).searchParams;
-        let hasParams = params.size > 0;
-        if(!hasParams) return false;
+    function getParams() {
+        return (new URL(document.location)).searchParams;
+    }
 
+    function hasParams(params) {
+        if(params) {
+            return params.size > 0;
+        } else {
+            const params = (new URL(document.location)).searchParams;
+            return params.size > 0;
+        }
+    }
+
+    function onQueryParams(params) {
         // strava params
         const state  = params.get('state');
         const code   = params.get('code');
         const scope  = params.get('scope');
         const error  = params.get('error');
-        // reset param
         const token = params.get('token');
-
-        console.log(`state: `, state);
 
         // switch
         if(error) {

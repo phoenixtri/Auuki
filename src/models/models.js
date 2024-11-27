@@ -520,10 +520,39 @@ class Activity extends Model {
         }
         return activityList;
     }
-    async upload(id) {
+    async upload(service, id) {
         const record = await idb.get('activity', id);
-        const res = await this.api.strava.uploadWorkout(record.blob);
-        xf.dispatch(`activity:upload:by:id:${id}`, res);
+        if(service === 'strava') {
+            const res = await this.api.strava.uploadWorkout(record.blob);
+            console.log(res);
+            if(res === ':success') {
+                xf.dispatch(`action:activity:${id}`, `:strava:upload:success`);
+            } else {
+                xf.dispatch(`action:activity:${id}`, `:strava:upload:fail`);
+            }
+            return;
+        }
+        if(service === 'intervals') {
+            const res = await this.api.intervals.uploadWorkout(record.blob);
+            if(res === ':success') {
+                xf.dispatch(`action:activity:${id}`, `:intervals:upload:success`);
+            } else {
+                xf.dispatch(`action:activity:${id}`, `:intervals:upload:fail`);
+            }
+            return;
+        }
+    }
+    async download(id) {
+        const self = this;
+        const record = await idb.get('activity', id);
+        fileHandler.download()(
+            record.blob,
+            self.fileName(record.summary.timestamp),
+            fileHandler.Type.OctetStream
+        );
+    }
+    fileName(timestamp) {
+        return `workout-${dateToDashString(new Date(timestamp))}.fit`;
     }
     encode(db) {
         const records = db.records;
@@ -592,7 +621,7 @@ class Workout extends Model {
         const name = this.fileName();
         const blob = fileHandler.toBlob(this.encode(db));
 
-        this.api.strava.uploadWorkout_(blob);
+        this.api.strava.uploadWorkout(blob);
 
         return {
             name,

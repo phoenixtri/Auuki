@@ -139,7 +139,7 @@ function Auth(args = {}) {
         data.token = token;
 
         if(data.password.trim() === '' ||
-            data.password_confirmation.trim() === '') {
+           data.password_confirmation.trim() === '') {
             return;
         }
 
@@ -152,8 +152,8 @@ function Auth(args = {}) {
 
             if(response.ok) {
                 console.log(`:api :reset :success`);
+                window.history.pushState({}, document.title, window.location.pathname);
                 xf.dispatch('action:auth', ':password:login');
-                // clearParams();
             } else {
                 console.error(`:api :reset :fail`);
                 xf.dispatch('action:auth', ':error');
