@@ -522,7 +522,7 @@ class Activity extends Model {
     }
     async upload(id) {
         const record = await idb.get('activity', id);
-        const res = await this.api.upload_workout_strava(record.blob);
+        const res = await this.api.strava.uploadWorkout(record.blob);
         xf.dispatch(`activity:upload:by:id:${id}`, res);
     }
     encode(db) {
@@ -592,7 +592,7 @@ class Workout extends Model {
         const name = this.fileName();
         const blob = fileHandler.toBlob(this.encode(db));
 
-        this.api.upload_workout_strava(blob);
+        this.api.strava.uploadWorkout_(blob);
 
         return {
             name,
