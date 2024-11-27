@@ -1069,64 +1069,6 @@
                     </div>
                 </div> <!-- END Options -->
 
-                <div class="list--sub-section app-connections">
-                    <o-auth>
-                        <div class="list--heading--cont">
-                            <h2 class="list--sub-heading">Connections</h2>
-                        </div>
-                        <div class="list--row--outer border-top strava">
-                            <div class="list--row--inner app-connection">
-                                <svg class="app-connection--icon"
-                                    width="64" height="64" viewBox="0 0 64 64">
-                                    <path d="M41.03 47.852l-5.572-10.976h-8.172L41.03 64l13.736-27.124h-8.18" fill="#f9b797"/>
-                                    <path d="M27.898 21.944l7.564 14.928h11.124L27.898 0 9.234 36.876H20.35" fill="#f05222"/>
-                                </svg>
-                                <h3 class="app-connection--heading">Strava</h3>
-
-                                <view-action action=":strava:connect" topic=":oauth">
-                                    <div
-                                        id="strava--connect--button"
-                                        class="app-connection--button"
-                                        type="button">Connect</div>
-                                </view-action>
-                            </div>
-                        </div>
-
-                        <div class="list--row--outer">
-                            <div class="app-connection list--row--inner intervals">
-                                <img class="app-connection--icon" alt="Int" src="images/connections/intervals-logo.png"/>
-                                <h3 class="app-connection--heading">Intervals.icu</h3>
-
-                                <view-action action=":intervals:connect" topic=":oauth">
-                                    <div
-                                        id="intervals--connect--button"
-                                        class="app-connection--button"
-                                        type="button">Connect</div>
-                                </view-action>
-                            </div>
-                        </div>
-
-                        <div class="list--row--outer">
-                            <div class="app-connection list--row--inner">
-                                <img class="app-connection--icon" alt="GC" src="images/connections/garmin-connect.png"/>
-                                <h3 class="app-connection--heading">Garmin</h3>
-                                <a class="app-connection--button app-connection--link a"
-                                   href="https://connect.garmin.com/modern/import-data"
-                                   target="_blank">Import</a>
-                            </div>
-                        </div>
-                    </o-auth>
-                </div> <!-- end connections -->
-
-                <!-- activites -->
-                <div class="list--sub-section">
-                    <div class="list--heading--cont">
-                        <h2 class="list--sub-heading">Activities</h2>
-                    </div>
-                    <activity-list class="activity--list">
-                    </activity-list>
-                </div> <!-- end activities -->
-
                 <!-- auth -->
                 <div class="auth">
                     <auth-forms>
@@ -1134,19 +1076,19 @@
                             <view-action action=":passkey" topic=":auth">
                                 <div id="passkey--tab--switch"
                                     class="auth--tab--switch">
-                                    <h2>Passkey</h2>
+                                    <h2 class="form--header">Passkey</h2>
                                 </div>
                             </view-action>
                             <view-action action=":password" topic=":auth">
                                 <div id="password--tab--switch"
                                     class="auth--tab--switch active">
-                                    <h2>Password</h2>
+                                    <h2 class="form--header">Password</h2>
                                 </div>
                             </view-action>
                         </div>
                         <div id="passkey--forms">
                             <form id="passkey--register--form" class="register--form">
-                                <h2>Register</h2>
+                                <h2 class="form--header">Register</h2>
                                 <div>
                                     <input id="webauthn--register--email--input"
                                         class="input"
@@ -1168,7 +1110,7 @@
                                 </div>
                             </form>
                             <form id="passkey--login--form" class="login--form active">
-                                <h2>Login</h2>
+                                <h2 class="form--header">Login</h2>
                                 <div>
                                     <input id="webauthn--login--email--input"
                                         class="input"
@@ -1193,7 +1135,7 @@
                         </div>
                         <div id="password--forms" class="active">
                             <form id="register--form" class="register--form">
-                                <h2>Register</h2>
+                                <h2 class="form--header">Register</h2>
                                 <div>
                                     <input id="register--email--input"
                                         class="input"
@@ -1240,7 +1182,7 @@
                                 </div>
                             </form>
                             <form id="login--form" class="login--form active">
-                                <h2>Login</h2>
+                                <h2 class="form--header">Login</h2>
                                 <div>
                                     <input id="login--email--input"
                                         class="input"
@@ -1277,7 +1219,7 @@
                                 </div>
                             </form>
                             <form id="forgot--form" class="forgot--form">
-                                <h2>Forgot</h2>
+                                <h2 class="form--header">Forgot</h2>
                                 <div>
                                     <input id="forgot--email--input"
                                         class="input"
@@ -1298,7 +1240,7 @@
                                 </div>
                             </form>
                             <form id="reset--form" class="reset--form">
-                                <h2>Reset</h2>
+                                <h2 class="form--header">Reset</h2>
                                 <div>
                                     <input id="reset--password--input"
                                         class="input"
@@ -1336,17 +1278,75 @@
                         <div id="auth-error--section" class="error">
                         </div>
                     </auth-forms>
+                </div><!-- END auth -->
+
+                <!-- profile -->
                     <div id="profile" class="profile">
-                        <h2>Profile</h2>
-                        <div></div>
+                        <h2 class="form--header">Profile</h2>
                         <div>
                             <button id="logout--button"
                                     class="btn"
                                     type="button">Logout</button>
-                        </div>
-                    </div>
-                </div><!-- END auth -->
 
+                        </div>
+                        <div class="list--sub-section app-connections">
+                            <o-auth>
+                                <div class="list--heading--cont">
+                                    <h2 class="list--sub-heading">Connections</h2>
+                                </div>
+                                <div class="list--row--outer border-top strava">
+                                    <div class="list--row--inner app-connection">
+                                        <svg class="app-connection--icon"
+                                            width="64" height="64" viewBox="0 0 64 64">
+                                            <path d="M41.03 47.852l-5.572-10.976h-8.172L41.03 64l13.736-27.124h-8.18" fill="#f9b797"/>
+                                            <path d="M27.898 21.944l7.564 14.928h11.124L27.898 0 9.234 36.876H20.35" fill="#f05222"/>
+                                        </svg>
+                                        <h3 class="app-connection--heading">Strava</h3>
+
+                                        <view-action action=":strava:connect" topic=":oauth">
+                                            <div
+                                                id="strava--connect--button"
+                                                class="app-connection--button"
+                                                type="button">Connect</div>
+                                        </view-action>
+                                    </div>
+                                </div>
+
+                                <div class="list--row--outer">
+                                    <div class="app-connection list--row--inner intervals">
+                                        <img class="app-connection--icon" alt="Int" src="images/connections/intervals-logo.png"/>
+                                        <h3 class="app-connection--heading">Intervals.icu</h3>
+
+                                        <view-action action=":intervals:connect" topic=":oauth">
+                                            <div
+                                                id="intervals--connect--button"
+                                                class="app-connection--button"
+                                                type="button">Connect</div>
+                                        </view-action>
+                                    </div>
+                                </div>
+
+                                <div class="list--row--outer">
+                                    <div class="app-connection list--row--inner">
+                                        <img class="app-connection--icon" alt="GC" src="images/connections/garmin-connect.png"/>
+                                        <h3 class="app-connection--heading">Garmin</h3>
+                                        <a class="app-connection--button app-connection--link a"
+                                        href="https://connect.garmin.com/modern/import-data"
+                                        target="_blank">Import</a>
+                                    </div>
+                                </div>
+                            </o-auth>
+                        </div> <!-- end connections -->
+                    </div> <!-- end profile -->
+
+                <!-- activites -->
+                <div class="list--sub-section">
+                    <div class="list--heading--cont">
+                        <h2 class="list--sub-heading">Activities</h2>
+                    </div>
+                    <activity-list class="activity--list">
+                    </activity-list>
+                </div> <!-- end activities -->
 
                 <div id="about">
                     <h2 class="page--heading">About</h2>

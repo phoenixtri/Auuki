@@ -2011,20 +2011,9 @@ div.graph--bar-group {
 /* END ANT Device Request */
 
 /* User Auth */
-
-/* TODO: fix the display overwrite when the api is ready */
-/* .auth { */
-/*     display: none!important; */
-/* } */
-/* .app-connections { */
-/*     .strava, .intervals { */
-/*         display: none!important; */
-/*     } */
-/* } */
-
-.auth {
+.auth, .profile {
     display: block;
-    min-height: 26rem;
+    /* min-height: 26rem; */
     margin: 3rem auto 0;
 
     .auth--tab--controls {
@@ -2036,13 +2025,16 @@ div.graph--bar-group {
         height: 3rem;
         color: var(--foreground-color-inactive);
 
-        h2 {
+        .form--header {
             display: inline-block;
             cursor: pointer;
         }
         &.active {
             color: var(--foreground-color);
         }
+    }
+    #passkey--tab--switch h2 {
+        cursor: not-allowed;
     }
 
     .input {
@@ -2060,7 +2052,7 @@ div.graph--bar-group {
         text-transform: none;
     }
 
-    h2 {
+    .form--header {
         height: 3rem
     }
     a {
@@ -2071,7 +2063,7 @@ div.graph--bar-group {
     a, p {
         font-size: 1.2rem;
     }
-    h2 {
+    .form--header {
         font-size: 1.2rem;
         line-height: 3rem;
         text-transform: uppercase;
