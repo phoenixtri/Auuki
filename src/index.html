@@ -1070,44 +1070,52 @@
                 </div> <!-- END Options -->
 
                 <div class="list--sub-section app-connections">
-                    <div class="list--heading--cont">
-                        <h2 class="list--sub-heading">Connections</h2>
-                    </div>
-                    <div class="list--row--outer border-top strava">
-                        <div class="list--row--inner app-connection">
-                            <svg class="app-connection--icon"
-                                  width="64" height="64" viewBox="0 0 64 64">
-                                <path d="M41.03 47.852l-5.572-10.976h-8.172L41.03 64l13.736-27.124h-8.18" fill="#f9b797"/>
-                                <path d="M27.898 21.944l7.564 14.928h11.124L27.898 0 9.234 36.876H20.35" fill="#f05222"/>
-                            </svg>
-                            <h3 class="app-connection--heading">Strava</h3>
-                            <div
-                                id="strava--connect--button"
-                                class="app-connection--button"
-                                type="button">Connect</div>
+                    <o-auth>
+                        <div class="list--heading--cont">
+                            <h2 class="list--sub-heading">Connections</h2>
                         </div>
-                    </div>
+                        <div class="list--row--outer border-top strava">
+                            <div class="list--row--inner app-connection">
+                                <svg class="app-connection--icon"
+                                    width="64" height="64" viewBox="0 0 64 64">
+                                    <path d="M41.03 47.852l-5.572-10.976h-8.172L41.03 64l13.736-27.124h-8.18" fill="#f9b797"/>
+                                    <path d="M27.898 21.944l7.564 14.928h11.124L27.898 0 9.234 36.876H20.35" fill="#f05222"/>
+                                </svg>
+                                <h3 class="app-connection--heading">Strava</h3>
 
-                    <div class="list--row--outer">
-                        <div class="app-connection list--row--inner intervals">
-                            <img class="app-connection--icon" alt="Int" src="images/connections/intervals-logo.png"/>
-                            <h3 class="app-connection--heading">Intervals.icu</h3>
-                            <div
-                                id="strava--connect--button"
-                                class="app-connection--button"
-                                type="button">Connect</div>
+                                <view-action action=":strava:connect" topic=":oauth">
+                                    <div
+                                        id="strava--connect--button"
+                                        class="app-connection--button"
+                                        type="button">Connect</div>
+                                </view-action>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="list--row--outer">
-                        <div class="app-connection list--row--inner">
-                            <img class="app-connection--icon" alt="GC" src="images/connections/garmin-connect.png"/>
-                            <h3 class="app-connection--heading">Garmin</h3>
-                            <a class="app-connection--button app-connection--link a"
-                               href="https://connect.garmin.com/modern/import-data"
-                               target="_blank">Import</a>
+                        <div class="list--row--outer">
+                            <div class="app-connection list--row--inner intervals">
+                                <img class="app-connection--icon" alt="Int" src="images/connections/intervals-logo.png"/>
+                                <h3 class="app-connection--heading">Intervals.icu</h3>
+
+                                <view-action action=":intervals:connect" topic=":oauth">
+                                    <div
+                                        id="intervals--connect--button"
+                                        class="app-connection--button"
+                                        type="button">Connect</div>
+                                </view-action>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="list--row--outer">
+                            <div class="app-connection list--row--inner">
+                                <img class="app-connection--icon" alt="GC" src="images/connections/garmin-connect.png"/>
+                                <h3 class="app-connection--heading">Garmin</h3>
+                                <a class="app-connection--button app-connection--link a"
+                                   href="https://connect.garmin.com/modern/import-data"
+                                   target="_blank">Import</a>
+                            </div>
+                        </div>
+                    </o-auth>
                 </div> <!-- end connections -->
 
                 <!-- activites -->
@@ -1353,6 +1361,9 @@
                     </div>
                     <div class="about--links">
                         License <a class="a" href="https://www.gnu.org/licenses/agpl-3.0.en.html"> AGPL-3.0</a></p>
+                    </div>
+                    <div class="privacy-policy">
+                        <a class="a" href="./privacy">Privacy</a>
                     </div>
                 </div> <!-- end about -->
 

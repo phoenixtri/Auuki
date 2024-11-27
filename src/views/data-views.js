@@ -1169,6 +1169,7 @@ class LibrarySwitchGroup extends SwitchGroup {
 
 customElements.define('library-switch-group', LibrarySwitchGroup);
 
+
 class ViewAction extends HTMLElement {
     constructor() {
         super();
@@ -1195,6 +1196,38 @@ class ViewAction extends HTMLElement {
 }
 
 customElements.define('view-action', ViewAction);
+
+
+class OAuth extends HTMLElement {
+    constructor() {
+        super();
+    }
+    connectedCallback() {
+        const self = this;
+        this.abortController = new AbortController();
+        this.signal = { signal: self.abortController.signal };
+
+        xf.sub('action:oauth', self.onAction.bind(this));
+    }
+    disconnectedCallback() {
+        this.abortController.abort();
+    }
+    onAction(action) {
+        const self = this;
+        console.log(action);
+
+        if(action === ':strava:connect') {
+            models.api.strava.connect();
+            return;
+        }
+        if(action === ':intervals:connect') {
+            models.api.intervals.connect();
+            return;
+        }
+    }
+}
+
+customElements.define('o-auth', OAuth);
 
 // TODO: This needs refactoring to something more general with
 // declarative configuration. Something that will work for all tabs and switches.
@@ -1247,14 +1280,13 @@ class AuthForms extends HTMLElement {
         this.subForm('password', '$reset', 'reset');
 
         this.el.$logout.addEventListener('pointerup', (e) => {
-            models.api.logout();
+            models.api.auth.logout();
         });
 
         xf.sub('action:auth', self.onAction.bind(this));
     }
     disconnectedCallback() {
         this.abortController.abort();
-        this.unsubs();
     }
     subForm(group, form, method) {
         const $form = this.el[group][form];
@@ -1262,7 +1294,7 @@ class AuthForms extends HTMLElement {
         $form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const data = Object.fromEntries(new FormData($form));
-            await models.api[method]({data,});
+            await models.api.auth[method]({data,});
             $form.reset();
         }, this.signal);
     }
