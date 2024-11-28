@@ -484,12 +484,19 @@ class DataTileSwitch extends Model {
 
 class Activity extends Model {
     // [
-    //     {id: UUID, timestamp: Int, duration: Int, status: String},
+    //     {
+    //         id: UUID, timestamp: Int, duration: Int, status: {
+    //             strava: String,
+    //             intervals: String
+    //         },
+    //     },
     // ]
     name = 'activity';
     postInit(args) {
         this.api = args.api;
         this.capacity = 3;
+
+        console.log(`Activity.postInit()`);
     }
     defaultValue() { return []; }
     createFromCurrent(db) {
@@ -500,7 +507,7 @@ class Activity extends Model {
             id,
             timestamp: Date.now(),
             duration: db.elapsed ?? 0,
-            status: 'uploading',
+            status: {strava: 'none', intervals: 'none'},
         };
         const record = {
             id,
@@ -524,7 +531,11 @@ class Activity extends Model {
         const record = await idb.get('activity', id);
         if(service === 'strava') {
             const res = await this.api.strava.uploadWorkout(record.blob);
-            console.log(res);
+            // TODO: fix
+            // const res = Math.random() < 0.5 ? ':fail' : ':success';
+            record.summary.status.strava = res.substring(1);
+            await idb.put('activity', record);
+
             if(res === ':success') {
                 xf.dispatch(`action:activity:${id}`, `:strava:upload:success`);
             } else {
@@ -534,6 +545,9 @@ class Activity extends Model {
         }
         if(service === 'intervals') {
             const res = await this.api.intervals.uploadWorkout(record.blob);
+            record.summary.status.intervals = res.substring(1);
+            await idb.put('activity', record);
+
             if(res === ':success') {
                 xf.dispatch(`action:activity:${id}`, `:intervals:upload:success`);
             } else {
@@ -567,6 +581,16 @@ class Activity extends Model {
     }
     async restore() {
         const records = await idb.getAll('activity') ?? [];
+
+        // migrate summary.status String to {strava: String, intervals: String}
+        records.forEach((record) => {
+            if(typeof record.summary.status === 'string') {
+                console.log(`:activity :migrating `, record.id);
+                record.summary.status = {strava: 'none', intervals: 'none'};
+                idb.put('activity', record);
+            }
+        });
+
         return records
             .map((record) => record.summary)
             .sort((a, b) => b.timestamp - a.timestamp);

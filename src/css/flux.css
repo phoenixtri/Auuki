@@ -568,7 +568,8 @@ body {
 }
 
 .connection-switch--indicator.on,
-.connection-icon-switch--indicator.on {
+.connection-icon-switch--indicator.on,
+.connection-icon-switch--indicator.success {
     background-color: var(--green);
 }
 
@@ -578,8 +579,12 @@ body {
 }
 
 .connection-switch--indicator.off,
-.connection-icon-switch--indicator.off {
+.connection-icon-switch--indicator.off,
+.connection-icon-switch--indicator.fail {
     background-color: var(--red);
+}
+.connection-icon-switch--indicator.none {
+    background-color: var(--gray);
 }
 
 .connection-switch--label {
@@ -2163,14 +2168,6 @@ div.graph--bar-group {
 }
 
 
-.none {
-    display: none;
-}
-.some {
-    display: block;
-}
-
-
 .option {
     display: grid;
     grid-template-columns: 1fr 4fr;
@@ -2309,7 +2306,6 @@ dialog {
     font-size: 1.2em;
     text-align: right;
     text-transform: uppercase;
-    color: var(--zone-blue);
     cursor: pointer;
 }
 

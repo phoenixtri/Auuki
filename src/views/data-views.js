@@ -1433,7 +1433,13 @@ class ActivityList extends HTMLElement {
     duration(data) {
         return formatTime({value: data.duration});
     }
+    uploadStatus(data) {
+        return data.status;
+    }
     template(i, data) {
+        console.log(data);
+        const status = this.uploadStatus(data);
+
         return `
             <activity-item id="i${i}--activity--item" class="some" data-id="${this.id(data)}">
                 <div class="list--row--outer border-top">
@@ -1466,7 +1472,7 @@ class ActivityList extends HTMLElement {
                                 <path d="M41.03 47.852l-5.572-10.976h-8.172L41.03 64l13.736-27.124h-8.18" fill="#f9b797"/>
                                 <path d="M27.898 21.944l7.564 14.928h11.124L27.898 0 9.234 36.876H20.35" fill="#f05222"/>
                             </svg>
-                            <div class="connection-icon-switch--indicator off strava"></div>
+                            <div class="connection-icon-switch--indicator ${status.strava ?? 'none'} strava"></div>
                         </view-action>
                         <view-action
                             class="activity--action"
@@ -1495,7 +1501,7 @@ class ActivityList extends HTMLElement {
                                     </g>
                                 </g>
                             </svg>
-                            <div class="connection-icon-switch--indicator off intervals"></div>
+                            <div class="connection-icon-switch--indicator ${status.intervals ?? 'none'} intervals"></div>
                         </view-action>
                     </div>
                 </div>
@@ -1555,19 +1561,22 @@ class ActivityItem extends HTMLElement {
         }
     }
     onLoading($el) {
-        $el.classList.remove('off');
-        $el.classList.remove('on');
+        $el.classList.remove('fail');
+        $el.classList.remove('success');
+        $el.classList.remove('none');
         $el.classList.add('loading');
     }
     onSuccess($el) {
         $el.classList.remove('off');
+        $el.classList.remove('none');
         $el.classList.remove('loading');
-        $el.classList.add('on');
+        $el.classList.add('success');
     }
     onFail($el) {
-        $el.classList.remove('on');
+        $el.classList.remove('success');
         $el.classList.remove('loading');
-        $el.classList.add('off');
+        $el.classList.remove('none');
+        $el.classList.add('fail');
     }
 }
 
