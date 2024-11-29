@@ -10,25 +10,25 @@ function Intervals(args = {}) {
 
     // Step D
     async function connect() {
-        const scope = 'ACTIVITY:WRITE,CALENDAR:READ,SETTINGS:READ';
+        const scope = 'ACTIVITY:WRITE,CALENDAR:READ';
         const state = stateParam.encode(serviceName);
         stateParam.store(state);
 
         const url =
-              'https://www.intervals.icu/oauth/authorize' +
+              'https://intervals.icu/oauth/authorize' +
               '?' +
               new URLSearchParams({
                   client_id: intervals_client_id,
                   redirect_uri: pwa_uri,
-                  state,
                   scope,
+                  state,
               }).toString();
         window.location.replace(url);
     }
 
     async function disconnect() {
         // TODO:
-        const url = "https://www.intervals.icu/oauth/deauthorize";
+        const url = "https://intervals.icu/oauth/deauthorize";
     }
 
     // Step 3
@@ -53,10 +53,15 @@ function Intervals(args = {}) {
             });
 
             const result = await response.text();
-            console.log(result);
+            print.log(result);
+            clearParams();
         } catch (e) {
             console.log(``, e);
         }
+    }
+
+    function clearParams() {
+        window.history.pushState({}, document.title, window.location.pathname);
     }
 
     async function uploadWorkout(blob) {

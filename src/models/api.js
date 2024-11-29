@@ -97,7 +97,7 @@ function Router(args = {}) {
             console.error(`:api :param :error `, error);
             return true;
         }
-        if(!error && code && scope && state) {
+        if(!error && (code || scope || state)) {
             const { service, id } = stateParam.decode(state);
 
             if(service === OAuthService.strava) {

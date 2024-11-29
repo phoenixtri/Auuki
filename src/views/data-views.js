@@ -1053,7 +1053,6 @@ class SwitchGroup extends HTMLElement {
         if(exists(element.attributes.index)) {
 
             const id = parseInt(element.attributes.index.value) || 0;
-            console.log(id);
 
             if(equals(id, this.state)) {
                 return;
@@ -1403,11 +1402,6 @@ class ActivityList extends HTMLElement {
         this.abortController.abort();
         this.unsubs();
     }
-    onUpdate(items) {
-        var self = this;
-        items.forEach(function(item) {
-        });
-    }
     onAdd(activity) {
         const self = this;
         self.insertAdjacentHTML("afterbegin", self.template(this.index, activity));
@@ -1437,7 +1431,6 @@ class ActivityList extends HTMLElement {
         return data.status;
     }
     template(i, data) {
-        console.log(data);
         const status = this.uploadStatus(data);
 
         return `

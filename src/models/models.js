@@ -495,8 +495,6 @@ class Activity extends Model {
     postInit(args) {
         this.api = args.api;
         this.capacity = 3;
-
-        console.log(`Activity.postInit()`);
     }
     defaultValue() { return []; }
     createFromCurrent(db) {
