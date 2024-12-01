@@ -97,6 +97,10 @@ let db = {
     // Request ANT+ Device
     antSearchList: [],
     antDeviceId: {},
+
+    // Services
+    strava: false,
+    intervals: false,
 };
 
 xf.create(db);
@@ -286,11 +290,14 @@ xf.reg('ui:workout:select', (id, db) => {
 xf.reg('ui:workout:remove', (id, db) => {
     db.workouts = models.workouts.remove(db.workouts, id);
 });
-xf.reg('ui:workout:upload', async function(file, db) {
-    const { result, name } = await models.workout.readFromFile(file);
-    const workout = models.workout.parse(result, name);
-    models.workouts.add(db.workouts, workout);
-    xf.dispatch('db:workouts', db);
+xf.reg('ui:workout:upload', async function(files, db) {
+    for(let file of Object.values(files)) {
+        const { result, name } = await models.workout.readFromFile(file);
+        const workout = models.workout.parse(result, name);
+        models.workouts.add(db.workouts, workout);
+        xf.dispatch('db:workouts', db);
+    }
+
 });
 xf.reg('watch:stopped', (_, db) => {
     models.activity.createFromCurrent(db);
