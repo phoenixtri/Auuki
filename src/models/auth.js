@@ -75,6 +75,7 @@ function Auth(args = {}) {
             if(json?.result?.success) {
                 console.log(`:api :login :success`);
                 xf.dispatch('action:auth', ':password:profile');
+                status();
                 return;
             }
 
@@ -98,6 +99,7 @@ function Auth(args = {}) {
             const result = await response.json();
             console.log(`:api :logout :success`);
             xf.dispatch('action:auth', ':password:logout');
+            status();
         } catch(error) {
             console.log(error);
         }
@@ -179,23 +181,30 @@ function Auth(args = {}) {
             });
 
             const status = response.status;
+            const body = await response.json();
 
             if(status === 200) {
                 console.log(`:api :profile`);
                 xf.dispatch('action:auth', ':password:profile');
+                xf.dispatch('services', body?.result);
+                return body.result;
             }
             if(status === 403) {
                 console.log(`:api :no-auth`);
                 xf.dispatch('action:auth', ':password:login');
+                return {strava: false, intervals: false};
             }
             if(status === 500 || status === 405) {
                 console.log(`:api :no-api`);
                 xf.dispatch('action:auth', ':no-api');
+                return {strava: false, intervals: false};
             }
+
+            return {strava: false, intervals: false};
         } catch(error) {
             console.log(`:api :no-api`);
             xf.dispatch('action:auth', ':no-api');
-            console.log(error);
+            return {strava: false, intervals: false};
         }
     }
 

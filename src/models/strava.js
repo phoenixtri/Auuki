@@ -1,4 +1,4 @@
-import { xf, print, } from '../functions.js';
+import { xf, } from '../functions.js';
 import { OAuthService, DialogMsg, stateParam, } from './enums.js';
 
 function Strava(args = {}) {
@@ -29,8 +29,25 @@ function Strava(args = {}) {
     }
 
     async function disconnect() {
-        // TODO:
-        const url = "https://www.strava.com/oauth/deauthorize";
+        try {
+            const stravaResponse = await fetch(
+                "https://www.strava.com/oauth/deauthorize",
+                {method: 'POST',}
+            );
+            console.log(`:oauth :strava :disconnect`);
+            const stravaBody = await stravaResponse.text();
+
+            const apiResponse = await fetch(
+                api_uri+`/api/strava/deauthorize`,
+                {method: 'POST', credentials: 'include',},
+            );
+
+            const apiBody = await apiResponse.text();
+
+            xf.dispatch(`services`, {strava: false});
+        } catch (e) {
+            console.log(`:strava :deauthorize :error `, e);
+        }
     }
 
     // Step 3
@@ -55,10 +72,12 @@ function Strava(args = {}) {
             });
 
             const result = await response.text();
-            print.log(result);
+            console.log(`:oauth :strava :connnect`);
+            xf.dispatch(`services`, {strava: true});
+            console.log(result);
             clearParams();
         } catch (e) {
-            console.log(``, e);
+            console.log(`:strava :oauth :code :error `, e);
         }
     }
 
@@ -83,15 +102,15 @@ function Strava(args = {}) {
                 return ':success';
             } else {
                 if(response.status === 403) {
-                    print.log(`:api :no-auth`);
+                    console.log(`:api :no-auth`);
                     xf.dispatch('action:auth', ':password:login');
 
                     xf.dispatch('ui:modal:error:open', DialogMsg.noAuth);
                 }
                 return ':fail';
             }
-        } catch(error) {
-            console.log(error);
+        } catch(e) {
+            console.log(`:strava :upload :error `, e);
             return ':fail';
         }
     }

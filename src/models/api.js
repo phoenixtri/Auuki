@@ -35,6 +35,8 @@ function API() {
     const intervals_client_id = config.INTERVALS_CLIENT_ID;
 
     const auth = Auth({config});
+
+
     const strava = Strava({config});
     const intervals = Intervals({config});
     const router = Router({handlers: {strava, intervals, auth}});
@@ -62,13 +64,21 @@ function Router(args = {}) {
     const auth = args.handlers.auth;
 
     async function start() {
-        await auth.status();
+        const status = await auth.status();
 
         const params = getParams();
         if(hasParams(params)) {
             console.log(params);
-            onQueryParams(params);
+            await onQueryParams(params);
+        } else {
+            // TODO: remove
+            // get list of planned events once per period
+            if(status.intervals) {
+                console.log('INTERVALS');
+                intervals.listEventsMock();
+            }
         }
+        return;
     }
 
     function getParams() {
@@ -84,7 +94,7 @@ function Router(args = {}) {
         }
     }
 
-    function onQueryParams(params) {
+    async function onQueryParams(params) {
         // strava params
         const state  = params.get('state');
         const code   = params.get('code');
@@ -101,10 +111,10 @@ function Router(args = {}) {
             const { service, id } = stateParam.decode(state);
 
             if(service === OAuthService.strava) {
-                strava.paramsHandler({state, code, scope});
+                await strava.paramsHandler({state, code, scope});
             }
             if(service === OAuthService.intervals) {
-                intervals.paramsHandler({state, code, scope});
+                await intervals.paramsHandler({state, code, scope});
             }
             return true;
         }
@@ -113,7 +123,7 @@ function Router(args = {}) {
             xf.dispatch('action:auth', ':password:reset');
             return true;
         }
-        clearParams();
+        // clearParams();
         return false;
     }
 

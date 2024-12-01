@@ -99,8 +99,7 @@ let db = {
     antDeviceId: {},
 
     // Services
-    strava: false,
-    intervals: false,
+    services: {strava: false, intervals: false},
 };
 
 xf.create(db);
@@ -365,6 +364,11 @@ xf.reg(`ant:search:stopped`, (x, db) => {
 
 xf.reg('auth', (x, db) => {
     console.log(`xf.reg('auth') `, x);
+});
+
+xf.reg('services', (x, db) => {
+    console.log(`services `, x);
+    db.services = Object.assign(db.services, x);
 });
 
 

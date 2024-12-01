@@ -1205,24 +1205,48 @@ class OAuth extends HTMLElement {
         const self = this;
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
+        this.services = {strava: false, intervals: false};
 
-        xf.sub('action:oauth', self.onAction.bind(this));
+        this.$stravaButton = self.querySelector('#strava--connect--button');
+        this.$intervalsButton = self.querySelector('#intervals--connect--button');
+
+        xf.sub('action:oauth', self.onAction.bind(this), this.signal);
+        xf.sub('db:services', self.onServices.bind(this), this.signal);
     }
     disconnectedCallback() {
         this.abortController.abort();
+    }
+    onServices(value) {
+        this.services = value;
+        this.render(this.services);
     }
     onAction(action) {
         const self = this;
         console.log(action);
 
-        if(action === ':strava:connect') {
-            models.api.strava.connect();
+        if(action === ':strava:switch') {
+            console.log(this.services.strava);
+            if(this.services.strava) {
+                models.api.strava.disconnect();
+            } else {
+                models.api.strava.connect();
+            }
             return;
         }
-        if(action === ':intervals:connect') {
-            models.api.intervals.connect();
+
+        if(action === ':intervals:switch') {
+            console.log(this.services.intervals);
+            if(this.services.intervals) {
+                models.api.intervals.disconnect();
+            } else {
+                models.api.intervals.connect();
+            }
             return;
         }
+    }
+    render(services) {
+        this.$stravaButton.textContent = services.strava ? 'Disconnect' : 'Connect';
+        this.$intervalsButton.textContent = services.intervals ? 'Disconnect' : 'Connect';
     }
 }
 
