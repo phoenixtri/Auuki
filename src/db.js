@@ -99,7 +99,7 @@ let db = {
     antDeviceId: {},
 
     // Services
-    services: {strava: false, intervals: false},
+    services: {strava: false, intervals: false, trainingPeaks: false},
 };
 
 xf.create(db);
@@ -406,6 +406,9 @@ xf.reg('app:start', async function(_, db) {
     sound.start();
 
     models.api.start();
+    // TODO: remove
+    // xf.dispatch(`ui:page-set`, 'workouts');
+    // xf.dispatch(`action:planned`, ':intervals:wod');
 
     // TRAINER MOCK
     // trainerMock.init();

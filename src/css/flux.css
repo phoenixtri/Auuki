@@ -857,7 +857,7 @@ div.graph--bar-group {
     align-items: flex-end;
     padding: 0;
 }
-#graph--info--cont {
+.graph--info--cont {
     display: none;
     font-size: 1.4em;
     line-height: 1.2em;
@@ -1275,6 +1275,34 @@ div.graph--bar-group {
 }
 
 /* Workout List */
+.tp-logo {
+    display: grid;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    height: 40px;
+    width: 40px;
+    letter-spacing: 1px;
+    text-indent: -2px;
+    align-content: center;
+    background-color: #005695;
+    /* border: 1px solid #fff; */
+    border-radius: 7px;
+}
+.tp-logo--icon {
+    display: grid;
+    font-style: italic;
+    font-weight: bold;
+    height: 2.4em;
+    width: 2.4em;
+    letter-spacing: 1px;
+    text-indent: -1px;
+    align-content: center;
+    background-color: #005695;
+    /* border: 1px solid #fff; */
+    border-radius: 7px;
+}
+
 .workout {
     display: block;
     position: relative;
@@ -2127,9 +2155,37 @@ div.graph--bar-group {
     padding: 1em;
 }
 .list--heading--cont {
-    max-width: var(--inner-max-width);
+    width: 100%;
     margin: 0 auto;
+    /* border-bottom: 1px solid var(--white-opacity-01); */
+
+    &.control {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
 }
+
+.planned--actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 1.5em;
+}
+.planned--empty {
+    display: grid;
+    font-size: var(--workout--name-font-size);
+    padding: 1.5em 0;
+    border-bottom: 1px solid var(--white-opacity-01);
+}
+
+planned-list {
+    display: grid;
+    /* margin: 0 1.5em; */
+}
+
+workout-graph-svg {
+    display: block;
+}
+
 .list--heading {
     font-size: 1.8em;
     line-height: 1.8em;
@@ -2146,7 +2202,7 @@ div.graph--bar-group {
     line-height: 1.4em;
     text-transform: uppercase;
     text-align: left;
-    padding: 1rem 0em 1rem 1rem;
+    padding: 1rem 0em;
     color: var(--gray);
 }
 
@@ -2191,7 +2247,7 @@ div.graph--bar-group {
 
 .activity--cont {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr;
     justify-content: center;
     line-height: 4rem;
 }
@@ -2504,7 +2560,7 @@ and (orientation: portrait) {
         line-height: 2em;
     }
 
-    #graph--info--cont {
+    .graph--info--cont {
         font-size: 1.6em;
     }
 
@@ -2527,7 +2583,7 @@ and (min-height: 768px) {
         font-size: 1.6rem;
     }
 
-    #graph--info--cont {
+    .graph--info--cont {
         font-size: 1.6em;
     }
 }
@@ -2644,7 +2700,7 @@ and (min-height: 850px) {
     }
 
 
-    #graph--info--cont {
+    .graph--info--cont {
         font-size: 2.0em;
     }
 
@@ -2709,7 +2765,7 @@ and (min-height: 1200px) {
         line-height: 1.5em;
     }
 
-    #graph--info--cont {
+    .graph--info--cont {
         font-size: 2.4em;
     }
 
@@ -2759,7 +2815,7 @@ and (min-height: 1600px) {
         font-size: 2.4rem;
     }
 
-    #graph--info--cont {
+    .graph--info--cont {
         font-size: 4.0em;
     }
 

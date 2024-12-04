@@ -4,6 +4,7 @@ import './effect-views.js';
 import './editor.js';
 import './tabs.js';
 import './workout-list.js';
+import './planned-list.js';
 import './workout-graph.js';
 import './watch.js';
 import './ant-device-scan.js';

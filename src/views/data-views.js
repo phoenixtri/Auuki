@@ -1209,6 +1209,7 @@ class OAuth extends HTMLElement {
 
         this.$stravaButton = self.querySelector('#strava--connect--button');
         this.$intervalsButton = self.querySelector('#intervals--connect--button');
+        this.$tpButton = self.querySelector('#tp--connect--button');
 
         xf.sub('action:oauth', self.onAction.bind(this), this.signal);
         xf.sub('db:services', self.onServices.bind(this), this.signal);
@@ -1224,22 +1225,17 @@ class OAuth extends HTMLElement {
         const self = this;
         console.log(action);
 
-        if(action === ':strava:switch') {
-            console.log(this.services.strava);
-            if(this.services.strava) {
-                models.api.strava.disconnect();
-            } else {
-                models.api.strava.connect();
-            }
-            return;
-        }
+        let service = action.split(':')[1];
 
-        if(action === ':intervals:switch') {
-            console.log(this.services.intervals);
-            if(this.services.intervals) {
-                models.api.intervals.disconnect();
+        if(service === 'strava' ||
+           service === 'intervals' ||
+           service === 'trainingPeaks') {
+
+            console.log(this.services[service]);
+            if(this.services[service]) {
+                models.api[service].disconnect();
             } else {
-                models.api.intervals.connect();
+                models.api[service].connect();
             }
             return;
         }
@@ -1247,6 +1243,7 @@ class OAuth extends HTMLElement {
     render(services) {
         this.$stravaButton.textContent = services.strava ? 'Disconnect' : 'Connect';
         this.$intervalsButton.textContent = services.intervals ? 'Disconnect' : 'Connect';
+        this.$tpButton.textContent = services.tp ? 'Disconnect' : 'Connect';
     }
 }
 
@@ -1419,8 +1416,8 @@ class ActivityList extends HTMLElement {
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
-        xf.sub('activity:add', self.onAdd.bind(this));
-        xf.sub('db:activity', self.onRestore.bind(this));
+        xf.sub('activity:add', self.onAdd.bind(this), this.signal);
+        xf.sub('db:activity', self.onRestore.bind(this), this.signal);
     }
     disconnectedCallback() {
         this.abortController.abort();
@@ -1459,7 +1456,7 @@ class ActivityList extends HTMLElement {
 
         return `
             <activity-item id="i${i}--activity--item" class="some" data-id="${this.id(data)}">
-                <div class="list--row--outer border-top">
+                <div class="list--row--outer">
                     <div class="list--row--inner activity--cont">
                         <div id="i${i}--activity--date" class="activity--date">
                             ${this.date(data)}
@@ -1520,6 +1517,15 @@ class ActivityList extends HTMLElement {
                             </svg>
                             <div class="connection-icon-switch--indicator ${status.intervals ?? 'none'} intervals"></div>
                         </view-action>
+
+                        <view-action
+                            class="activity--action"
+                            action=":tp:upload"
+                            topic=":activity:${this.id(data)}">
+                            <div class="tp-logo--icon">TP</div>
+                            <div class="connection-icon-switch--indicator ${status.tp ?? 'none'} tp"></div>
+                        </view-action>
+
                     </div>
                 </div>
             </activity-item>
@@ -1540,6 +1546,8 @@ class ActivityItem extends HTMLElement {
 
         this.$indicatorStrava = this.querySelector(`.connection-icon-switch--indicator.strava`);
         this.$indicatorIntervals = this.querySelector(`.connection-icon-switch--indicator.intervals`);
+
+        this.$indicatorTP = this.querySelector(`.connection-icon-switch--indicator.tp`);
         this.id = this.dataset.id;
 
         xf.sub(`action:activity:${self.id}`, this.onAction.bind(this), this.signal);
@@ -1564,6 +1572,12 @@ class ActivityItem extends HTMLElement {
             this.onLoading(this.$indicatorIntervals);
             return;
         }
+        if(action === ':tp:upload') {
+            models.activity.upload('trainingPeaks', this.id);
+            this.onLoading(this.$indicatorTP);
+            return;
+        }
+
         if(action === ':strava:upload:success') {
             this.onSuccess(this.$indicatorStrava);
         }
@@ -1575,6 +1589,12 @@ class ActivityItem extends HTMLElement {
         }
         if(action === ':intervals:upload:fail') {
             this.onFail(this.$indicatorIntervals);
+        }
+        if(action === ':tp:upload:success') {
+            this.onSuccess(this.$indicatorTP);
+        }
+        if(action === ':tp:upload:fail') {
+            this.onFail(this.$indicatorTP);
         }
     }
     onLoading($el) {
