@@ -7,8 +7,9 @@ import { radioOff, radioOn, removeBtn, options, } from './workout-list.js';
 class WorkoutGraphModel {
     constructor() {
         const self = this;
+        this.px = this.px ?? 10; // the workouts page font-size from em to absolute px
         this.xOutRange = {min: 0, max: 400};
-        this.yOutRange = {min: 0, max: self.calcYOutRangeMax()};
+        this.yOutRange = {min: 0, max: self.calcYOutRangeMax(self.px)};
         this.xInRange = {min: 0, max: 1};
         this.yInRange = {min: 0, max: 1};
     }
@@ -34,9 +35,7 @@ class WorkoutGraphModel {
         }
         return max;
     }
-    calcYOutRangeMax() {
-        const parent = document.querySelector('#workouts-page');
-        const px = parseFloat(window.getComputedStyle(parent).fontSize);
+    calcYOutRangeMax(px) {
         const em = 8;
         return px * em;
     }
@@ -73,7 +72,6 @@ class WorkoutGraphModel {
     // String
     toSVG(data, ftp = 200, size) {
         const self = this;
-
 
         const intervals = data.intervals;
         let graphWidth = window.innerWidth;
@@ -153,11 +151,11 @@ class WorkoutGraphModel {
                              duration="${info.duration}" />`;
         }
 
+        // width="graphWidth"
+        // height="${this.yOutRange.max}"
         return `
             <svg
                 class="workout--graph"
-                width="${graphWidth}"
-                height="${this.yOutRange.max}"
                 viewBox="0 0 ${graphWidth} ${this.yOutRange.max}"
                 preserveAspectRatio="">
                 <g transform="matrix(1 0 0 -1 0 ${this.yOutRange.max})">
@@ -178,11 +176,9 @@ class WorkoutGraph extends HTMLElement {
         this.signal = { signal: self.abortController.signal };
 
         this.$info = this.querySelector('.graph--info--cont');
-        this.rect = this.getBoundingClientRect();
 
         this.addEventListener('mouseover', this.onHover.bind(this), this.signal);
         this.addEventListener('mouseout', this.onMouseOut.bind(this), this.signal);
-        window.addEventListener('resize', this.onWindowResize.bind(this), this.signal);
     }
     disconnectedCallback() {
         this.abortController.abort();
@@ -192,18 +188,12 @@ class WorkoutGraph extends HTMLElement {
         const target = this.querySelector('polygon:hover');
 
         if(exists(target)) {
-            self.renderInfo(target, self.rect);
+            const contRect = this.getBoundingClientRect();
+            self.renderInfo(target, contRect);
         }
     }
     onMouseOut(e) {
         this.$info.style.display = 'none';
-    }
-    onWindowResize() {
-        const rect = this.getBoundingClientRect();
-        console.log(`onWindowResize ${rect.width}`);
-        if(rect.width > 0) {
-            this.rect = rect;
-        }
     }
     // TODO: simplify
     renderInfo(target, contRect) {
@@ -217,7 +207,7 @@ class WorkoutGraph extends HTMLElement {
         const intervalLeft = rect.left;
         const contLeft     = contRect.left;
         const contWidth    = contRect.width;
-        const left         = intervalLeft - contLeft;
+        const left         = intervalLeft;
         const bottom       = rect.height;
 
         this.$info.style.display = 'block';
@@ -237,6 +227,14 @@ class WorkoutGraph extends HTMLElement {
 }
 
 customElements.define('workout-graph-svg', WorkoutGraph);
+
+// TODO:
+// - should extend the workout list graph with watch actions
+// - it bridges session, activity and workout
+class WorkoutGraphActive extends HTMLElement {
+}
+
+customElements.define('workout-graph-active-svg', WorkoutGraphActive);
 
 
 // TODO:
@@ -298,11 +296,13 @@ class PlannedList extends HTMLElement {
         return { width, height };
     }
     onWindowResize() {
-        this.render();
+        // this.render();
     }
     onFTP(ftp) {
         this.ftp = ftp;
         this.render();
+    }
+    onPage(page) {
     }
     render() {
         const self = this;
@@ -321,52 +321,162 @@ class PlannedList extends HTMLElement {
         } else {
             self.innerHTML = models.planned.data.reduce((acc, workout) => {
                 const svg = self.graph.toSVG(workout, self.ftp, self.size);
-                return acc + `
-                    <workout-graph-svg>
-                        <div class="graph--info--cont"></div>
-                        ${svg}
-                    </workout-graph-svg>
-                `;
-
-                // workout.graph = `
+                // return acc + `
                 //     <workout-graph-svg>
                 //         <div class="graph--info--cont"></div>
                 //         ${svg}
                 //     </workout-graph-svg>
                 // `;
-                // return acc + workoutTemplate(workout);
+
+                workout.graph = `
+                    <workout-graph-svg>
+                        <div class="graph--info--cont"></div>
+                        ${svg}
+                    </workout-graph-svg>
+                `;
+                return acc + workoutTemplate(workout);
             }, '');
         }
     }
 }
 
+customElements.define('planned-list', PlannedList);
+
+
+class ActiveListItem extends HTMLElement {
+    constructor() {
+        super();
+        this.isExpanded = false;
+        this.isSelected = false;
+        this.isOptions = false;
+    }
+    connectedCallback() {
+        console.log(`---- ---- ----`);
+        console.log(`ActiveListItem connectedCallback`);
+        const self = this;
+        this.abortController = new AbortController();
+        this.signal = { signal: self.abortController.signal };
+
+        // NOTE: assigning to this.id will set the id attribute of the html element,
+        // we don't won't that
+        const wid = this.dataset.wid;
+
+        xf.sub(`action:li:${wid}`, this.onAction.bind(this), this.signal);
+
+        this.$expandable = this.querySelector('.expandable');
+        this.$optional = this.querySelector('.optional');
+        this.$selectable = this.querySelector('.selectable');
+    }
+    disconnectedCallback() {
+        console.log(`ActiveListItem disconnectedCallback`);
+        console.log(`---- ---- ----`);
+        this.abortController.abort();
+    }
+    onAction(action) {
+        if(action === ':select') {
+            this.onSelect();
+            return;
+        }
+        if(action === ':toggle') {
+            this.onToggle();
+            return;
+        }
+        if(action === ':options') {
+            this.onOptions();
+            return;
+        }
+        if(action === ':remove') {
+            this.onRemove();
+            return;
+        }
+    }
+    onSelect() {
+        console.log(`:select`);
+        // TODO: add active it should act as a radio btn
+        this.$selectable.classList.toggle('active');
+        this.isSelected = true;
+        // TODO: select
+        // xf.dispatch(`ui:workout:select`, this.wid);
+    }
+    onToggle() {
+        this.isExpanded ? this.collapse() : this.expand();
+    }
+    onOptions() {
+        this.isOptions ? this.hideOptions() : this.showOptions();
+    }
+    onRemove() {
+        console.log(`:remove`);
+        // TODO: delete
+        // xf.dispatch('ui:workout:remove', this.id);
+    }
+    expand() {
+        this.$expandable.classList.toggle('active');
+        this.isExpanded = true;
+    }
+    collapse() {
+        this.$expandable.classList.toggle('active');
+        this.isExpanded = false;
+    }
+    showOptions() {
+        console.log(`:show :options`);
+        this.$optional.classList.toggle('active');
+        this.isOptions = true;
+    }
+    hideOptions() {
+        console.log(`:hide :options`);
+        this.$optional.classList.toggle('active');
+        this.isOptions = false;
+    }
+}
+
+customElements.define('active-list-item', ActiveListItem);
+
+
 function workoutTemplate(workout) {
+    const id = workout.id;
+    const name = workout.meta.name;
+    const category = workout.meta.category;
+    const graph = workout.graph;
+    const description = workout.meta.description;
+
     let duration = '';
     if(workout.meta.duration) {
         duration = `${Math.round(workout.meta.duration / 60)} min`;
     }
-    return `<planned-item class='workout cf' id="${workout.id}" metric="ftp">
-                <div class="workout--info">
-                    <div class="workout--short-info">
-                        <div class="workout--summary">
-                            <div class="workout--name">${workout.meta.name}</div>
-                            <div class="workout--type">${workout.meta.category}</div>
+    if(workout.meta.distance) {
+        duration = `${(workout.meta.distance / 1000).toFixed(2)} km`;
+    }
+
+    return `<active-list-item class='workout active-list-item' data-wid="${id}" metric="ftp">
+                <div class="item--cont optional">
+                    <div class="summary">
+                        <view-action action=":toggle" topic=":li:${id}" class="summary--data">
+                            <div class="workout--name">${name}</div>
+                            <div class="workout--type">${category}</div>
                             <div class="workout--duration">${duration}</div>
-                            <div class="workout--select" id="btn${workout.id}">${workout.selected ? radioOn : radioOff}
-                            </div>
-                            <div class="workout--options">${options}</div>
-                        </div>
+
+                            <view-action class="selectable" action=":select" topic=":li:${id}" stoppropagation class="item--select" id="btn${id}">
+                                <svg class="radio">
+                                    <use class="off" href="#icon--radio-off" />
+                                    <use class="on" href="#icon--radio-on" />
+                                </svg>
+                            </view-action>
+                            <view-action action=":options" topic=":li:${id}" stoppropagation class="item--options">
+                                <svg class="workout--options-btn control--btn--icon"><use href="#icon--options" /></svg>
+                            </view-action>
+                        </view-action>
                     </div>
-                    <div class="workout--full-info">
-                        <div class="workout-list--graph-cont">${workout.graph}</div>
-                        <div class="workout--description">${workout.meta.description}</div>
+                    <div class="details expandable">
+                        ${graph}
+                        <div class="workout--description">${description}</div>
                     </div>
                 </div>
-                <div class="workout--actions">
-                    <span class="workout--remove">Delete</span>
+                <div>
+                    <view-action action=":remove" topic=":li:${id}" class="optional--actions">
+                        <span class="remove">Delete</span>
+                    </view-action>
                 </div>
-            </planned-item>`;
+            </active-list-item>`;
 }
 
-customElements.define('planned-list', PlannedList);
 

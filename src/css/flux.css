@@ -1303,6 +1303,94 @@ div.graph--bar-group {
     border-radius: 7px;
 }
 
+
+/* The new classes */
+.active-list-item {
+    display: block;
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+
+    .item--cont {
+        position: relative;
+        padding: 0em 1.5em;
+        background-color: var(--background-color);
+        z-index: 1;
+    }
+
+    .summary {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-content: center;
+        max-width: var(--inner-max-width);
+        margin: 0 auto;
+
+
+        .summary--data {
+            display: grid;
+            grid-template-columns: 5fr 3fr 2fr 1fr 1fr;
+
+            align-items: center;
+            align-content: center;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5em 0;
+            text-align: left;
+            cursor: pointer;
+        }
+    }
+    .selectable {
+        .on {
+            display: none;
+        }
+        .off {
+            display: block;
+        }
+
+        &.active {
+
+            .on {
+                display: block;
+            }
+            .off {
+                display: none;
+            }
+        }
+    }
+    .optional {
+        transform: translateX(0);
+
+        &.active {
+            transform: translateX(-8rem);
+        }
+    }
+    .expandable {
+        display: none;
+
+        &.active {
+            display: block;
+        }
+    }
+    .optional--actions {
+        position: absolute;
+        display: grid;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 8em;
+        background-color: var(--red);
+        z-index: 0;
+
+        .remove {
+            font-size: 1.4em;
+            justify-self: center;
+            align-self: center;
+            cursor: pointer;
+        }
+    }
+}
+
+/* The old classes */
 .workout {
     display: block;
     position: relative;
@@ -1315,7 +1403,6 @@ div.graph--bar-group {
     background-color: var(--background-color);
     z-index: 1;
 }
-
 .options-show {
     transform: translateX(-8rem);
 }
@@ -2184,6 +2271,10 @@ planned-list {
 
 workout-graph-svg {
     display: block;
+    margin: 0 auto;
+    height: 8em;
+    max-width: 100%;
+    margin: 0 auto;
 }
 
 .list--heading {

@@ -1169,6 +1169,9 @@ class LibrarySwitchGroup extends SwitchGroup {
 customElements.define('library-switch-group', LibrarySwitchGroup);
 
 
+// TODO:
+// - use data-<prop name> properties instead of attributes
+// - get them with this.dataset.<data name>
 class ViewAction extends HTMLElement {
     constructor() {
         super();
@@ -1178,15 +1181,22 @@ class ViewAction extends HTMLElement {
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
-        this.action = this.getAttribute('action');
-        this.topic = this.getAttribute('topic') ?? '';
+        const action = this.getAttribute('action');
+        const topic = this.getAttribute('topic') ?? '';
+        const on = this.getAttribute('on') ?? 'pointerup';
+        const stopPropagation = this.hasAttribute('stoppropagation');
 
-        if(this.action === undefined || this.action === '') {
+        if(action === undefined || action === '') {
             throw Error(`need to setup action attribute on view-action `, self);
         }
 
-        this.addEventListener('pointerup', (e) => {
-            xf.dispatch(`action${self.topic}`, self.action);
+        this.addEventListener(on, (e) => {
+            if(stopPropagation) {
+                // console.log(`stop propagation`);
+                e.stopPropagation();
+            }
+            console.log(`action${topic}`, action, stopPropagation);
+            xf.dispatch(`action${topic}`, action);
         }, this.signal);
     }
     disconnectedCallback() {

@@ -146,12 +146,10 @@ class WorkoutListItem extends HTMLElement {
     constructor() {
         super();
         this.state = '';
-        this.postInit();
         this.isExpanded = false;
         this.isSelected = false;
         this.optionsActive = false;
     }
-    postInit() { return; }
     connectedCallback() {
         const self = this;
         this.infoCont = this.querySelector('.workout--info');
