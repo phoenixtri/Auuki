@@ -741,24 +741,67 @@ class Planned {
         const self = this;
         this.data = this.defaultValue();
         this.workoutModel = args.workoutModel;
+        this.storage = LocalStorageItem({
+            key: 'planned',
+            encode: JSON.stringify,
+            parse: JSON.parse,
+            fallback: this.defaultValue(),
+        });
     }
     defaultValue() {
-        return [];
+        return {workouts: [], modified: {}};
     }
-    restore() {}
-    backup() {}
+    get(id) {
+        for(let workout of this.data.workouts) {
+            if(workout.id === id) {
+                return workout;
+            }
+        }
+        console.error(`tring to get a missing planned workout: ${id}`);
+        return first(this.data.workouts);
+    }
+    setWorkouts(workouts) {
+        this.data.workouts = workouts;
+    }
+    list() {
+        return this.data.workouts;
+    }
+    setModified(service = 'intervals') {
+        this.data.modified[service] = Date.now();
+    }
+    isEmpty() {
+        return this.data.workouts.length === 0;
+    }
+    restore() {
+        // TODO:
+        // store the data with a timestamp,
+        // if it is older than 00:00 refresh the data once
+        // if there are no workouts fallback to []
+        console.log(':planned :restore');
+        this.data = this.storage.restore();
+        xf.dispatch(`action:planned`, ':data');
+    }
+    backup() {
+        this.storage.set(this.data);
+        xf.dispatch(`action:planned`, ':data');
+    }
+    // forse refresh the wod data
     async wod(service) {
         const self = this;
         if(service === 'intervals') {
             const response = await api.intervals.wodMock();
             const workouts = self.workoutModel.fromIntervalsResponse(response);
             console.log(workouts);
-            this.data = workouts;
-            xf.dispatch(`action:planned`, ':data');
+
+            this.setWorkouts(workouts);
+            this.setModified(service);
+            this.backup();
+
+            if(!this.isEmpty()) {
+                const id = first(this.data.workouts).id;
+                xf.dispatch(`action:li:${id}`, ':select');
+            }
         }
-        // idb.put(self.name, idb.setId(workout));
-        // xf.dispatch('ui:planned:update', workouts);
-        // xf.dispatch(`ui:planned:select`, last(workouts).id);
     }
 }
 

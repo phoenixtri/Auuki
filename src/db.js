@@ -286,6 +286,9 @@ xf.reg('workout', (workout, db) => {
 xf.reg('ui:workout:select', (id, db) => {
     db.workout = models.workouts.get(db.workouts, id);
 });
+xf.reg('ui:planned:select', (id, db) => {
+    db.workout = models.planned.get(id);
+});
 xf.reg('ui:workout:remove', (id, db) => {
     db.workouts = models.workouts.remove(db.workouts, id);
 });
@@ -389,6 +392,7 @@ xf.reg('app:start', async function(_, db) {
     db.workouts = await models.workouts.restore();
     db.activity = await models.activity.restore();
     db.workout = models.workout.restore(db);
+    models.planned.restore();
 
     await models.session.restore(db);
     xf.dispatch('workout:restore');

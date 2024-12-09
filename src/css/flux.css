@@ -993,6 +993,10 @@ div.graph--bar-group {
     /* min-height: var(--list--graph--height); */
     padding: 0;
 }
+.workout--graph {
+    height: 8em;
+    max-width: 100%;
+}
 
 #progress {
     position: absolute;
@@ -1432,9 +1436,6 @@ div.graph--bar-group {
 .workout--options {
     display: flex;
     justify-content: center;
-}
-.workout--options-btn {
-    pointer-events: none;
 }
 
 .workout--short-info {
@@ -2364,6 +2365,7 @@ workout-graph-svg {
     display: block;
     width: 2.4rem;
     height: 2.4rem;
+    fill: var(--foreground-color);
 }
 .activity--upload {
     font-size: 1.2em;
