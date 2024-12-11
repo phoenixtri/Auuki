@@ -105,6 +105,10 @@ input, button, textarea {
     font-family: var(--ssr-font-family);
 }
 
+input {
+    color: var(--input-color);
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button,
 input[type="number"] {
@@ -113,7 +117,7 @@ input[type="number"] {
 }
 
 .btn {
-    color: #fff;
+    color: var(--input-color);
     background-color: var(--chrome);
     text-transform: uppercase;
     font-family: var(--ss-font-family);
@@ -370,6 +374,7 @@ body {
 
 /* Theme */
 /* Dark Theme */
+body,
 body.dark-theme {
     --background-color: var(--dark);
     --background-color-2: var(--chrome);
@@ -377,7 +382,24 @@ body.dark-theme {
     --foreground-color-inactive: var(--gray);
     --border-color: var(--white-opacity-01);
     --progress: #fff4;
+    --input-color: var(--white);
+    --toogle-inactive-color: var(--gray);
+    --toogle-active-color: var(--white);
 }
+@media (prefers-color-scheme: dark) {
+    body.auto-theme { 
+        --background-color: var(--dark);
+        --background-color-2: var(--chrome);
+        --foreground-color: var(--white); 
+        --foreground-color-inactive: var(--gray);
+        --border-color: var(--white-opacity-01);
+        --progress: #fff4;
+        --input-color: var(--white);
+        --toogle-inactive-color: var(--gray);
+        --toogle-active-color: var(--white);
+    }
+} 
+
 /* End Dark Theme */
 
 /* White Theme */
@@ -388,18 +410,33 @@ body.white-theme {
     --foreground-color-inactive: var(--gray);
     --border-color: var(--black-opacity-01);
     --progress: #6f6f6f44;
-
-    input {
-        color: var(--dark);
-        background-color: var(--background-color);
-    }
+    --input-color: var(--white);
+    --toogle-inactive-color: var(--gray);
+    --toogle-active-color: var(--zone-blue);
 }
+@media (prefers-color-scheme: light) {
+    body.auto-theme { 
+        --background-color: var(--white);
+        --background-color-2: var(--chrome-white);
+        --foreground-color: var(--dark); 
+        --foreground-color-inactive: var(--gray);
+        --border-color: var(--black-opacity-01);
+        --progress: #6f6f6f44;
+        --input-color: var(--white);
+        --toogle-inactive-color: var(--gray);
+        --toogle-active-color: var(--zone-blue);
+    }
+} 
 /* End White Theme */
 body {
     color: var(--foreground-color);
     background-color: var(--background-color);
 }
 
+input {
+    color: var(--foreground-color);
+    background-color: var(--input-color);
+}
 .chrome-bg {
     background-color: var(--background-color-2);
 }
@@ -426,7 +463,6 @@ body {
 }
 
 .mode.active {
-    fill: var(--foreground-color);
     color: var(--foreground-color);
 }
 
@@ -1092,7 +1128,7 @@ div.graph--bar-group {
     line-height: var(--number-input-line-height);
     font-size: var(--number-input-value-font-size);
     text-align: center;
-    background-color: var(--white);
+    background-color: var(--input-color);
     color: var(--black);
     border: 1px solid var(--border-color)
 }
@@ -2008,7 +2044,7 @@ div.graph--bar-group {
     height: 2em;
     margin: 0.5em auto;
     border-radius: 1em;
-    border: 0.3em solid var(--gray);
+    border: 0.3em solid var(--toogle-inactive-color);
 
     .toggle {
         position: absolute;
@@ -2016,15 +2052,15 @@ div.graph--bar-group {
         left: 0.2em;
         width: 1em;
         height: 1em;
-        background-color: var(--gray);
+        background-color: var(--toogle-inactive-color);
         border-radius: 50%;
     }
 
     &.active {
-        border: 0.3em solid var(--white);
+        border: 0.3em solid var(--toogle-active-color);
 
         .toggle {
-            background-color: var(--white);
+            background-color: var(--toogle-active-color);
             left: 1.50em;
         }
     }
@@ -2235,7 +2271,7 @@ div.graph--bar-group {
 }
 .list--row--outer {
     width: 100%;
-    border-bottom: 1px solid var(--white-opacity-01);
+    border-bottom: 1px solid var(--border-color);
 }
 .list--row--inner {
     max-width: var(--inner-max-width);
