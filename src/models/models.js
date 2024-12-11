@@ -798,7 +798,8 @@ class Planned {
     async wod(service) {
         const self = this;
         if(service === 'intervals') {
-            const response = await api.intervals.wodMock();
+            const response = await api.intervals.wod();
+            console.log(response);
             const workouts = self.workoutModel.fromIntervalsResponse(response);
             console.log(workouts);
 
