@@ -42,11 +42,11 @@ class PlannedList extends HTMLElement {
             return;
         }
         if(action === ':intervals:wod') {
-            models.planned.wod('intervals');
+            this.model.wod('intervals');
             return;
         }
         if(action === ':trainingPeaks:wod') {
-            models.planned.wod('trainingPeaks');
+            this.model.wod('trainingPeaks');
             return;
         }
     }
@@ -102,7 +102,7 @@ class PlannedList extends HTMLElement {
     toList() {
         const self = this;
         let list = '';
-        const planned = models.planned.list();
+        const planned = this.model.list();
         for(let workout of planned) {
             list += self.toListItem(workout, self.ftp, self.size);
         }
@@ -116,7 +116,7 @@ class PlannedList extends HTMLElement {
     render() {
         const self = this;
 
-        console.log(`Planned List render ${models.planned.data.length}, visible: ${this.checkVisibility()}`);
+        console.log(`Planned List render ${this.model.data.workouts.length}, visible: ${this.checkVisibility()}`);
 
         if(this.checkVisibility()) {
             self.size = self.getSize();
