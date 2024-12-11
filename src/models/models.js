@@ -799,9 +799,7 @@ class Planned {
         const self = this;
         if(service === 'intervals') {
             const response = await api.intervals.wod();
-            console.log(response);
             const workouts = self.workoutModel.fromIntervalsResponse(response);
-            console.log(workouts);
 
             this.setWorkouts(workouts);
             this.setModified(service);

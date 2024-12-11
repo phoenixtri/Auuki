@@ -116,7 +116,6 @@ function Intervals(args = {}) {
             if(response.ok) {
                 const data = await response.json();
                 console.log(data);
-                // return ':success';
                 return data;
             } else {
                 if(response.status === 403) {
