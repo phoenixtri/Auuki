@@ -77,7 +77,6 @@ class WorkoutGraphViewModel {
         let graphWidth = window.innerWidth;
         if(size) {
             self.yOutRange.max = size.height;
-            graphWidth = size.width;
         }
         this.xOutRange.max = graphWidth;
         this.xInRange.max = data?.meta?.duration;
