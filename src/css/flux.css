@@ -383,6 +383,8 @@ body.dark-theme {
     --border-color: var(--white-opacity-01);
     --progress: #fff4;
     --input-color: var(--white);
+    --toogle-inactive-color: var(--gray);
+    --toogle-active-color: var(--white);
 }
 @media (prefers-color-scheme: dark) {
     body.auto-theme { 
@@ -393,6 +395,8 @@ body.dark-theme {
         --border-color: var(--white-opacity-01);
         --progress: #fff4;
         --input-color: var(--white);
+        --toogle-inactive-color: var(--gray);
+        --toogle-active-color: var(--white);
     }
 } 
 
@@ -407,6 +411,8 @@ body.white-theme {
     --border-color: var(--black-opacity-01);
     --progress: #6f6f6f44;
     --input-color: var(--white);
+    --toogle-inactive-color: var(--gray);
+    --toogle-active-color: var(--zone-blue);
 }
 @media (prefers-color-scheme: light) {
     body.auto-theme { 
@@ -417,6 +423,8 @@ body.white-theme {
         --border-color: var(--black-opacity-01);
         --progress: #6f6f6f44;
         --input-color: var(--white);
+        --toogle-inactive-color: var(--gray);
+        --toogle-active-color: var(--zone-blue);
     }
 } 
 /* End White Theme */
@@ -2036,7 +2044,7 @@ div.graph--bar-group {
     height: 2em;
     margin: 0.5em auto;
     border-radius: 1em;
-    border: 0.3em solid var(--gray);
+    border: 0.3em solid var(--toogle-inactive-color);
 
     .toggle {
         position: absolute;
@@ -2044,15 +2052,15 @@ div.graph--bar-group {
         left: 0.2em;
         width: 1em;
         height: 1em;
-        background-color: var(--gray);
+        background-color: var(--toogle-inactive-color);
         border-radius: 50%;
     }
 
     &.active {
-        border: 0.3em solid var(--white);
+        border: 0.3em solid var(--toogle-active-color);
 
         .toggle {
-            background-color: var(--white);
+            background-color: var(--toogle-active-color);
             left: 1.50em;
         }
     }
@@ -2263,7 +2271,7 @@ div.graph--bar-group {
 }
 .list--row--outer {
     width: 100%;
-    border-bottom: 1px solid var(--white-opacity-01);
+    border-bottom: 1px solid var(--border-color);
 }
 .list--row--inner {
     max-width: var(--inner-max-width);
