@@ -17,7 +17,6 @@ class PlannedList extends HTMLElement {
         this.viewModel = new WorkoutGraphViewModel({item: ':planned'});
     }
     connectedCallback() {
-        console.log(`PlannedList connectedCallback`);
         const self = this;
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
@@ -32,7 +31,6 @@ class PlannedList extends HTMLElement {
         this.render();
     }
     disconnectedCallback() {
-        console.log(`PlannedList diconnectedCallback`);
         this.abortController.abort();
     }
     onAction(action) {
@@ -142,7 +140,6 @@ class PlannedListItem extends HTMLElement {
         this.isOptions = false;
     }
     connectedCallback() {
-        console.log(`:planned-list-item :connectedCallback`);
         const self = this;
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
@@ -158,7 +155,6 @@ class PlannedListItem extends HTMLElement {
         xf.sub('db:workout',  self.onWorkout.bind(self), self.signal);
     }
     disconnectedCallback() {
-        console.log(`:planned-list-item :disconnectedCallback`);
         this.abortController.abort();
     }
     onAction(action) {

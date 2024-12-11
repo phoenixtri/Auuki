@@ -104,7 +104,7 @@ class WorkoutGraphViewModel {
         const initialStep = initialInterval.steps[0];
         let stepPrev = initialStep;
         let points = '';
-        let color  = '#328AFF';
+        let color  = '#328AFF'; // from css var(--zone-blue)
 
         // accumulators
         let accX = 0;
@@ -114,7 +114,9 @@ class WorkoutGraphViewModel {
             let intervalPrev = (i === 0) ? initialInterval : intervals[i-1];
             let interval     = intervals[i];
 
-            // TODO: handle ramps zone change
+            // TODO: handle ramps zone change, maybe with
+            // - a mask
+            // - a nested polygon element for each color change
             // for(let j = 0; j < interval.steps.length; j++) {
             // }
 
@@ -150,8 +152,6 @@ class WorkoutGraphViewModel {
                              duration="${info.duration}" />`;
         }
 
-        // width="graphWidth"
-        // height="${this.yOutRange.max}"
         return `
             <svg
                 class="workout--graph"
