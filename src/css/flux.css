@@ -1262,6 +1262,13 @@ div.graph--bar-group {
     align-items: center;
     height: 100%;
     cursor: pointer;
+
+    &.active svg {
+        fill: var(--foreground-color);
+    }
+    &.active .menu--btn--label {
+        color: var(--foreground-color);
+    }
 }
 
 .menu--btn--icon {
@@ -1278,17 +1285,17 @@ div.graph--bar-group {
     color: var(--foreground-color-inactive);
 }
 
-.menu--btn--icon--fill {
-    fill: var(--foreground-color-inactive);
-}
+/* .menu--btn--icon--fill { */
+/*     fill: var(--foreground-color-inactive); */
+/* } */
 
-.menu--btn.active .menu--btn--label {
-    color: var(--foreground-color);
-}
+/* .menu--btn.active .menu--btn--label { */
+/*     color: var(--foreground-color); */
+/* } */
 
-.menu--btn.active .menu--btn--icon--fill {
-    fill: var(--foreground-color);
-}
+/* .menu--btn.active .menu--btn--icon--fill { */
+/*     fill: var(--foreground-color); */
+/* } */
 /* END Menu */
 /* END Fixed Bottom */
 

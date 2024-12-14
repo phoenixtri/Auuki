@@ -329,22 +329,30 @@
             </div> <!-- end page-home -->
 
             <div id="workouts-page" class="page" page="workouts">
-                <library-switch-group class="library--switch--group">
-                    <div class="library--switch switch-item switch-0 active" index="0">
-                        <div class="library--switch--icon"></div>
-                        <h2 class="library--switch--heading">Workouts</h2>
-                    </div>
-                    <div class="library--switch switch-item switch-1" index="1">
-                        <div class="library--switch--icon"></div>
-                        <h2 class="library--switch--heading">Editor</h2>
-                    </div>
-                    <div class="library--switch switch-item switch-2" index="2">
-                        <div class="library--switch--icon"></div>
-                        <h2 class="library--switch--heading">Ride report</h2>
-                    </div>
-                </library-switch-group>
-
-                <workout-editor id="workout-editor">
+                <div class="library--switch--group">
+                    <navigation-action
+                        id="link--workouts-workouts"
+                        class="library--switch--heading active"
+                        action="workouts:workouts"
+                        topic=":nav"
+                    >Workouts
+                    </navigation-action>
+                    <navigation-action
+                        id="link--workouts-editor"
+                        class="library--switch--heading"
+                        action="workouts:editor"
+                        topic=":nav"
+                    >Editor
+                    </navigation-action>
+                    <navigation-action
+                        id="link--workouts-report"
+                        class="library--switch--heading"
+                        action="workouts:report"
+                        topic=":nav"
+                    >Ride report
+                    </navigation-action>
+                </div>
+                <workout-editor id="view--workouts-editor" class="sub-tab">
                     <div class="editor-cont">
                         <form action="">
                             <div class="editor--meta">
@@ -430,9 +438,8 @@
                     </div> <!-- end editor--cont -->
                 </workout-editor>
 
-                <div class="ride-report" id="ride-report">
-
-                    <!-- <power-graph id="power-graph"></power-graph> -->
+                <!-- ride-report -->
+                <div id="view--workouts-report" class="ride-report sub-tab">
 
                     <power-in-zone id="power-in-zone">
                         <div class="power--zone--item">
@@ -480,9 +487,10 @@
                         </div>
                         <div class="laps--cont"></div>
                     </laps-list>
-                </div>
+                </div> <!-- end ride-report -->
 
-                <div class="workout-list" id="workouts">
+                <!-- workout-list -->
+                <div id="view--workouts-workouts" class="workout-list sub-tab active">
                     <div class="list--sub-section">
                         <div class="list--row--outer">
                             <div class="list--row--inner list--heading--cont control">
@@ -544,7 +552,7 @@
                         </div>
                     </div>
                     <br/><br/><br/>
-                </div>
+                </div> <!-- workout-list -->
             </div>
 
             <div id="settings-page" class="page" page="settings">
@@ -568,7 +576,7 @@
                 <header class="page--header header--tab--group">
                     <navigation-action
                         id="link--settings-settings"
-                        class="library--switch--heading active "
+                        class="library--switch--heading active"
                         action="settings:settings" topic=":nav">Settings
                     </navigation-action>
                     <navigation-action
@@ -578,7 +586,7 @@
                     </navigation-action>
                 </header>
                 <!-- profile--sub-tab -->
-                <div id="nav--settings-profile" class="sub-tab">
+                <div id="view--settings-profile" class="sub-tab">
                     <!-- auth -->
                     <div class="auth">
                         <auth-forms>
@@ -829,7 +837,7 @@
                 </div> <!-- end profile--sub-tab -->
 
                 <!-- settings--sub-tab -->
-                <div id="nav--settings-settings" class="sub-tab active">
+                <div id="view--settings-settings" class="sub-tab active">
                     <div class="settings-tiles--cont">
                         <div id="ftp-settings" class="settings-tile">
                             <label for="ftp-value" class="settings-tile--label">FTP</label>
@@ -1421,22 +1429,20 @@
 
                 <div id="menu" class="menu">
                     <div class="page-btn-group menu--row">
+                        <!-- <navigation-action
+                             id="link--workouts-report"
+                             class="library--switch--heading"
+                             action="workouts:report"
+                             topic=":nav"
+                             >Ride report
+                             </navigation-action> -->
                         <page-btn id="settings-tab-btn"
                                   class="menu--btn"
                                   prop="page"
                                   effect="page-set"
                                   param="settings">
-                            <svg class="menu--btn--icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                                <path d="M0 0h24v24H0V0z" fill="none"/>
-                                <path class="menu--btn--icon--fill" d="M19.44 12.99l-.01.02c.04-.33.08-.67.08-1.01
-                                            0-.34-.03-.66-.07-.99l.01.02 2.44-1.92-2.43-4.22-2.87
-                                            1.16.01.01c-.52-.4-1.09-.74-1.71-1h.01L14.44 2H9.57l-.44
-                                            3.07h.01c-.62.26-1.19.6-1.71 1l.01-.01-2.88-1.17-2.44 4.22 2.44
-                                            1.92.01-.02c-.04.33-.07.65-.07.99 0 .34.03.68.08 1.01l-.01-.02-2.1
-                                            1.65-.33.26 2.43 4.2 2.88-1.15-.02-.04c.53.41 1.1.75 1.73 1.01h-.03L9.58
-                                            22h4.85s.03-.18.06-.42l.38-2.65h-.01c.62-.26 1.2-.6 1.73-1.01l-.02.04
-                                            2.88 1.15 2.43-4.2s-.14-.12-.33-.26l-2.11-1.66zM12 15.5c-1.93
-                                            0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+                            <svg class="menu--btn--icon" width="24" height="24">
+                                <use href="#icon--settings"></use>
                             </svg>
                             <div class="menu--btn--label">Settings</div>
                         </page-btn>
@@ -1445,9 +1451,8 @@
                                   prop="page"
                                   effect="page-set"
                                   param="home">
-                            <svg class="menu--btn--icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                                <path d="M0 0h24v24H0V0z" fill="none" />
-                                <path class="menu--btn--icon--fill" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z" />
+                            <svg class="menu--btn--icon" width="24" height="24">
+                                <use href="#icon--home"></use>
                             </svg>
                             <div class="menu--btn--label">Home</div>
                         </page-btn>
@@ -1456,9 +1461,8 @@
                                   prop="page"
                                   effect="page-set"
                                   param="workouts">
-                            <svg class="menu--btn--icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
-                                <path d="M0 0h24v24H0V0z" fill="none"/>
-                                <path class="menu--btn--icon--fill" fill="#aaa" d="M4 10h12v2H4zm0-4h12v2H4zm0 8h8v2H4zm10 0v6l5-3z"/>
+                            <svg class="menu--btn--icon" width="24" height="24">
+                                <use href="#icon--list"></use>
                             </svg>
                             <div class="menu--btn--label">Workouts</div>
                         </page-btn>
@@ -1467,6 +1471,27 @@
             </div> <!-- end fixed-bottom -->
         </div> <!-- end wrapper -->
         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+
+            <symbol id="icon--settings" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0V0z" fill="none"/>
+                <path d="M19.44 12.99l-.01.02c.04-.33.08-.67.08-1.01
+                            0-.34-.03-.66-.07-.99l.01.02 2.44-1.92-2.43-4.22-2.87
+                            1.16.01.01c-.52-.4-1.09-.74-1.71-1h.01L14.44 2H9.57l-.44
+                            3.07h.01c-.62.26-1.19.6-1.71 1l.01-.01-2.88-1.17-2.44 4.22 2.44
+                            1.92.01-.02c-.04.33-.07.65-.07.99 0 .34.03.68.08 1.01l-.01-.02-2.1
+                            1.65-.33.26 2.43 4.2 2.88-1.15-.02-.04c.53.41 1.1.75 1.73 1.01h-.03L9.58
+                            22h4.85s.03-.18.06-.42l.38-2.65h-.01c.62-.26 1.2-.6 1.73-1.01l-.02.04
+                            2.88 1.15 2.43-4.2s-.14-.12-.33-.26l-2.11-1.66zM12 15.5c-1.93
+                            0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+            </symbol>
+            <symbol id="icon--home" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z" />
+            </symbol>
+            <symbol id="icon--list" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0V0z" fill="none"/>
+                <path d="M4 10h12v2H4zm0-4h12v2H4zm0 8h8v2H4zm10 0v6l5-3z"/>
+            </symbol>
 
             <symbol id="icon--play-btn"
                     height="24" viewBox="0 0 24 24" width="24">

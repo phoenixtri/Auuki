@@ -1177,54 +1177,45 @@ class NavigationStack extends HTMLElement {
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
-        // this.el = {
-        //     settings: {
-        //         $tab: document.querySelector(`#nav--settings`),
-        //         $link: document.querySelector(`#nav--settings`),
-
-        //         settings: {
-        //             $tab: document.querySelector(`#nav--settings-settings`),
-        //             $link: document.querySelector(`#nav--settings-profile`),
-        //         },
-        //         profile: {
-        //             $tab: document.querySelector(`#nav--settings-profile`),
-        //             $link: document.querySelector(`#link--settings-profile`),
-        //         }
-        //     },
-        //     home: {
-        //         $tab: document.querySelector(`#nav--home`),
-        //         $link: document.querySelector(`#nav--home`),
-        //     },
-        //     workouts: {
-        //         $tab: document.querySelector(`#nav--workouts`),
-        //         $link: document.querySelector(`#nav--workouts`),
-
-        //         workouts: {
-        //             $tab: document.querySelector(`#nav--workouts-workouts`),
-        //             $link: document.querySelector(`#link---workouts-workouts`),
-        //         },
-        //         editor: {
-        //             $tab: document.querySelector(`#nav--workouts-editor`),
-        //             $link: document.querySelector(`#link--workouts-editor`),
-        //         },
-        //         report: {
-        //             $tab: document.querySelector(`#nav--workouts-report`),
-        //             $link: document.querySelector(`#link--workouts-report`),
-        //         }
-        //     },
-        // };
-
-        this.el = {
-            tabs: {
-                $settings: document.querySelector(`#nav--settings-settings`),
-                $profile: document.querySelector(`#nav--settings-profile`),
+        this.tabs = {
+            settings: {
+                $view: document.querySelector(`#view--settings`),
+                $link: document.querySelector(`#link--settings`),
+                children: {
+                    settings: {
+                        $view: document.querySelector(`#view--settings-settings`),
+                        $link: document.querySelector(`#link--settings-settings`),
+                    },
+                    profile: {
+                        $view: document.querySelector(`#view--settings-profile`),
+                        $link: document.querySelector(`#link--settings-profile`),
+                    }
+                }
             },
-            links: {
-                $settings: document.querySelector(`#link--settings-settings`),
-                $profile: document.querySelector(`#link--settings-profile`),
-            }
-        };
+            home: {
+                $view: document.querySelector(`#view--home`),
+                $link: document.querySelector(`#link--home`),
+            },
+            workouts: {
+                $view: document.querySelector(`#view--workouts`),
+                $link: document.querySelector(`#view--workouts`),
 
+                children: {
+                    workouts: {
+                        $view: document.querySelector(`#view--workouts-workouts`),
+                        $link: document.querySelector(`#link--workouts-workouts`),
+                    },
+                    editor: {
+                        $view: document.querySelector(`#view--workouts-editor`),
+                        $link: document.querySelector(`#link--workouts-editor`),
+                    },
+                    report: {
+                        $view: document.querySelector(`#view--workouts-report`),
+                        $link: document.querySelector(`#link--workouts-report`),
+                    }
+                }
+            },
+        };
         xf.sub(`action:nav`, this.onAction.bind(this), this.signal);
     }
     disconnectedCallback() {
@@ -1233,14 +1224,38 @@ class NavigationStack extends HTMLElement {
     onAction(action) {
         console.log(action);
 
+        if(action === 'settings') {
+            this.switch('settings', this.tabs);
+            return;
+        }
+        if(action === 'home') {
+            this.switch('home', this.tabs);
+            return;
+        }
+        if(action === 'workouts') {
+            this.switch('workouts', this.tabs);
+            return;
+        }
+
         if(action === 'settings:settings') {
-            this.switch('$settings', this.el.tabs);
-            this.switch('$settings', this.el.links);
+            this.switch('settings', this.tabs.settings.children);
             return;
         }
         if(action === 'settings:profile') {
-            this.switch('$profile', this.el.tabs);
-            this.switch('$profile', this.el.links);
+            this.switch('profile', this.tabs.settings.children);
+            return;
+        }
+
+        if(action === 'workouts:workouts') {
+            this.switch('workouts', this.tabs.workouts.children);
+            return;
+        }
+        if(action === 'workouts:editor') {
+            this.switch('editor', this.tabs.workouts.children);
+            return;
+        }
+        if(action === 'workouts:report') {
+            this.switch('report', this.tabs.workouts.children);
             return;
         }
     }
@@ -1250,12 +1265,15 @@ class NavigationStack extends HTMLElement {
         // if there is no target element this is not an error,
         // it means all content should be 'non-active'
         for(let prop in elements) {
+            console.log(!(target === prop), prop, elements[prop]);
             if(!(target === prop)) {
-                elements[prop].classList.remove('active');
+                elements[prop].$view.classList.remove('active');
+                elements[prop].$link.classList.remove('active');
             }
         }
         if(target) {
-            elements[target].classList.add('active');
+            elements[target].$view.classList.add('active');
+            elements[target].$link.classList.add('active');
         }
     }
 }
