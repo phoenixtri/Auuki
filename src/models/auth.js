@@ -37,6 +37,7 @@ function Auth(args = {}) {
             }
             if(json?.result?.success) {
                 console.log(':api :register :success');
+                xf.dispatch('action:nav', 'settings:profile');
                 xf.dispatch('action:auth', ':password:login');
                 return;
             }

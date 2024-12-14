@@ -80,7 +80,7 @@ function Router(args = {}) {
 
     async function start() {
         const status = await auth.status();
-        console.log(`:status `, status);
+        // console.log(`:status `, status);
         args.config.setServices(status.services);
 
         const params = getParams();
@@ -135,6 +135,7 @@ function Router(args = {}) {
         }
         if(!error && token) {
             xf.dispatch('ui:page-set', 'settings');
+            xf.dispatch('action:nav', 'settings:profile');
             xf.dispatch('action:auth', ':password:reset');
             return true;
         }

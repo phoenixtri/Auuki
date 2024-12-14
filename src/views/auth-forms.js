@@ -12,6 +12,8 @@ class AuthForms extends HTMLElement {
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
+        console.log(`auth-forms connectedCallback`);
+
         this.el = {
             // each subset is exclusive or with css class .active
             //
@@ -21,14 +23,14 @@ class AuthForms extends HTMLElement {
             // passkey -> login, register -> profile
             // password -> login, register, forgot, reset -> profile
             // error
-            switch: {
-                $passkey: document.querySelector('#passkey--tab--switch'),
-                $password: document.querySelector('#password--tab--switch'),
-            },
-            tab: {
-                $passkey:  document.querySelector('#passkey--forms'),
-                $password: document.querySelector('#password--forms'),
-            },
+            // switch: {
+            //     $passkey: document.querySelector('#passkey--tab--switch'),
+            //     $password: document.querySelector('#password--tab--switch'),
+            // },
+            // tab: {
+            //     $passkey:  document.querySelector('#passkey--forms'),
+            //     $password: document.querySelector('#password--forms'),
+            // },
             password: {
                 $register: self.querySelector('#register--form'),
                 $login: self.querySelector('#login--form'),
@@ -36,11 +38,11 @@ class AuthForms extends HTMLElement {
                 $reset: self.querySelector('#reset--form'),
                 $profile: document.querySelector('#profile'),
             },
-            passkey: {
-                $register: self.querySelector('#passkey--register--form'),
-                $login: self.querySelector('#passkey--login--form'),
-                $profile: document.querySelector('#profile'),
-            },
+            // passkey: {
+            //     $register: self.querySelector('#passkey--register--form'),
+            //     $login: self.querySelector('#passkey--login--form'),
+            //     $profile: document.querySelector('#profile'),
+            // },
             $logout: document.querySelector('#logout--button'),
             $error: document.querySelector('#auth-error--section'),
             $pwds: document.querySelectorAll('input[type="password"]'),
@@ -58,6 +60,7 @@ class AuthForms extends HTMLElement {
         xf.sub('action:auth', self.onAction.bind(this));
     }
     disconnectedCallback() {
+        console.log(`auth-forms disconnectedCallback`);
         this.abortController.abort();
     }
     subForm(group, form, method) {
@@ -79,12 +82,12 @@ class AuthForms extends HTMLElement {
             this.switch('$password', this.el.switch);
             return;
         }
-        if(action === ':passkey') {
-            // TODO: fix when webauthn is ready
-            // this.switch('$passkey', this.el.tab);
-            // this.switch('$passkey', this.el.switch);
-            return;
-        }
+        // if(action === ':passkey') {
+        //     // TODO: fix when webauthn is ready
+        //     // this.switch('$passkey', this.el.tab);
+        //     // this.switch('$passkey', this.el.switch);
+        //     return;
+        // }
         if(action === ':password:login') {
             this.switch('$login', this.el.password);
             return;
@@ -109,14 +112,14 @@ class AuthForms extends HTMLElement {
             this.switch('$login', this.el.password);
             return;
         }
-        if(action === ':passkey:login') {
-            this.switch('$login', this.el.passkey);
-            return;
-        }
-        if(action === ':passkey:register') {
-            this.switch('$register', this.el.passkey);
-            return;
-        }
+        // if(action === ':passkey:login') {
+        //     this.switch('$login', this.el.passkey);
+        //     return;
+        // }
+        // if(action === ':passkey:register') {
+        //     this.switch('$register', this.el.passkey);
+        //     return;
+        // }
         if(action === ':error') {
             this.error('Wrong credentials or Authentication error');
             return;

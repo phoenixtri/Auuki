@@ -114,8 +114,6 @@ class PlannedList extends HTMLElement {
     render() {
         const self = this;
 
-        console.log(`Planned List render ${this.model.data.workouts.length}, visible: ${this.checkVisibility()}`);
-
         if(this.checkVisibility()) {
             self.size = self.getSize();
         };

@@ -1325,6 +1325,7 @@ div.graph--bar-group {
     letter-spacing: 1px;
     text-indent: -2px;
     align-content: center;
+    color: #fff;
     background-color: #005695;
     /* border: 1px solid #fff; */
     border-radius: 7px;
@@ -1338,6 +1339,7 @@ div.graph--bar-group {
     letter-spacing: 1px;
     text-indent: -1px;
     align-content: center;
+    color: #fff;
     background-color: #005695;
     /* border: 1px solid #fff; */
     border-radius: 7px;
@@ -1620,6 +1622,11 @@ div.graph--bar-group {
     font-weight: bold;
 }
 
+.header--tab--group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
 .library--switch--group {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1645,6 +1652,22 @@ div.graph--bar-group {
 
 .library--switch.active .library--switch--heading {
     color: var(--foreground-color);
+}
+
+.sub-tab {
+    display: none;
+
+    &.active {
+        display: block;
+    }
+}
+navigation-action {
+    color: var(--foreground-color-inactive);
+    cursor: pointer;
+
+    &.active {
+        color: var(--foreground-color);
+    }
 }
 
 #workouts {

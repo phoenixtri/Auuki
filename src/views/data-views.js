@@ -1168,6 +1168,100 @@ class LibrarySwitchGroup extends SwitchGroup {
 
 customElements.define('library-switch-group', LibrarySwitchGroup);
 
+class NavigationStack extends HTMLElement {
+    constructor() {
+        super();
+    }
+    connectedCallback() {
+        const self = this;
+        this.abortController = new AbortController();
+        this.signal = { signal: self.abortController.signal };
+
+        // this.el = {
+        //     settings: {
+        //         $tab: document.querySelector(`#nav--settings`),
+        //         $link: document.querySelector(`#nav--settings`),
+
+        //         settings: {
+        //             $tab: document.querySelector(`#nav--settings-settings`),
+        //             $link: document.querySelector(`#nav--settings-profile`),
+        //         },
+        //         profile: {
+        //             $tab: document.querySelector(`#nav--settings-profile`),
+        //             $link: document.querySelector(`#link--settings-profile`),
+        //         }
+        //     },
+        //     home: {
+        //         $tab: document.querySelector(`#nav--home`),
+        //         $link: document.querySelector(`#nav--home`),
+        //     },
+        //     workouts: {
+        //         $tab: document.querySelector(`#nav--workouts`),
+        //         $link: document.querySelector(`#nav--workouts`),
+
+        //         workouts: {
+        //             $tab: document.querySelector(`#nav--workouts-workouts`),
+        //             $link: document.querySelector(`#link---workouts-workouts`),
+        //         },
+        //         editor: {
+        //             $tab: document.querySelector(`#nav--workouts-editor`),
+        //             $link: document.querySelector(`#link--workouts-editor`),
+        //         },
+        //         report: {
+        //             $tab: document.querySelector(`#nav--workouts-report`),
+        //             $link: document.querySelector(`#link--workouts-report`),
+        //         }
+        //     },
+        // };
+
+        this.el = {
+            tabs: {
+                $settings: document.querySelector(`#nav--settings-settings`),
+                $profile: document.querySelector(`#nav--settings-profile`),
+            },
+            links: {
+                $settings: document.querySelector(`#link--settings-settings`),
+                $profile: document.querySelector(`#link--settings-profile`),
+            }
+        };
+
+        xf.sub(`action:nav`, this.onAction.bind(this), this.signal);
+    }
+    disconnectedCallback() {
+        this.abortController.abort();
+    }
+    onAction(action) {
+        console.log(action);
+
+        if(action === 'settings:settings') {
+            this.switch('$settings', this.el.tabs);
+            this.switch('$settings', this.el.links);
+            return;
+        }
+        if(action === 'settings:profile') {
+            this.switch('$profile', this.el.tabs);
+            this.switch('$profile', this.el.links);
+            return;
+        }
+    }
+    switch(target, elements) {
+        // prevent potential content flash
+        // by first removing and only after that adding .active
+        // if there is no target element this is not an error,
+        // it means all content should be 'non-active'
+        for(let prop in elements) {
+            if(!(target === prop)) {
+                elements[prop].classList.remove('active');
+            }
+        }
+        if(target) {
+            elements[target].classList.add('active');
+        }
+    }
+}
+
+customElements.define('navigation-stack', NavigationStack);
+
 
 // TODO:
 // - use data-<prop name> properties instead of attributes
@@ -1196,14 +1290,39 @@ class ViewAction extends HTMLElement {
             }
             // console.log(`action${topic}`, action, stopPropagation);
             xf.dispatch(`action${topic}`, action);
+            this.postAction();
         }, this.signal);
     }
     disconnectedCallback() {
         this.abortController.abort();
     }
+    postAction() {
+    }
 }
 
 customElements.define('view-action', ViewAction);
+
+
+class NavigationAction extends ViewAction {
+    constructor() {
+        super();
+    }
+    connectedCallback() {
+        super.connectedCallback();
+    }
+    disconnectedCallback() {
+        super.disconnectedCallback();
+    }
+    postAction() {
+        // this.siblings = this.parentElement.querySelectorAll('navigation-action');
+        // for(let sibling of this.siblings) {
+        //     sibling.classList.remove('active');
+        // }
+        // this.classList.add('active');
+    }
+}
+
+customElements.define('navigation-action', NavigationAction);
 
 
 class OAuth extends HTMLElement {
@@ -1578,4 +1697,7 @@ export {
     DataTileSwitchGroup,
 
     DockModeBtn,
+
+    NavigationStack,
+    ViewAction,
 }

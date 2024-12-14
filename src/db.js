@@ -366,11 +366,10 @@ xf.reg(`ant:search:stopped`, (x, db) => {
 });
 
 xf.reg('auth', (x, db) => {
-    console.log(`xf.reg('auth') `, x);
+    // TODO: remove?
 });
 
 xf.reg('services', (x, db) => {
-    console.log(`services `, x);
     db.services = Object.assign(db.services, x);
 });
 
