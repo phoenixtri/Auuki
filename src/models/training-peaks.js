@@ -1,12 +1,16 @@
-import { xf, } from '../functions.js';
+import { xf, once, } from '../functions.js';
 import { OAuthService, DialogMsg, stateParam, } from './enums.js';
 
 function TrainingPeaks(args = {}) {
-    const config = args.config;
-    const api_uri = config.API_URI;
-    const pwa_uri = config.PWA_URI;
-    const training_peaks_client_id = config.STRAVA_CLIENT_ID;
     const serviceName = OAuthService.trainingPeaks;
+    const config = args.config;
+    const api_uri = config.get().API_URI;
+    const pwa_uri = config.get().PWA_URI;
+    let training_peaks_client_id = config.get().STRAVA_CLIENT_ID;
+
+    const update = once(function() {
+        training_peaks_client_id = config.get().TRAINING_PEAKS_CLIENT_ID;
+    });
 
     // Step D
     async function connect() {
@@ -120,6 +124,7 @@ function TrainingPeaks(args = {}) {
         disconnect,
         paramsHandler,
         uploadWorkout,
+        update,
     });
 }
 

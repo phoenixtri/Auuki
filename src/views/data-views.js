@@ -1232,7 +1232,6 @@ class NavigationStack extends HTMLElement {
         // if there is no target element this is not an error,
         // it means all content should be 'non-active'
         for(let prop in elements) {
-            console.log(!(target === prop), prop, elements[prop]);
             if(!(target === prop)) {
                 elements[prop].$view.classList.remove('active');
                 elements[prop].$link.classList.remove('active');

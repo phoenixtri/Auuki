@@ -38,23 +38,13 @@ class Config {
 // - setup service config after status()
 function API() {
     const config = new Config();
-    const env = config.get();
-    const api_uri = env.API_URI;
-    const pwa_uri = env.PWA_URI;
-    const strava_client_id = env.STRAVA_CLIENT_ID;
-    const intervals_client_id = env.INTERVALS_CLIENT_ID;
-    const training_peaks_client_id = env.TRAINING_PEAKS_CLIENT_ID;
+    const auth = Auth({config,});
+    const strava = Strava({config,});
+    const intervals = Intervals({config,});
+    const trainingPeaks = TrainingPeaks({config,});
+    const router = Router({config, handlers: {strava, intervals, trainingPeaks, auth},});
 
-    const auth = Auth({config: env});
-    const strava = Strava({config: env});
-    const intervals = Intervals({config: env});
-    const trainingPeaks = TrainingPeaks({config: env});
-    const router = Router({
-        config,
-        handlers: {strava, intervals, trainingPeaks, auth},
-    });
-
-    function start() {
+    async function start() {
         router.start();
     }
 
@@ -80,8 +70,10 @@ function Router(args = {}) {
 
     async function start() {
         const status = await auth.status();
-        // console.log(`:status `, status);
         args.config.setServices(status.services);
+        strava.update();
+        intervals.update();
+        trainingPeaks.update();
 
         const params = getParams();
         if(hasParams(params)) {

@@ -1,13 +1,17 @@
-import { xf, print, } from '../functions.js';
+import { xf, once, print, } from '../functions.js';
 import { isoDate, } from '../utils.js';
 import { OAuthService, DialogMsg, stateParam, } from './enums.js';
 
 function Intervals(args = {}) {
-    const config = args.config;
-    const api_uri = config.API_URI;
-    const pwa_uri = config.PWA_URI;
-    const intervals_client_id = config.INTERVALS_CLIENT_ID;
     const serviceName = OAuthService.intervals;
+    const config = args.config;
+    const api_uri = config.get().API_URI;
+    const pwa_uri = config.get().PWA_URI;
+    let intervals_client_id = config.get().INTERVALS_CLIENT_ID;
+
+    const update = once(function() {
+        intervals_client_id = config.get().INTERVALS_CLIENT_ID;
+    });
 
     // Step D
     async function connect() {
@@ -150,6 +154,7 @@ function Intervals(args = {}) {
         disconnect,
         paramsHandler,
         uploadWorkout,
+        update,
         wod,
 
         wodMock,

@@ -4,9 +4,8 @@ import { uuid } from '../storage/uuid.js';
 
 function Auth(args = {}) {
     const config = args.config;
-    const api_uri = config.API_URI;
-    const pwa_uri = config.PWA_URI;
-    const strava_client_id = config.STRAVA_CLIENT_ID;
+    const api_uri = config.get().API_URI;
+    const pwa_uri = config.get().PWA_URI;
 
     // {data: {FormData}} -> Void
     async function register(args = {}) {
