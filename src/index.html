@@ -638,6 +638,9 @@
                                             required
                                         />
                                     </div>
+                                    <div>
+                                        <input class="input" name="username" type="text" value="" placeholder="Username" autocomplete="off" />
+                                    </div>
                                     <div class="form--submit--section">
                                         <button id="register--submit"
                                                 class="btn"
@@ -742,8 +745,17 @@
                                         </view-action>
                                     </div>
                                 </form>
-                            </div>
-                            <div id="turnstile-container"></div>
+                                <!-- data-sitekey="0x4AAAAAAA2IUz1CU0EU3E-O" -->
+                                <!-- 1x pass, 2x fail, 3x force -->
+                                <!-- data-sitekey="1x00000000000000000000BB" -->
+                                <!-- data-sitekey="2x00000000000000000000AB" -->
+                                <!-- data-sitekey="3x00000000000000000000FF" -->
+                                <!-- turnstile -->
+                                <div class="cf-turnstile"
+                                     data-sitekey="0x4AAAAAAA2IUz1CU0EU3E-O"
+                                >
+                                </div> <!-- END turnstile -->
+                            </div> <!-- END password--forms -->
                             <div id="auth-error--section" class="error">
                             </div>
                         </auth-forms>
@@ -1572,6 +1584,5 @@
             </symbol>
         </svg>
     </body>
-    <!-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> -->
     <script type="module" src="index.js"></script>
 </html>

@@ -68,7 +68,12 @@ class AuthForms extends HTMLElement {
 
         $form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const data = Object.fromEntries(new FormData($form));
+            const formData = new FormData($form);
+            const cfTurnstileResponse = window.turnstile.getResponse();
+            if(cfTurnstileResponse === undefined) { return; }
+            formData.append('cf-turnstile-response', cfTurnstileResponse);
+            const data = Object.fromEntries(formData);
+            console.log(data);
             await models.api.auth[method]({data,});
             $form.reset();
         }, this.signal);
@@ -76,6 +81,9 @@ class AuthForms extends HTMLElement {
     onAction(action) {
         const self = this;
         console.log(action);
+
+        // TODO: figure out a condition
+        // models.api.auth.loadTurnstile();
 
         if(action === ':password') {
             this.switch('$password', this.el.tab);

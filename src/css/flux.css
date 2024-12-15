@@ -2287,6 +2287,12 @@ navigation-action {
     .webauthn--section {
         margin: 1rem 0;
     }
+    .input[name="username"] {
+        display: none;
+    }
+    .cf-turnstile {
+        margin: 1em auto;
+    }
 }
 #profile {
     display: none;

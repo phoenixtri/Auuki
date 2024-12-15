@@ -1,4 +1,4 @@
-import { exists, xf, print, } from '../functions.js';
+import { exists, xf, once, print, } from '../functions.js';
 import { DialogMsg } from './enums.js';
 import { uuid } from '../storage/uuid.js';
 
@@ -7,6 +7,26 @@ function Auth(args = {}) {
     const api_uri = config.get().API_URI;
     const pwa_uri = config.get().PWA_URI;
 
+    let turnstileLoaded = false;
+
+    const loadTurnstile = once(function() {
+        if(!turnstileLoaded) {
+            console.log(`---- Turnstile Load ----`);
+            // const script = document.createElement('script');
+            // script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+            // script.async = true;
+            // script.defer = true;
+            // document.head.appendChild(script);
+            turnstileLoaded = true;
+        }
+    });
+
+    function isBrowser() {
+        return (
+            ('bluetooth' in navigator) && ('wakeLock' in navigator)
+        );
+    }
+
     // {data: {FormData}} -> Void
     async function register(args = {}) {
         const url = `${api_uri}/api/register`;
@@ -14,8 +34,10 @@ function Auth(args = {}) {
 
         if(data.email.trim() === '' ||
             data.password.trim() === '' ||
-            data.password_confirmation.trim() === ''
+            data.password_confirmation.trim() === '' ||
+            !isBrowser()
             ) {
+            console.log(`:register :blocked :is-browser ${isBrowser()}`);
             return;
         }
 
@@ -52,7 +74,10 @@ function Auth(args = {}) {
         const url = `${api_uri}/api/login`;
         const data = args.data;
 
-        if(data.email.trim() === '' || data.password.trim() === '') {
+        if(data.email.trim() === '' ||
+           data.password.trim() === '' ||
+           !isBrowser()) {
+            console.log(`:login :blocked :is-browser ${isBrowser()}`);
             return;
         }
 
@@ -110,7 +135,8 @@ function Auth(args = {}) {
         const url = `${api_uri}/api/forgot-password`;
         const data = args.data;
 
-        if(data.email.trim() === '') {
+        if(data.email.trim() === '' || !isBrowser()) {
+            console.log(`:forgot :blocked :is-browser ${isBrowser()}`);
             return;
         }
 
@@ -141,7 +167,9 @@ function Auth(args = {}) {
         data.token = token;
 
         if(data.password.trim() === '' ||
-           data.password_confirmation.trim() === '') {
+           data.password_confirmation.trim() === '' ||
+           !isBrowser()) {
+            console.log(`:reset :blocked :is-browser ${isBrowser()}`);
             return;
         }
 
@@ -190,7 +218,7 @@ function Auth(args = {}) {
                 return body.result;
             }
             if(status === 403) {
-                console.log(`:api :no-auth`);
+                xf.dispatch('action:status', ':logout');
                 xf.dispatch('action:auth', ':password:login');
                 return {strava: false, intervals: false, trainingPeaks: false};
             }
@@ -215,6 +243,7 @@ function Auth(args = {}) {
         forgot,
         reset,
         status,
+        loadTurnstile,
     });
 }
 
