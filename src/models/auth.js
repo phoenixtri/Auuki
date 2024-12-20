@@ -8,18 +8,26 @@ function Auth(args = {}) {
     const pwa_uri = config.get().PWA_URI;
 
     let turnstileLoaded = false;
+    let _loggedIn = false;
+    let _hasApi = true;
 
-    const loadTurnstile = once(function() {
-        if(!turnstileLoaded) {
-            console.log(`---- Turnstile Load ----`);
-            // const script = document.createElement('script');
-            // script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
-            // script.async = true;
-            // script.defer = true;
-            // document.head.appendChild(script);
+    // User is logged-in -> don't show or remove
+    // User is not-logged-in ->
+    //     -> navigation at profile -> show
+    //
+    function loadTurnstile() {
+        if(!_loggedIn && _hasApi) {
+            const script = document.createElement('script');
+            script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
             turnstileLoaded = true;
         }
-    });
+    };
+
+    function unloadTurnstile() {
+    }
 
     function isBrowser() {
         return (
@@ -213,16 +221,20 @@ function Auth(args = {}) {
 
             if(status === 200) {
                 console.log(`:api :profile`);
+                _loggedIn = true;
                 xf.dispatch('action:auth', ':password:profile');
                 xf.dispatch('services', body?.result);
                 return body.result;
             }
             if(status === 403) {
+                _loggedIn = false;
                 xf.dispatch('action:status', ':logout');
                 xf.dispatch('action:auth', ':password:login');
                 return {strava: false, intervals: false, trainingPeaks: false};
             }
             if(status === 500 || status === 405) {
+                _loggedIn = false;
+                _hasApi = false;
                 console.log(`:api :no-api`);
                 xf.dispatch('action:auth', ':no-api');
                 return {strava: false, intervals: false, trainingPeaks: false};

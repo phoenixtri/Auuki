@@ -76,6 +76,8 @@ class AuthForms extends HTMLElement {
             console.log(data);
             await models.api.auth[method]({data,});
             $form.reset();
+            // TODO:
+            // refresh turnstile
         }, this.signal);
     }
     onAction(action) {

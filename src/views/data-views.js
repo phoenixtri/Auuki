@@ -1210,6 +1210,7 @@ class NavigationStack extends HTMLElement {
         }
         if(action === 'settings:profile') {
             this.switch('profile', this.tabs.settings.children);
+            models.api.auth.loadTurnstile();
             return;
         }
 
