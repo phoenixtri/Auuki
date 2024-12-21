@@ -12,8 +12,6 @@ class AuthForms extends HTMLElement {
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
-        console.log(`auth-forms connectedCallback`);
-
         this.el = {
             // each subset is exclusive or with css class .active
             //
@@ -60,7 +58,6 @@ class AuthForms extends HTMLElement {
         xf.sub('action:auth', self.onAction.bind(this));
     }
     disconnectedCallback() {
-        console.log(`auth-forms disconnectedCallback`);
         this.abortController.abort();
     }
     subForm(group, form, method) {
@@ -73,11 +70,18 @@ class AuthForms extends HTMLElement {
             if(cfTurnstileResponse === undefined) { return; }
             formData.append('cf-turnstile-response', cfTurnstileResponse);
             const data = Object.fromEntries(formData);
-            console.log(data);
+
             await models.api.auth[method]({data,});
             $form.reset();
+
             // TODO:
             // refresh turnstile
+            if(method === 'register' ||
+               method === 'forgot' ||
+               method === 'reset') {
+                models.api.auth.resetTurnstile();
+            }
+
         }, this.signal);
     }
     onAction(action) {

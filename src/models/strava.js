@@ -28,7 +28,6 @@ function Strava(args = {}) {
                   state,
                   scope,
               }).toString();
-        // console.log(url);
         window.location.replace(url);
     }
 

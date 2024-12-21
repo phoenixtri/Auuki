@@ -1354,9 +1354,15 @@ class OAuth extends HTMLElement {
         }
     }
     render(services) {
-        this.$stravaButton.textContent = services.strava ? 'Disconnect' : 'Connect';
-        this.$intervalsButton.textContent = services.intervals ? 'Disconnect' : 'Connect';
-        this.$tpButton.textContent = services.tp ? 'Disconnect' : 'Connect';
+        if(exists(this.$stravaButton)) {
+            this.$stravaButton.textContent = services.strava ? 'Disconnect' : 'Connect';
+        }
+        if(exists(this.$intervalsButton)) {
+            this.$intervalsButton.textContent = services.intervals ? 'Disconnect' : 'Connect';
+        }
+        if(exists(this.$tpButton)) {
+            this.$tpButton.textContent = services.tp ? 'Disconnect' : 'Connect';
+        }
     }
 }
 

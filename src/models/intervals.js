@@ -33,7 +33,29 @@ function Intervals(args = {}) {
 
     async function disconnect() {
         // TODO:
-        const url = "https://intervals.icu/oauth/deauthorize";
+        // try {
+        //     const stravaResponse = await fetch(
+        //         "https://intervals.icu/api/v1/disconnect-app",
+        //         {method: 'DELETE',}
+        //     );
+        //     console.log(`:oauth :intervals :disconnect`);
+        //     const stravaBody = await stravaResponse.text();
+
+        //     const apiResponse = await fetch(
+        //         api_uri+`/api/intervals/deauthorize`,
+        //         {method: 'POST', credentials: 'include',},
+        //     );
+
+        //     const apiBody = await apiResponse.text();
+
+        //     xf.dispatch(`services`, {intervals: false});
+        // } catch (e) {
+        //     console.log(`:intervals :deauthorize :error `, e);
+        // }
+
+        // fallback since it seems deauthorize it supported only from
+        // the Intervals.icu settings page
+        await connect();
     }
 
     // Step 3
