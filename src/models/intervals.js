@@ -141,9 +141,11 @@ function Intervals(args = {}) {
 
             if(response.ok) {
                 const data = await response.json();
+                xf.dispatch('action:planned', ':intervals:wod:success');
                 console.log(data);
                 return data;
             } else {
+                xf.dispatch('action:planned', ':intervals:wod:fail');
                 if(response.status === 403) {
                     console.log(`:api :no-auth`);
                     xf.dispatch('action:auth', ':password:login');
@@ -152,6 +154,7 @@ function Intervals(args = {}) {
                 return [];
             }
         } catch(error) {
+            xf.dispatch('action:planned', ':intervals:wod:fail');
             console.log(error);
             return [];
         }

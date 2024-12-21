@@ -21,6 +21,14 @@ class PlannedList extends HTMLElement {
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
+        this.$indicatorIntervals = document.querySelector(
+            `.planned--actions .connection-icon-switch--indicator.intervals`
+        );
+
+        this.$indicatorTrainingPeaks = document.querySelector(
+            `.planned--actions .connection-icon-switch--indicator.tp`
+        );
+
         xf.sub(`db:ftp`,      this.onFTP.bind(this), this.signal);
         xf.sub('action:planned', self.onAction.bind(this), this.signal);
 
@@ -41,11 +49,25 @@ class PlannedList extends HTMLElement {
         }
         if(action === ':intervals:wod') {
             this.model.wod('intervals');
+            this.onLoading(this.$indicatorIntervals);
             return;
         }
+        if(action === ':intervals:wod:success') {
+            this.onSuccess(this.$indicatorIntervals);
+        }
+        if(action === ':intervals:wod:fail') {
+            this.onFail(this.$indicatorIntervals);
+        }
+
         if(action === ':trainingPeaks:wod') {
             this.model.wod('trainingPeaks');
             return;
+        }
+        if(action === ':trainingPeaks:wod:success') {
+            this.onSuccess(this.$indicatorTrainingPeaks);
+        }
+        if(action === ':trainingPeaks:wod:fail') {
+            this.onFail(this.$indicatorTrainingPeaks);
         }
     }
     getSize() {
@@ -123,6 +145,24 @@ class PlannedList extends HTMLElement {
         } else {
             self.innerHTML = self.toList();
         }
+    }
+    onLoading($el) {
+        $el.classList.remove('fail');
+        $el.classList.remove('success');
+        $el.classList.remove('none');
+        $el.classList.add('loading');
+    }
+    onSuccess($el) {
+        $el.classList.remove('off');
+        $el.classList.remove('none');
+        $el.classList.remove('loading');
+        $el.classList.add('success');
+    }
+    onFail($el) {
+        $el.classList.remove('success');
+        $el.classList.remove('loading');
+        $el.classList.remove('none');
+        $el.classList.add('fail');
     }
 }
 
