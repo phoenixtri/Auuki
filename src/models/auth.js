@@ -1,9 +1,12 @@
 import { exists, xf, once, print, } from '../functions.js';
 import { DialogMsg } from './enums.js';
 import { uuid } from '../storage/uuid.js';
+import config from './config.js';
+import strava from './strava.js';
+import intervals from './intervals.js';
+import trainingPeaks from './training-peaks.js';
 
 function Auth(args = {}) {
-    const config = args.config;
     const api_uri = config.get().API_URI;
     const pwa_uri = config.get().PWA_URI;
 
@@ -277,6 +280,13 @@ function Auth(args = {}) {
                     removeTurnstile();
                 }
 
+                console.log(`:status`, body.result);
+
+                config.setServices(body.result.services);
+                strava.update();
+                intervals.update();
+                trainingPeaks.update();
+
                 xf.dispatch('action:auth', ':password:profile');
                 xf.dispatch('services', body?.result);
                 return body.result;
@@ -333,5 +343,7 @@ function Auth(args = {}) {
     });
 }
 
-export default Auth;
+const auth = Auth();
+
+export default auth;
 

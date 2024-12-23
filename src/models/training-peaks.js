@@ -1,16 +1,16 @@
 import { xf, once, } from '../functions.js';
 import { OAuthService, DialogMsg, stateParam, } from './enums.js';
+import config from './config.js';
 
 function TrainingPeaks(args = {}) {
     const serviceName = OAuthService.trainingPeaks;
-    const config = args.config;
     const api_uri = config.get().API_URI;
     const pwa_uri = config.get().PWA_URI;
     let training_peaks_client_id = config.get().TRAINING_PEAKS_CLIENT_ID;
 
-    const update = once(function() {
+    const update = function() {
         training_peaks_client_id = config.get().TRAINING_PEAKS_CLIENT_ID;
-    });
+    };
 
     // Step D
     async function connect() {
@@ -131,5 +131,7 @@ function TrainingPeaks(args = {}) {
     });
 }
 
-export default TrainingPeaks;
+const trainingPeaks = TrainingPeaks();
+
+export default trainingPeaks;
 
