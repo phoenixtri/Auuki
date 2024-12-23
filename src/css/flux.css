@@ -2412,7 +2412,7 @@ workout-graph-svg {
 .activity--cont {
     display: grid;
     /* grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr; */
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
     justify-content: center;
     line-height: 4rem;
 }

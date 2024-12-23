@@ -1,17 +1,17 @@
 import { xf, once, print, } from '../functions.js';
 import { isoDate, } from '../utils.js';
 import { OAuthService, DialogMsg, stateParam, } from './enums.js';
+import config from './config.js';
 
 function Intervals(args = {}) {
     const serviceName = OAuthService.intervals;
-    const config = args.config;
     const api_uri = config.get().API_URI;
     const pwa_uri = config.get().PWA_URI;
     let intervals_client_id = config.get().INTERVALS_CLIENT_ID;
 
-    const update = once(function() {
+    const update = function() {
         intervals_client_id = config.get().INTERVALS_CLIENT_ID;
-    });
+    };
 
     // Step D
     async function connect() {
@@ -28,6 +28,7 @@ function Intervals(args = {}) {
                   scope,
                   state,
               }).toString();
+
         window.location.replace(url);
     }
 
@@ -186,5 +187,7 @@ function Intervals(args = {}) {
     });
 }
 
-export default Intervals;
+const intervals = Intervals();
+
+export default intervals;
 

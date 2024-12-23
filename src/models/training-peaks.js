@@ -1,20 +1,20 @@
 import { xf, once, } from '../functions.js';
 import { OAuthService, DialogMsg, stateParam, } from './enums.js';
+import config from './config.js';
 
 function TrainingPeaks(args = {}) {
     const serviceName = OAuthService.trainingPeaks;
-    const config = args.config;
     const api_uri = config.get().API_URI;
     const pwa_uri = config.get().PWA_URI;
-    let training_peaks_client_id = config.get().STRAVA_CLIENT_ID;
+    let training_peaks_client_id = config.get().TRAINING_PEAKS_CLIENT_ID;
 
-    const update = once(function() {
+    const update = function() {
         training_peaks_client_id = config.get().TRAINING_PEAKS_CLIENT_ID;
-    });
+    };
 
     // Step D
     async function connect() {
-        const scope = 'activity:write';
+        const scope = 'file:write workouts:wod';
         const state = stateParam.encode(serviceName);
         stateParam.store(state);
 
@@ -22,13 +22,16 @@ function TrainingPeaks(args = {}) {
               'https://oauth.sandbox.trainingpeaks.com/OAuth/Authorize' +
               '?' +
               new URLSearchParams({
-                  client_id: strava_client_id,
-                  redirect_uri: pwa_uri,
                   response_type: 'code',
-                  state,
+                  client_id: training_peaks_client_id,
                   scope,
+                  redirect_uri: pwa_uri,
+                  state,
               }).toString();
         console.log(url);
+        console.log(training_peaks_client_id);
+        console.log(scope);
+        console.log(pwa_uri);
         window.location.replace(url);
     }
 
@@ -128,5 +131,7 @@ function TrainingPeaks(args = {}) {
     });
 }
 
-export default TrainingPeaks;
+const trainingPeaks = TrainingPeaks();
+
+export default trainingPeaks;
 
