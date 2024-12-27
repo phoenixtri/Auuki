@@ -772,27 +772,8 @@
                                         <h2 class="list--sub-heading">Connections</h2>
                                     </div>
                                 </div>
-                                <div class="list--row--outer strava">
-                                    <!-- <div class="list--row--inner app-connection">
-
-                                         <svg class="app-connection--icon">
-                                         <use href="#icon--strava"></use>
-                                         </svg>
-                                         <h3 class="app-connection--heading">Strava</h3>
-
-                                         <view-action action=":strava:switch"
-                                         topic=":oauth">
-                                         <div
-                                         id="strava--connect--button"
-                                         class="app-connection--button">
-                                         Connect
-                                         </div>
-                                         </view-action>
-                                         </div> -->
-                                </div>
-
                                 <div class="list--row--outer">
-                                    <div class="app-connection list--row--inner intervals">
+                                    <div class="app-connection icon list--row--inner intervals">
                                         <svg class="app-connection--icon">
                                             <use href="#icon--intervals"></use>
                                         </svg>
@@ -808,9 +789,8 @@
                                         </view-action>
                                     </div>
                                 </div>
-
                                 <!-- <div class="list--row--outer">
-                                     <div class="app-connection list--row--inner tp">
+                                     <div class="app-connection icon list--row--inner tp">
                                      <div class="tp-logo">TP</div>
                                      <h3 class="app-connection--heading">TrainingPeaks</h3>
                                      <view-action action=":trainingPeaks:switch"
@@ -823,9 +803,29 @@
                                      </view-action>
                                      </div>
                                      </div> -->
+                                <div class="list--row--outer strava">
+                                    <div class="list--row--inner app-connection logo">
+                                        <!-- <img class="app-connection--logo"
+                                             alt=""
+                                             src="./images/connections/btn_strava_connectwith_orange.svg" /> -->
+                                        <img class="app-connection--logo"
+                                             alt=""
+                                             src="./images/connections/powered-by-strava-logo.svg" />
+                                        <view-action action=":strava:switch"
+                                                     topic=":oauth">
+                                            <div
+                                                id="strava--connect--button"
+                                                class="app-connection--button">
+                                                Connect
+                                            </div>
+                                        </view-action>
+                                    </div>
+                                </div>
+
+
 
                                 <div class="list--row--outer">
-                                    <div class="app-connection list--row--inner">
+                                    <div class="app-connection icon list--row--inner">
                                         <img class="app-connection--icon" alt="GC" src="images/connections/garmin-connect.png"/>
                                         <h3 class="app-connection--heading">Garmin</h3>
                                         <a class="app-connection--button app-connection--link a"

@@ -2412,7 +2412,7 @@ workout-graph-svg {
 .activity--cont {
     display: grid;
     /* grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr; */
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
     justify-content: center;
     line-height: 4rem;
 }
@@ -2490,13 +2490,23 @@ dialog {
 
 .app-connection {
     display: grid;
-    grid-template-columns: 5em 1fr 1fr;
     align-items: center;
     padding: 1rem 1rem;
+
+    &.logo {
+        grid-template-columns: 1fr 1fr;
+    }
+    &.icon {
+        grid-template-columns: 5em 1fr 1fr;
+    }
 }
 
 .app-connection--icon {
     width: 4em;
+    height: 4em;
+    margin-right: 1rem;
+}
+.app-connection--logo {
     height: 4em;
     margin-right: 1rem;
 }
