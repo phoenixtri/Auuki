@@ -272,7 +272,7 @@ function Auth(args = {}) {
             const status = response.status;
             const body = await response.json();
 
-            if(status === 200) {
+            if(response.ok) {
                 console.log(`:api :profile`);
                 _loggedIn = true;
 
@@ -318,6 +318,7 @@ function Auth(args = {}) {
             return {strava: false, intervals: false, trainingPeaks: false};
         } catch(error) {
             console.log(`:api :no-api`);
+            console.log(error);
 
             if(_turnstileLoaded) {
                 removeTurnstile();
