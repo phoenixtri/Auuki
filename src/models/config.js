@@ -19,7 +19,6 @@ class Config {
         this.env.STRAVA_CLIENT_ID = args.strava ?? this.defaultStravaClientId;
         this.env.INTERVALS_CLIENT_ID = args.intervals ?? this.defaultIntervalsClientId;
         this.env.TRAINING_PEAKS_CLIENT_ID = args.trainingPeaks ?? this.defaultTrainingPeaksClientId;
-        Object.freeze(this.env);
     }
     get() {
         return this.env;
