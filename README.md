@@ -9,6 +9,7 @@ Auuki is an App for executing structured workouts on a smart trainer.
 - workouts with [Slope targets](https://github.com/dvmarinoff/Auuki/wiki/Slope-target-for-workout-intervals)
 - recording .FIT Activities compatible with all major platforms like Strava, Training Peaks, etc
 - build-in collection of structured workouts to get you started
+- integrations with [Intervals.icu](https://intervals.icu/) and Strava allow for syncing planned workouts and uploading activities
 
 The web version is free to use and open source. It is developed as a static PWA, has zero dependancies and is completly independant to run.
 Everything happens in your Browser and stays in there. It uses Web Bluetooth, Web Serial, Web Components, IndexDB, Local Storage, WakeLock API.
