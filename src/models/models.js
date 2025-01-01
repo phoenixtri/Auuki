@@ -483,14 +483,21 @@ class DataTileSwitch extends Model {
 
 
 class Activity extends Model {
-    // [
-    //     {
-    //         id: UUID, timestamp: Int, duration: Int, status: {
-    //             strava: String,
-    //             intervals: String
+    // var activity = {
+    //         id: UUID,
+    //         blob: Blob,
+    //         summary: {
+    //             timestamp: Int,
+    //             duration: Int,
+    //             name: String,
+    //             status: {
+    //                 strava: String,
+    //                 intervals: String,
+    //                 trainingPeaks: String,
+    //             }
     //         },
-    //     },
-    // ]
+    // };
+
     name = 'activity';
     postInit(args) {
         this.api = args.api;
@@ -500,12 +507,14 @@ class Activity extends Model {
     createFromCurrent(db) {
         const id = uuid();
         const blob = fileHandler.toBlob(this.encode(db));
+        const name = db.workout?.meta?.name ?? 'Powered by Auuki workout';
 
         const summary = {
             id,
             timestamp: Date.now(),
+            name,
             duration: db.elapsed ?? 0,
-            status: {strava: 'none', intervals: 'none'},
+            status: {strava: 'none', intervals: 'none', trainingPeaks: 'none'},
         };
         const record = {
             id,
@@ -532,7 +541,7 @@ class Activity extends Model {
            service === 'intervals' ||
            service === 'trainingPeaks') {
 
-            const res = await this.api[service].uploadWorkout(record.blob);
+            const res = await this.api[service].uploadWorkout(record);
             record.summary.status[service] = res.substring(1);
             await idb.put('activity', record);
 

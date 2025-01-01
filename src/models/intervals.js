@@ -92,11 +92,14 @@ function Intervals(args = {}) {
         window.history.pushState({}, document.title, window.location.pathname);
     }
 
-    async function uploadWorkout(blob) {
+    async function uploadWorkout(record) {
+        const blob = record.blob;
+        const workoutName = record.summary.name;
         const url = `${api_uri}/api/intervals/upload`;
 
         const formData = new FormData();
         formData.append('file', blob);
+        formData.append('name', workoutName);
 
         try {
             const response = await fetch(url, {
