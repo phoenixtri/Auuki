@@ -81,7 +81,8 @@ function Intervals(args = {}) {
             });
 
             const result = await response.text();
-            print.log(result);
+            console.log(`:oauth :intervals :connnect`);
+            xf.dispatch(`services`, {intervals: true});
             clearParams();
         } catch (e) {
             console.log(``, e);
