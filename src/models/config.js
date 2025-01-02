@@ -8,7 +8,7 @@ class Config {
         this.env = {
             // PWA_URI: "https://localhost:1234",
             // API_URI: "https://localhost:8080",
-            PWA_URI: "https://dev.auuki.com",
+            PWA_URI: "https://auuki.com",
             API_URI: "https://api.auuki.com",
             STRAVA_CLIENT_ID: this.defaultStravaClientId,
             INTERVALS_CLIENT_ID: this.defaultIntervalsClientId,
