@@ -535,21 +535,18 @@ class Activity extends Model {
         return activityList;
     }
     async upload(service, id) {
-        const record = await idb.get('activity', id);
+        let record = await idb.get('activity', id);
 
         if(service === 'strava' ||
            service === 'intervals' ||
            service === 'trainingPeaks') {
 
             const res = await this.api[service].uploadWorkout(record);
+            record = await idb.get('activity', id);
             record.summary.status[service] = res.substring(1);
             await idb.put('activity', record);
 
-            if(res === ':success') {
-                xf.dispatch(`action:activity:${id}`, `:${service}:upload:success`);
-            } else {
-                xf.dispatch(`action:activity:${id}`, `:${service}:upload:fail`);
-            }
+            xf.dispatch(`action:activity:${id}`, `:${service}:upload${res}`);
         }
         return;
     }
