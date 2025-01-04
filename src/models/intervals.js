@@ -95,7 +95,7 @@ function Intervals(args = {}) {
 
     async function uploadWorkout(record) {
         const blob = record.blob;
-        const workoutName = record.summary.name;
+        const workoutName = record.summary?.name ?? 'Powered by Auuki workout';
         const url = `${api_uri}/api/intervals/upload`;
 
         const formData = new FormData();
