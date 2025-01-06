@@ -2409,20 +2409,119 @@ workout-graph-svg {
     font-weight: bold;
 }
 
-.activity--cont {
+activity-item {
+    position: relative;
+
+
+    .activity--cont {
+        width: 100%;
+        position: relative;
+        background-color: var(--background-color);
+        z-index: 1;
+    }
+
+    &.options .activity--cont {
+        transform: translateX(-8rem);
+    }
+    &.expand .activity--info--full {
+        display: grid;
+    }
+}
+
+.activity--info--short {
     display: grid;
-    /* grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr; */
-    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 4rem;
     justify-content: center;
+    align-items: center;
     line-height: 4rem;
+    background-color: var(--background-color);
+
+    position: relative;
+    z-index: 1;
+
+    .info {
+        display: grid;
+        grid-template-columns: 50% 1fr 1fr;
+        justify-content: center;
+        align-items: center;
+        line-height: 4rem;
+        cursor: pointer;
+    }
+}
+.activity--info--full {
+    display: none;
+    background-color: var(--background-color);
+    position: relative;
+    z-index: 1;
+
+    .activity--image {
+        width: 100%;
+        /* height: 8rem; */
+        background-color: var(--background-color-2);
+    }
+
+    .tp-logo--icon {
+        background-color: var(--gray);
+        cursor: not-allowed;
+    }
+    .action--image {
+        cursor: not-allowed;
+
+        svg {
+            fill: var(--gray);
+        }
+    }
+}
+.activity--options {
+    display: grid ;
+    width: 8em;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    background-color: var(--red);
+
+    .activity--remove {
+        font-size: 1.4em;
+        place-self: center;
+        cursor: pointer;
+    }
+}
+
+.activity--options--button {
+    justify-self: center;
+}
+.activity--actions {
+    display: none;
+    display: grid;
+    grid-template-columns: 40% 1fr 1fr 1fr 1fr;
+    align-items: center;
+    line-height: 4rem;
+    height: 4rem;
+
+    .action--download {
+        /* justify-self: left; */
+    }
+    .action--intervals {
+        /* justify-self: left; */
+    }
+}
+.activity--name {
+    font-size: var(--workout--name-font-size);
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-align: left;
 }
 .activity--date {
     font-size: 1.2em;
     text-align: left;
 }
 .activity--duration {
-    font-size: 1.2em;
     text-align: left;
+    font-size: var(--workout--duration-font-size);
+    color: var(--gray);
 }
 .activity--action {
     display: flex;
