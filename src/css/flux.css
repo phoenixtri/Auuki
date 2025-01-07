@@ -1448,7 +1448,7 @@ div.graph--bar-group {
 
 .workout--info {
     position: relative;
-    padding: 0em 1.5em;
+    padding: 0em 1em;
     background-color: var(--background-color);
     z-index: 1;
 }
@@ -1494,7 +1494,7 @@ div.graph--bar-group {
 
 .workout--summary {
     display: grid;
-    grid-template-columns: 5fr 3fr 2fr 1fr 1fr;
+    grid-template-columns: 5fr 3fr 2fr 1fr 3rem;
 
     align-items: center;
     align-content: center;
@@ -2430,7 +2430,7 @@ activity-item {
 
 .activity--info--short {
     display: grid;
-    grid-template-columns: 1fr 4rem;
+    grid-template-columns: 1fr 3rem;
     justify-content: center;
     align-items: center;
     line-height: 4rem;
@@ -2496,15 +2496,16 @@ activity-item {
     display: none;
     display: grid;
     grid-template-columns: 40% 1fr 1fr 1fr 1fr;
+    /* grid-template-columns: 8rem 8rem 1fr 1fr 8rem 4rem; */
     align-items: center;
     line-height: 4rem;
     height: 4rem;
 
-    .action--download {
-        /* justify-self: left; */
+    .action--image {
+        justify-self: center;
     }
     .action--intervals {
-        /* justify-self: left; */
+        justify-self: left;
     }
 }
 .activity--name {
@@ -2755,6 +2756,10 @@ and (min-height: 600px) {
 
     .device-card {
         --grid-template-columns--device-card--body--row: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .list--row--inner {
+        padding: 1em 0em;
     }
 }
 
