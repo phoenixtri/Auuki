@@ -167,10 +167,8 @@ class WorkoutGraph extends HTMLElement {
     }
     onWindowResize(e) {
         const viewPort = this.getViewPort();
-        console.log(`call Resize`);
         if(equals(viewPort.width, 0)) return;
         this.viewPort = viewPort;
-        console.log(`do Resize ${viewPort.width}`);
         this.render();
     }
     onHover(e) {
