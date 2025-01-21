@@ -179,6 +179,60 @@ function Intervals(args = {}) {
         return body;
     }
 
+    async function get_athelete() {
+        // GET /api/v1/athlete/{id}
+        //
+        // Weight is icu_weight (in kg).
+        // The FTP is per sport (sportSettings array).
+        // Search for one with types field containing ‘Ride’ or ‘VirtualRide’.
+        // Then check ‘indoor_ftp’ (might be null) and ‘ftp’.
+        // {
+        //     weight: Int,
+        //     icu_weight: Int,
+        //     icu_weight_sync: String,
+        //     sportSettings: [{
+        //         types: [String]
+        //         ftp: Int,
+        //         indoor_ftp: Int,
+        //         lthr: Int,
+        //         max_hr: Int,
+        //     }]
+        // }
+        // ->
+        // {
+        //     weight: Int ?? 0,
+        //     ftp: Int ?? 0
+        // }
+        const url = `${api_uri}/api/intervals/athlete`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                credentials: 'include',
+            });
+
+            if(response.ok) {
+                const data = await response.json();
+                xf.dispatch('action:athlete', ':intervals:athlete:success');
+                console.log(data);
+                return data;
+            } else {
+                xf.dispatch('action:athlete', ':intervals:athlete:fail');
+                if(response.status === 403) {
+                    console.log(`:api :no-auth`);
+                    xf.dispatch('action:auth', ':password:login');
+                    xf.dispatch('ui:modal:error:open', DialogMsg.noAuth);
+                }
+                return {};
+            }
+        } catch(error) {
+            xf.dispatch('action:athlete', ':intervals:athlete:fail');
+            console.log(error);
+            return {};
+        }
+
+    }
+
     return Object.freeze({
         connect,
         disconnect,
@@ -186,6 +240,7 @@ function Intervals(args = {}) {
         uploadWorkout,
         update,
         wod,
+        get_athelete,
 
         wodMock,
     });
