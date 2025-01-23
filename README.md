@@ -1,4 +1,4 @@
-<img alt="Auuki Indoor Cyling app for Structured Training" src="doc/images/github-project-header" />
+<img alt="Auuki Indoor Cyling app for Structured Training" src="doc/images/github-project-header.png" />
 
 # Auuki
 
