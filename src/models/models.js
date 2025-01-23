@@ -338,7 +338,11 @@ class FTP extends Model {
     }
     toAbsolute(value, ftp) {
         const self = this;
-        if(value < self.minAbsValue) return parseInt(value * (ftp ?? self.state));
+        if(value < self.minAbsValue) {
+            const roundedUpValue = Math.round(value * 100) / 100; // round up to second position after decimal point
+            const absolute = Math.round(roundedUpValue * (ftp ?? self.state));
+            return absolute;
+        }
         return value;
     }
     powerToZone(value, ftp, zones) {
