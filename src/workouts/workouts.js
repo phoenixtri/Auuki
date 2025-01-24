@@ -174,7 +174,7 @@ let workouts = [
     <author>Marinov</author>
     <name>Honey</name>
     <category>Sweet Spot</category>
-    <description>4 times 10 min eweet spot intervals with 5 min recovery in-between.</description>
+    <description>4 times 10 min sweet spot intervals with 5 min recovery in-between.</description>
     <sportType>bike</sportType>
     <workout>
         <Warmup Duration="300" PowerLow="0.32" PowerHigh="0.75"/>
