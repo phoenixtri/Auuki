@@ -15,7 +15,7 @@ function Intervals(args = {}) {
 
     // Step D
     async function connect() {
-        const scope = 'ACTIVITY:WRITE,CALENDAR:READ';
+        const scope = 'ACTIVITY:WRITE,CALENDAR:READ,SETTINGS:READ';
         const state = stateParam.encode(serviceName);
         stateParam.store(state);
 
@@ -179,7 +179,55 @@ function Intervals(args = {}) {
         return body;
     }
 
-    async function get_athelete() {
+
+    // {
+    //     weight: Int,
+    //     icu_weight: Int,
+    //     icu_weight_sync: String,
+    //     sportSettings: [{
+    //         types: [String],
+    //         ftp: Int,
+    //         indoor_ftp: Int,
+    //         lthr: Int,
+    //         max_hr: Int,
+    //     }]
+    // }
+    // ->
+    // { weight: Int, ftp: Int }
+    function athleteToSettings(athlete = {}, defaults = {weight: 0, ftp: 0}) {
+        const sportSettings = athlete.sportSettings ?? [];
+        const weight = athlete.weight ?? athlete.icu_weight ?? defaults.weight;
+        let ftp = defaults.ftp;
+
+        let rideSetting;
+        let virtualRideSetting;
+
+        for(let sportSetting of sportSettings) {
+            const types = sportSetting.types;
+
+            for(let type of types) {
+                if(type === "VirtualRide") {
+                    virtualRideSetting = sportSetting;
+                }
+                if(type === "Ride") {
+                    rideSetting = sportSetting;
+                }
+            }
+        }
+
+        if(virtualRideSetting) {
+            ftp = virtualRideSetting.indoor_ftp ?? virtualRideSetting.ftp ?? defaults.ftp;
+            return {weight, ftp};
+        }
+        if(rideSetting) {
+            ftp = rideSetting.indoor_ftp ?? rideSetting.ftp ?? 0;
+            return {weight, ftp};
+        }
+
+        return {weight, ftp};
+    }
+
+    async function getAthlete() {
         // GET /api/v1/athlete/{id}
         //
         // Weight is icu_weight (in kg).
@@ -198,11 +246,6 @@ function Intervals(args = {}) {
         //         max_hr: Int,
         //     }]
         // }
-        // ->
-        // {
-        //     weight: Int ?? 0,
-        //     ftp: Int ?? 0
-        // }
         const url = `${api_uri}/api/intervals/athlete`;
 
         try {
@@ -215,7 +258,7 @@ function Intervals(args = {}) {
                 const data = await response.json();
                 xf.dispatch('action:athlete', ':intervals:athlete:success');
                 console.log(data);
-                return data;
+                return athleteToSettings(data);
             } else {
                 xf.dispatch('action:athlete', ':intervals:athlete:fail');
                 if(response.status === 403) {
@@ -223,14 +266,13 @@ function Intervals(args = {}) {
                     xf.dispatch('action:auth', ':password:login');
                     xf.dispatch('ui:modal:error:open', DialogMsg.noAuth);
                 }
-                return {};
+                return athleteToSettings();
             }
         } catch(error) {
             xf.dispatch('action:athlete', ':intervals:athlete:fail');
             console.log(error);
-            return {};
+            return athleteToSettings();
         }
-
     }
 
     return Object.freeze({
@@ -240,7 +282,8 @@ function Intervals(args = {}) {
         uploadWorkout,
         update,
         wod,
-        get_athelete,
+        getAthlete,
+        athleteToSettings,
 
         wodMock,
     });

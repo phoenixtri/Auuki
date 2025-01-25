@@ -758,6 +758,7 @@ class Planned {
         const self = this;
         this.data = this.defaultValue();
         this.workoutModel = args.workoutModel;
+        this.athlete = {};
         this.storage = LocalStorageItem({
             key: 'planned',
             encode: JSON.stringify,
@@ -807,7 +808,7 @@ class Planned {
         this.storage.set(this.data);
         xf.dispatch(`action:planned`, ':data');
     }
-    // forse refresh the wod data
+    // force refresh the wod data
     async wod(service) {
         const self = this;
         if(service === 'intervals') {
@@ -821,6 +822,19 @@ class Planned {
             if(!this.isEmpty()) {
                 const id = first(this.data.workouts).id;
                 xf.dispatch(`action:li:${id}`, ':select');
+            }
+        }
+    }
+    async getAthlete(service) {
+        const self = this;
+        if(service === 'intervals') {
+            const response = await api.intervals.getAthlete();
+            console.log(response);
+            if(weight > 0) {
+                xf.dispatch('ui:weight-set', response.weight);
+            }
+            if(ftp > 0) {
+                xf.dispatch('ui:ftp-set', response.ftp);
             }
         }
     }
