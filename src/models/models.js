@@ -830,10 +830,10 @@ class Planned {
         if(service === 'intervals') {
             const response = await api.intervals.getAthlete();
             console.log(response);
-            if(weight > 0) {
+            if(response.weight > 0) {
                 xf.dispatch('ui:weight-set', response.weight);
             }
-            if(ftp > 0) {
+            if(response.ftp > 0) {
                 xf.dispatch('ui:ftp-set', response.ftp);
             }
         }
