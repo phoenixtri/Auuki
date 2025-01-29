@@ -1070,7 +1070,7 @@ class PropAccumulator extends MetaProp {
 
 class KcalAccumulator extends PropAccumulator {
     updateState(power) {
-        this.state = this.state + power * 0.001;
+        this.state = this.state + power * 0.00115;
         return this.state;
     }
 }
