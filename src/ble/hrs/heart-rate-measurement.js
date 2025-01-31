@@ -4,6 +4,7 @@
 //
 
 function HeartRateMeasurement(args = {}) {
+    const rrIntervalResolution = 1024;
 
     function decode(dataview) {
         const flags = dataview.getUint8(0, true);
@@ -34,7 +35,9 @@ function HeartRateMeasurement(args = {}) {
         if(rrIntervalPresent) {
             rrInterval = [];
             while(i <= dataview.byteLength - 2) {
-                rrInterval.push(dataview.getUint16(i, true));
+                rrInterval.push(
+                    dataview.getUint16(i, true) / rrIntervalResolution
+                );
                 i += 2;
             }
         }
@@ -49,6 +52,7 @@ function HeartRateMeasurement(args = {}) {
     }
 
     return Object.freeze({
+        rrIntervalResolution,
         decode,
     });
 }
