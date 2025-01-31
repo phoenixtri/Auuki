@@ -56,7 +56,6 @@ describe('AppData', () => {
 
     test('DataRecord.encode Array', () => {
         const view = new DataView(new ArrayBuffer(11));
-        // const definition = fit.definitionRecord.toFITjs(['hrv', [['time', 10],], 4]);
         const definition = {
             type: 'definition',
             name: 'hrv',
@@ -69,27 +68,29 @@ describe('AppData', () => {
             ],
             dev_fields: [],
         };
-        const data = {time: [882, 906, 0xFFFF, 0xFFFF, 0xFFFF],};
-        const array = [];
+        const data = {time: [0.882, 0.906, 0xFFFF, 0xFFFF, 0xFFFF],};
+        const arrayT = [4, 114,3, 138,3, 255,255, 255,255, 255,255]; // true
+        const arrayF = [4, 3,114, 3,138, 255,255, 255,255, 255,255]; // false
         const expected = {
             type: 'data',
             name: 'hrv',
             local_number: 4,
             length: 11,
-            fields: {time: [882, 906, 0xFFFF, 0xFFFF, 0xFFFF],}
+            fields: {time: [0.882, 0.906, 0xFFFF, 0xFFFF, 0xFFFF],}
         };
 
         const encoded = fit.dataRecord.encode(definition, data, view, 0);
         const decoded = fit.dataRecord.decode(definition, view, 0);
-        console.log(new Uint8Array(encoded.buffer));
 
+        expect(dataviewToArray(encoded)).toEqual(arrayT);
         expect(decoded).toEqual(expected);
     });
 
-    test.skip('toFITjs', () => {
+    test('toFITjs', () => {
         const res = fit.localActivity.toFITjs({
             records: appData.records,
             laps: appData.laps,
+            events: appData.events,
         });
 
         expect(res).toEqual(FITjs({crc: false}));

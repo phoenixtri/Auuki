@@ -79,7 +79,12 @@ const laps = [
     },
 ];
 
-const appData = {records, laps};
+const events = [
+    {timestamp: 1669140869000, event: 0, type: 'start', event_group: 0},
+    {timestamp: 1669140872000, event: 0, type: 'stop', event_group: 0},
+];
+
+const appData = {records, laps, events};
 // END App Data
 
 
@@ -97,7 +102,7 @@ function FITjs(args = {}) {
             headerSize: 14,
             protocolVersion: '2.0',
             profileVersion: '21.40',
-            dataSize: 466, // 489,
+            dataSize: 482, // 489,
             dataType: '.FIT',
             crc: headerCRC,
         },
@@ -297,6 +302,48 @@ function FITjs(args = {}) {
                 total_hemoglobin_conc: 0,        // uint16, scale 100, g/dL
                 saturated_hemoglobin_percent: 0, // uint16, scale 10, %
                 core_temperature: 0,             // uint16, scale 100, C
+            }
+        },
+        // defintion event
+        {
+            type: 'definition',
+            name: 'event',
+            architecture: 0,
+            local_number: 2,
+            length: 18,
+            data_record_length: 8,
+            fields: [
+                {number: 253, size: 4, base_type: 'uint32'}, // timestamp
+                {number:   0, size: 1, base_type: 'enum'},   // event
+                {number:   1, size: 1, base_type: 'enum'},   // event_type
+                {number:   4, size: 1, base_type: 'uint8'},  // event_group
+            ],
+            dev_fields: [],
+        },
+        // data event
+        {
+            type: 'data',
+            name: 'event',
+            local_number: 2,
+            length: 8,
+            fields: {
+                timestamp: 1669140869000, //
+                event: 0,                 // timer event
+                event_type: 0,            // event_type
+                event_group: 0,           //
+            }
+        },
+        // data event
+        {
+            type: 'data',
+            name: 'event',
+            local_number: 2,
+            length: 8,
+            fields: {
+                timestamp: 1669140872000, //
+                event: 0,                 // timer event
+                event_type: 1,            // event_type
+                event_group: 0,           //
             }
         },
         // definition lap

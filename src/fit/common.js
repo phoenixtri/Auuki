@@ -152,10 +152,12 @@ function FitNumber() {
     }
 
     function apply(scale, offset, value) {
+        if(value % 0xFF === 0) return value;
         return ((value ?? 0) * (scale ?? 1)) + ((offset ?? 0) * (scale ?? 1));
     }
 
     function remove(scale, offset, value) {
+        if(value % 0xFF === 0) return value;
         return ((value ?? 0) - ((offset ?? 0) * (scale ?? 1))) / (scale ?? 1);
     }
 

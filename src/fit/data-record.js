@@ -55,7 +55,6 @@ function DataRecord(args = {}) {
             } else if(size > base_type_size) {
                 // array
                 for(let j = 0, k = 0; j < size; j+=base_type_size, k+=1) {
-                    console.log(value[k]);
                     type.number.encode(_field, value[k], view, acc.i+j, endian);
                 }
             } else if(type.timestamp.isTimestamp(_field.type)) {
