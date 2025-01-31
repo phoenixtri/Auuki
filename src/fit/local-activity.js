@@ -224,10 +224,15 @@ function LocalActivity(args = {}) {
 
             // definition record
             definitions.record,
+            // definition hrv
+            definitions.hrv,
             // data record messages
-            ...records.map((record) => dataRecord.toFITjs(
-                definitions.record, record
-            )),
+            ...records.map((record) =>
+                dataRecord.toFITjs(
+                    record.time === undefined ? definitions.record : definitions.hrv,
+                    record
+                )
+            ),
 
             // definition events
             definitions.event,
