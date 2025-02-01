@@ -87,6 +87,10 @@ function ReactiveConnectable(args = {}) {
 
         if('heartRate' in data && models.sources.isSource('heartRate', identifier)) {
             xf.dispatch(`heartRate`, data.heartRate);
+
+            if('rrInterval' in data) {
+                xf.dispatch(`rrInterval`, data.rrInterval);
+            }
         }
 
         if('currentSaturatedHemoglobin' in data) {
