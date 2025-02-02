@@ -94,8 +94,8 @@ function ReactiveConnectable(args = {}) {
         }
 
         if('batteryLevel' in data) {
-            xf.dispatch(`${identifier}:batteryLevel`, data.batteryLevel);
-            console.log(`:ble :device ${connectable.getName()} ${identifier} :battery-level ${data.batteryLevel}`);
+            xf.dispatch(`${getIdentifier()}:batteryLevel`, data.batteryLevel);
+            console.log(`:ble :device ${connectable.getName()} ${getIdentifier()} :battery-level ${data.batteryLevel}`);
         }
 
         if('currentSaturatedHemoglobin' in data) {

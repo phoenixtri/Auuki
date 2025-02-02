@@ -90,12 +90,14 @@ function Filters() {
     function powerMeter() {
         return {
             filters: [{services: [uuids.cyclingPower]}],
+            optionalServices: [uuids.battery]
         };
     }
 
     function speedCadenceSensor() {
         return {
             filters: [{services: [uuids.speedCadence]}],
+            optionalServices: [uuids.speedCadence, uuids.battery]
         };
     }
 
@@ -109,6 +111,7 @@ function Filters() {
     function smo2() {
         return {
             filters: [{services: [uuids.smo2]}],
+            optionalServices: [uuids.battery]
         };
     }
 
@@ -118,6 +121,7 @@ function Filters() {
                 {services: [uuids.coreTemp]},
                 {services: [uuids.corePrivate]},
             ],
+            optionalServices: [uuids.battery]
         };
     }
 

@@ -2067,6 +2067,84 @@ navigation-action {
     color: var(--foreground-color);
 }
 
+.device-card--header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+
+    .device-card--header--label {
+    }
+    .battery--icon {
+    }
+}
+
+.battery--icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    fill: var(--foreground-color);
+    justify-self: right;
+    align-self: center;
+    margin: 0 1em 0 0;
+}
+
+battery-level {
+    width: 2.4rem;
+    height: 1.2rem;
+    justify-self: right;
+    align-self: center;
+    margin: 0 1em 0 0;
+    position: relative;
+
+    .battery--level {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        /* width: 100%; */
+        height: 0.8rem;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: -0.4rem;
+        top: 0.1rem;
+        width: 0.2rem;
+        height: 0.6rem;
+    }
+
+    &.ok {
+        border: 0.2rem solid var(--foreground-color);
+
+        .battery--level {
+            background-color: var(--foreground-color);
+        }
+        &::before {
+            background-color: var(--foreground-color);
+        }
+    }
+    &.low {
+        border: 0.2rem solid var(--yellow);
+
+        .battery--level {
+            background-color: var(--yellow);
+        }
+        &::before {
+            background-color: var(--yellow);
+        }
+    }
+    &.critical {
+        border: 0.2rem solid var(--red);
+
+        .battery--level {
+            background-color: var(--red);
+        }
+        &::before {
+            background-color: var(--red);
+        }
+    }
+}
+
 .flat-toggle {
     position: relative;
     display: block;
