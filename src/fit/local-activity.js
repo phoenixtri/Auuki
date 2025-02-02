@@ -200,7 +200,7 @@ function LocalActivity(args = {}) {
             return acc;
         }, defaultStats);
 
-        stats.total_calories = Math.floor(stats.avg_power * total_timer_time * 0.00115);
+        stats.total_calories = Math.floor(stats.avg_power * total_timer_time * 0.001);
         stats.avg_power = Math.floor(stats.avg_power);
         stats.avg_cadence = Math.floor(stats.avg_cadence);
         stats.avg_heart_rate = Math.floor(stats.avg_heart_rate);
