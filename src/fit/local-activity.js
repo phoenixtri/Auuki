@@ -67,10 +67,6 @@ function LocalActivity(args = {}) {
         const records = args.records ?? [];
         const events = args.events ?? [];
 
-        console.log(args.events);
-        console.log(findFirstRecord(records));
-        console.log(findLastRecord(records));
-
         // fallbacks
         if(empty(events)) {
             if(records.length > 1) {
