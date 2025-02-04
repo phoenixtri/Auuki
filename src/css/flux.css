@@ -437,6 +437,11 @@ input {
     color: var(--foreground-color);
     background-color: var(--input-color);
 }
+
+svg {
+    fill: var(--foreground-color)
+}
+
 .chrome-bg {
     background-color: var(--background-color-2);
 }
@@ -1765,7 +1770,7 @@ navigation-action {
     grid-template-columns: 10% repeat(6, 15%);
 
     input {
-        color: #fff;
+        color: var(--foreground-color);
     }
 }
 
@@ -2156,7 +2161,7 @@ battery-level {
 
     .toggle {
         position: absolute;
-        top: 0.2em;
+        top: 0.24em;
         left: 0.2em;
         width: 1em;
         height: 1em;
@@ -2377,6 +2382,23 @@ battery-level {
 }
 #profile.active {
     display: block;
+}
+
+@media (prefers-color-scheme: light) {
+    body.auto-theme {
+        .auth, .profile {
+            .input {
+                border: 1px solid var(--border-color);
+            }
+        }
+    }
+}
+body.white-theme {
+    .auth, .profile {
+        .input {
+            border: 1px solid var(--border-color);
+        }
+    }
 }
 
 /* App Connections */
