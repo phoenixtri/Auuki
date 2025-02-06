@@ -245,7 +245,6 @@ class WorkoutGraph extends HTMLElement {
             this.progress({index: self.index, dom: self.dom, parent: self, lapTime: self.lapTime});
         }
     }
-    }
     progress(args = {}) {
         if(this.workoutStatus === "done") {
             return;
