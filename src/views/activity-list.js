@@ -82,7 +82,7 @@ class ActivityList extends HTMLElement {
                                     class="activity--action"
                                     action=":options"
                                     topic=":activity:${this.id(data)}">
-                                    <svg class="activity--icon activity--options--button">
+                                    <svg class="activity--icon activity--options--button control--btn--icon">
                                         <use href="#icon--options" />
                                     </svg>
                                 </view-action>
