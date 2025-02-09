@@ -1073,6 +1073,7 @@ div.graph--bar-group {
     font-size: 1rem;
     padding: 0 1em;
     --inner-max-width: 300px;
+    --mode-selector-font-size: 1em;
     --mode-selector-height: 3rem;
     --mode-selector-margin: 0.8em auto;
     --mode-selector-padding: 0 1em;
@@ -1101,7 +1102,7 @@ div.graph--bar-group {
     max-width: 100%;
     height: var(--mode-selector-height);
     margin: var(--mode-selector-margin);
-    font-size: 1em;
+    font-size: var(--mode-selector-font-size);
     text-transform: uppercase;
 }
 
@@ -1458,7 +1459,7 @@ div.graph--bar-group {
     z-index: 1;
 }
 .options-show {
-    transform: translateX(-8rem);
+    transform: translateX(-8em);
 }
 
 .options-hide {
@@ -1713,7 +1714,7 @@ navigation-action {
 /* Editor */
 .editor-cont {
     --editor-max-width: 48em;
-    font-size: 1rem;
+    /* font-size: 1rem; */
     width: 100%;
 }
 
@@ -2522,7 +2523,7 @@ activity-item {
     }
 
     &.options .activity--cont {
-        transform: translateX(-8rem);
+        transform: translateX(-8em);
     }
     &.expand .activity--info--full {
         display: grid;
@@ -2545,7 +2546,7 @@ activity-item {
         grid-template-columns: 50% 1fr 1fr;
         justify-content: center;
         align-items: center;
-        line-height: 4rem;
+        line-height: 4em;
         cursor: pointer;
     }
 }
@@ -2590,23 +2591,23 @@ activity-item {
     }
 }
 
-.activity--options--button {
-    justify-self: center;
-}
 .activity--actions {
     display: none;
     display: grid;
     grid-template-columns: 40% 1fr 1fr 1fr 1fr;
     /* grid-template-columns: 8rem 8rem 1fr 1fr 8rem 4rem; */
     align-items: center;
-    line-height: 4rem;
-    height: 4rem;
+    line-height: 4em;
+    height: 4em;
 
     .action--image {
         justify-self: center;
     }
     .action--intervals {
         justify-self: left;
+    }
+    .control--btn--icon {
+        justify-self: center;
     }
 }
 .activity--name {
@@ -2637,8 +2638,8 @@ activity-item {
 }
 .activity--icon {
     display: block;
-    width: 2.4rem;
-    height: 2.4rem;
+    width: var(--size--icon--global);
+    height: var(--size--icon--global);
     fill: var(--foreground-color);
 }
 .activity--upload {
@@ -3086,9 +3087,14 @@ and (min-height: 850px) {
     }
 
     #targets {
-        --number-input-height: 5rem;
-        --mode-selector-margin: 2em auto;
         --inner-max-width: 50em;
+
+        --mode-selector-font-size: 1.4em;
+        --mode-selector-margin: 1.2em auto;
+        --number-input-height: 2.2em;
+
+        --number-input-font-size: 2.4em;
+        --number-input-value-font-size: 2.4em;
     }
 
     .watch {
@@ -3096,10 +3102,6 @@ and (min-height: 850px) {
     }
 
     #settings-page {
-        font-size: 1.2rem;
-    }
-
-    .editor-cont {
         font-size: 1.2rem;
     }
 
@@ -3112,8 +3114,34 @@ and (min-height: 850px) {
 and (min-width: 1900px)
 and (min-height: 900px) {
     /* FHD */
+
+    #home-page-wrapper {
+        grid-template-rows: 6em 2.5fr 1fr 1fr 16em 16em;
+    }
+
+    .connections-header {
+        font-size: 1.6rem;
+    }
+
     .data-tiles {
         font-size: 3.2rem;
+    }
+
+    #settings-page {
+        font-size: 1.6rem;
+    }
+
+    #workouts-page {
+        font-size: 1.6rem;
+    }
+
+    .fixed-bottom {
+        font-size: 1.6rem;
+    }
+
+    .graph--heading {
+        font-size: 2em;
+        line-height: 2em;
     }
 }
 
@@ -3152,10 +3180,15 @@ and (min-height: 1200px) {
 
     #targets {
         font-size: 1.4rem;
-        --number-input-height: 6rem;
-        --mode-selector-margin: 2em auto;
+
+        --mode-selector-font-size: 1.4em;
+        /* --number-input-height: 6rem; */
+        --mode-selector-margin: 1em auto;
         --inner-max-width: 50em;
         --mode-selector-padding: 0 1em;
+
+        --number-input-font-size: 2em;
+        --number-input-value-font-size: 2em;
     }
 
     .fixed-bottom {
@@ -3171,10 +3204,6 @@ and (min-height: 1200px) {
     }
 
     #workouts-page {
-        font-size: 1.6rem;
-    }
-
-    .editor-cont {
         font-size: 1.6rem;
     }
 }
@@ -3202,8 +3231,6 @@ and (min-height: 1600px) {
 
     #targets {
         font-size: 2.4rem;
-        --number-input-height: 8rem;
-        --mode-selector-margin: 2em auto;
         --inner-max-width: 44em;
         --mode-selector-padding: 0 1em;
     }
@@ -3213,10 +3240,6 @@ and (min-height: 1600px) {
     }
 
     #workouts-page {
-        font-size: 2.4rem;
-    }
-
-    .editor-cont {
         font-size: 2.4rem;
     }
 
