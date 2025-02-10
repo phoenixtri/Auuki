@@ -154,16 +154,16 @@ input[type="number"] {
 
 .file-btn {
     position: relative;
-    height: 30px;
-    margin: 0px auto 20px;
+    height: 3.0em;
+    margin: 0px auto 2.0em;
     color: var(--gray);
 }
 
 .file-btn-native {
     position: relative;
-    margin-left: 32px;
-    line-height: 27px;
-    height: 30px;
+    margin-left: 3.2em;
+    line-height: 2.7em;
+    height: 3.0em;
     background: none;
     z-index: 0;
 }
@@ -1429,9 +1429,9 @@ div.graph--bar-group {
     .optional--actions {
         position: absolute;
         display: grid;
-        top: 0;
+        top: 0.1em;
         right: 0;
-        bottom: 0;
+        bottom: 0.1em;
         width: 8em;
         background-color: var(--red);
         z-index: 0;
@@ -1469,9 +1469,9 @@ div.graph--bar-group {
 .workout--actions {
     position: absolute;
     display: grid;
-    top: 0;
+    top: 0.1em;
     right: 0;
-    bottom: 0;
+    bottom: 0.1em;
     width: 8em;
     background-color: var(--red);
     z-index: 0;
@@ -1816,6 +1816,8 @@ navigation-action {
 }
 
 .editor--icon {
+    width: var(--size--icon--global);
+    height: var(--size--icon--global);
     margin: 1em 2em;
     cursor: pointer;
     fill: var(--foreground-color);
@@ -2096,8 +2098,8 @@ navigation-action {
 }
 
 battery-level {
-    width: 24px;
-    height: 12px;
+    width: 2.4em;
+    height: 1.2em;
     justify-self: right;
     align-self: center;
     margin: 0 1em 0 0;
@@ -2109,16 +2111,16 @@ battery-level {
         right: 0;
         bottom: 0;
         /* width: 100%; */
-        height: 8px;
+        height: 1.0em;
     }
 
     &::before {
         content: '';
         position: absolute;
-        left: -4px;
-        top: 1px;
-        width: 2px;
-        height: 6px;
+        left: -0.4em;
+        top: 0.1em;
+        width: 0.2em;
+        height: 0.6em;
     }
 
     &.ok {
@@ -2155,29 +2157,35 @@ battery-level {
 
 .flat-toggle {
     position: relative;
-    display: block;
-    width: 33px;
-    height: 20px;
-    margin: 5px auto;
-    border-radius: 10px;
-    border: 3px solid var(--toogle-inactive-color);
+    /* display: block; */
+    width: 3.3em;
+    height: 2.0em;
+    margin: 0.5em auto;
+    border-radius: 1.0em;
+    border: 0.3em solid var(--toogle-inactive-color);
+
+    display: flex;
+    align-items: center;
+    padding: 0.2em;
+    justify-content: flex-start;
 
     .toggle {
-        position: relative;
-        top: 2px;
-        left: 2px;
-        width: 10px;
-        height: 10px;
+        /* position: relative; */
+        /* top: 0.2em; */
+        /* left: 0.2em; */
+        width: 1.0em;
+        height: 1.0em;
         background-color: var(--toogle-inactive-color);
         border-radius: 50%;
     }
 
     &.active {
-        border: 3px solid var(--toogle-active-color);
+        border: 0.3em solid var(--toogle-active-color);
+        justify-content: flex-end;
 
         .toggle {
             background-color: var(--toogle-active-color);
-            left: 15px;
+            /* left: 1.5em; */
         }
     }
 }
@@ -2481,7 +2489,7 @@ workout-graph-svg {
 .option--name {
     text-align: left;
     font-size: 1.2em;
-    line-height: 4rem;
+    line-height: 4em;
     text-transform: uppercase;
 }
 .option--value {
@@ -2498,16 +2506,16 @@ workout-graph-svg {
 }
 .sound--row--item {
     max-width: 25%;
-    width: 7rem;
-    height: 3rem;
-    line-height: 3rem;
+    width: 7em;
+    height: 3em;
+    line-height: 3em;
 }
 .sound--control {
     cursor: pointer;
 }
 
 .sound--volume {
-    font-size: 2rem;
+    /* font-size: 2rem; */
     font-weight: bold;
 }
 
@@ -2520,6 +2528,10 @@ activity-item {
         position: relative;
         background-color: var(--background-color);
         z-index: 1;
+
+        .control--btn--icon {
+            display: block;
+        }
     }
 
     &.options .activity--cont {
@@ -2578,8 +2590,8 @@ activity-item {
     display: grid ;
     width: 8em;
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 0.1em;
+    bottom: 0.1em;
     right: 0;
     z-index: 0;
     background-color: var(--red);
@@ -2728,7 +2740,7 @@ dialog {
 
 /* About */
 #about {
-    font-size: 1.2rem;
+    font-size: 1.2em;
     margin: 10px auto 0;
     padding: 10px 10px;
     max-width: var(--inner-max-width);
@@ -3236,11 +3248,11 @@ and (min-height: 1600px) {
     }
 
     #settings-page {
-        font-size: 2.4rem;
+        font-size: 3.0rem;
     }
 
     #workouts-page {
-        font-size: 2.4rem;
+        font-size: 3.0rem;
     }
 
     .fixed-bottom {
