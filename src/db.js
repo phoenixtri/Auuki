@@ -416,11 +416,9 @@ xf.reg('app:start', async function(_, db) {
     models.api.start();
     // TODO: remove
     // xf.dispatch(`ui:page-set`, 'workouts');
-    // xf.dispatch(`action:planned`, ':intervals:wod');
 
     // TRAINER MOCK
     // trainerMock.init();
-    // models.activity.test();
 });
 
 function start () {
@@ -428,16 +426,16 @@ function start () {
     xf.dispatch('db:start');
 
     // UI test
-    setInterval(function() {
+    // setInterval(function() {
     //     xf.dispatch('watch:elapsed', 1);
     //     xf.dispatch('power', 180);
     //     xf.dispatch('cadence', 80);
-        xf.dispatch('heartRate', 130);
-        xf.dispatch('smo2', 83.17 + (Math.random() * 10));
-        xf.dispatch('thb', 11.14 + (Math.random() * 10));
+    //     xf.dispatch('heartRate', 140 + (Math.random() * 10));
+    //     xf.dispatch('smo2', 71.17); // + (Math.random() * 10));
+    //     xf.dispatch('thb', 11.14); // + (Math.random() / 2));
     //     xf.dispatch('coreBodyTemperature', 38.12);
     //     xf.dispatch('skinTemperature', 38.47);
-    }, 1000);
+    // }, 1000);
     // end UI test
 }
 
