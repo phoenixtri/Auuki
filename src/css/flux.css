@@ -911,6 +911,33 @@ div.graph--bar-group {
     z-index: 2;
 }
 
+/* #graph-moxy { */
+/*     display: none; */
+/*     overflow: hidden; */
+/* } */
+
+#moxy-svg {
+    width: 100%;
+    height: var(--graph-total-height);
+}
+
+.moxy--path {
+    fill: none;
+    stroke-width: 1;
+}
+
+#moxy-path-smo2 {
+    /* stroke: #22976C; */
+    /* stroke: #57C057; */
+}
+#moxy-path-thb {
+    /* stroke: #FC7521; */
+    /* stroke: #FF663A; */
+}
+#moxy-path-hr {
+    /* stroke: #FE340B; */
+}
+
 #workout-list svg.graph--bar-group {
     height: var(--graph-height);
     height: 8em;
