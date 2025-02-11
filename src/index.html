@@ -258,7 +258,13 @@
 
                         <div id="graph-power" class="graph">
                             <h4 class="graph--heading">Power</h4>
-                            <instant-power-graph class="graph--cont"></instant-power-graph>
+                            <!-- <instant-power-graph class="graph--cont"></instant-power-graph> -->
+                            <moxy-graph>
+                                <svg id="moxy-svg" width="100%" height="100%">
+                                    <polyline id="moxy-path-smo2" points=""/>
+                                    <polyline id="moxy-path-thb" points=""/>
+                                </svg>
+                            </moxy-graph>
                         </div>
 
                         <div id="graph-workout" class="graph">

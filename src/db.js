@@ -428,16 +428,16 @@ function start () {
     xf.dispatch('db:start');
 
     // UI test
-    // setTimeout(function() {
+    setInterval(function() {
     //     xf.dispatch('watch:elapsed', 1);
     //     xf.dispatch('power', 180);
     //     xf.dispatch('cadence', 80);
-    //     xf.dispatch('heartRate', 130);
-    //     xf.dispatch('smo2', 83.17);
-    //     xf.dispatch('thb', 11.14);
+        xf.dispatch('heartRate', 130);
+        xf.dispatch('smo2', 83.17 + (Math.random() * 10));
+        xf.dispatch('thb', 11.14 + (Math.random() * 10));
     //     xf.dispatch('coreBodyTemperature', 38.12);
     //     xf.dispatch('skinTemperature', 38.47);
-    // }, 1000);
+    }, 1000);
     // end UI test
 }
 
