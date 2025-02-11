@@ -357,6 +357,9 @@ class HeartRateValue extends DataView {
             prop: 'db:heartRate',
         };
     }
+    transform(state) {
+        return Math.round(state);
+    }
 }
 
 customElements.define('heart-rate-value', HeartRateValue);
