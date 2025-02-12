@@ -235,6 +235,13 @@ function splitAt(xs, at) {
     },[]);
 }
 
+function pad(xs = [], length = 0, value = 0) {
+    for(let i = xs.length-1; i < length; i += 1) {
+        xs.push(value);
+    }
+    return xs;
+}
+
 function calculateCRC(uint8array, start, end) {
     const crcTable = [
         0x0000, 0xCC01, 0xD801, 0x1400, 0xF001, 0x3C00, 0x2800, 0xE401,
@@ -292,6 +299,9 @@ export {
     kphToMps,
     mpsToKph,
     time,
+
+    // data
+    pad,
 
     // async
     backoff,

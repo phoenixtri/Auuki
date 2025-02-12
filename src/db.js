@@ -103,6 +103,8 @@ let db = {
     services: {strava: false, intervals: false, trainingPeaks: false},
 };
 
+
+
 xf.create(db);
 
 // Data Screen
@@ -307,30 +309,36 @@ xf.reg('ui:workout:upload', async function(files, db) {
 
 });
 xf.reg('watch:stopped', (_, db) => {
-    models.activity.createFromCurrent(db);
+    try {
+        models.activity.createFromCurrent(db);
+        xf.dispatch('activity:save:success');
+    } catch (err) {
+        console.error(`Error on activity save: `, err);
+        xf.dispatch('activity:save:fail');
+    }
+
 });
 xf.sub('ui:activity:upload:by:id', (id) => {
     models.activity.upload(id);
 });
 // download the current activity as a .fit file
 xf.reg('ui:activity:save', (_, db) => {
-    try {
-        models.workout.download(db);
-        xf.dispatch('activity:save:success');
-    } catch (err) {
-        console.error(`Error on activity save: `, err);
-        xf.dispatch('activity:save:fail');
-    }
+    xf.dispatch(`ui:page-set`, 'workouts');
+    // try {
+    //     models.workout.download(db);
+    //     xf.dispatch('activity:save:success');
+    // } catch (err) {
+    //     console.error(`Error on activity save: `, err);
+    //     xf.dispatch('activity:save:fail');
+    // }
 });
 xf.reg('activity:save:success', (e, db) => {
     // file:download:activity
     // reset db session:
-    db.records = [];
-    db.events = [];
-    db.laps = [];
-    db.resistanceTarget = 0;
-    db.slopeTarget = 0;
-    db.powerTarget = 0;
+    models.session.reset(db);
+    setTimeout(function() {
+        // window.location.reload();
+    }, 250);
 });
 
 xf.reg('course:index', (index, db) => {
