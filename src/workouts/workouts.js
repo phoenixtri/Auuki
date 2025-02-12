@@ -236,7 +236,7 @@ let workouts = [
 </workout_file>`
 ,
 `<workout_file>
-    <author>Flux</author>
+    <author>Auuki</author>
     <name>Salmon</name>
     <category>Base</category>
     <subcategory></subcategory>
@@ -253,7 +253,7 @@ let workouts = [
     </workout>
 </workout_file>`,
 `<workout_file>
-    <author>Flux</author>
+    <author>Auuki</author>
     <name>Salmon +1</name>
     <category>Base</category>
     <subcategory></subcategory>
@@ -271,7 +271,7 @@ let workouts = [
     </workout>
 </workout_file>`,
 `<workout_file>
-    <author>Marinov</author>
+    <author>Auuki</author>
     <name>Blackcurrant</name>
     <category>Recovery</category>
     <description>A recovery ride in zone 1 at 50% of FTP.</description>
@@ -284,10 +284,10 @@ let workouts = [
     </workout>
 </workout_file>`,
 `<workout_file>
-    <author>Flux</author>
+    <author>Auuki</author>
     <name>5-1-5 Moxy Test</name>
     <category>Test</category>
-    <subcategory></subcategory>
+    <subcategory>Moxy 515</subcategory>
     <description>It's important to not warm-up before the test. You should not cycle during the rest intervals, since they are meant to track SmO2 and THb recovery rate. You are meant to fail in any of the last 3 steps. Use the Moxy Academy course for guidence on how to analyze. Muscle Oxygen Zone Assessment: https://moxy-academy.teachable.com/courses/209052/lectures/3480785.
 </description>
     <sporttype>bike</sporttype>
@@ -315,9 +315,10 @@ let workouts = [
     </workout>
 </workout_file>`,
 `<workout_file>
-    <author>Flux</author>
+    <author>Auuki</author>
     <name>Ramp Test</name>
-    <category>Ramp Test</category>
+    <category>Test</category>
+    <subcategory>Power Ramp</subcategory>
     <description>Ramp test proceeding in steps of 6% of previous FTP for 60 seconds. Do until exhaustion and take 75% of the power you did in the last interval you’ve reached. That's your new FTP.</description>
     <sportType>bike</sportType>
     <tags>

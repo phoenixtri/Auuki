@@ -26,6 +26,7 @@ class Watch {
         // end Distance
 
         this.intervals         = [];
+        this.workoutType       = "workout";
         this.autoPauseCounter  = 0;
         this.hasBeenAutoPaused = false;
         this.autoPause         = false;
@@ -35,7 +36,6 @@ class Watch {
         const self = this;
 
         // Data subs
-        xf.sub('db:workout',       workout => { self.intervals     = workout.intervals; });
         xf.sub('db:elapsed',       elapsed => { self.elapsed       = elapsed; });
         xf.sub('db:lapTime',          time => { self.lapTime       = time; });
         xf.sub('db:stepTime',         time => { self.stepTime      = time; });
@@ -55,6 +55,17 @@ class Watch {
                 xf.dispatch('ui:mode-set', ControlMode.sim);
                 console.log(`Workout done!`);
             }
+        });
+        xf.sub('db:workout',       workout => {
+            self.intervals = workout.intervals;
+            if(workout.meta.category?.toLowerCase().includes("test")) {
+                self.workoutType = "test";
+                // force turn off auto pausing for Test Category workouts
+                xf.dispatch(`sources`, {autoPause: false});
+            } else {
+                self.workoutType = "workout";
+            }
+            console.log(`:workout :type ${self.workoutType}`);
         });
         xf.sub('db:power1s', self.onPower1s.bind(this));
         xf.sub('db:sources', self.onSources.bind(this));
