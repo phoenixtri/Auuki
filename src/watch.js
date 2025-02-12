@@ -45,6 +45,7 @@ class Watch {
         xf.sub('db:stepIndex',       index => { self.stepIndex     = index; });
         xf.sub('db:watchStatus',     state => { self.state         = state; });
         xf.sub('db:workoutStatus',   state => {
+            // console.log(`:workout :status ${state}`);
             self.stateWorkout = state;
 
             if(self.isWorkoutDone()) {
@@ -120,8 +121,12 @@ class Watch {
     }
     startWorkout() {
         const self = this;
+        // console.log(`:watch :startWorkout :isWorkoutStarted ${self.isWorkoutStarted()} :intervalIndex ${self.intervalIndex}`);
 
-        if(self.isWorkoutStarted() || self.isWorkoutDone()) {
+        if(self.isWorkoutStarted() || (
+            // check for intervalIndex allows for multiple workouts in one session
+            self.isWorkoutDone() && self.intervalIndex > 0
+        )) {
             return;
         }
 
@@ -292,6 +297,7 @@ class Watch {
         return undefined;
     }
     nextStep(intervals, intervalIndex, stepIndex) {
+        // console.log(`:interval ${intervalIndex} :step ${stepIndex}`);
         if(this.isDurationStep(intervals, intervalIndex, stepIndex)) {
             this.intervalType = 'duration';
             return this.nextDurationStep(intervals, intervalIndex, stepIndex);

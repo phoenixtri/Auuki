@@ -318,27 +318,15 @@ xf.reg('watch:stopped', (_, db) => {
     }
 
 });
+xf.reg('activity:save:success', (e, db) => {
+    models.session.reset(db);
+});
 xf.sub('ui:activity:upload:by:id', (id) => {
     models.activity.upload(id);
 });
 // download the current activity as a .fit file
 xf.reg('ui:activity:save', (_, db) => {
     xf.dispatch(`ui:page-set`, 'workouts');
-    // try {
-    //     models.workout.download(db);
-    //     xf.dispatch('activity:save:success');
-    // } catch (err) {
-    //     console.error(`Error on activity save: `, err);
-    //     xf.dispatch('activity:save:fail');
-    // }
-});
-xf.reg('activity:save:success', (e, db) => {
-    // file:download:activity
-    // reset db session:
-    models.session.reset(db);
-    setTimeout(function() {
-        // window.location.reload();
-    }, 250);
 });
 
 xf.reg('course:index', (index, db) => {
