@@ -429,6 +429,7 @@ class THbValue extends DataView {
         xf.sub(`${this.prop}`, this.onUpdate.bind(this), this.signal);
     }
     transform(state) {
+        this.style = 'color: #FF663A';
         return toFixed(state, 2);
     }
 }
