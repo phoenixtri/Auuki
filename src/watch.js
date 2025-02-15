@@ -27,9 +27,11 @@ class Watch {
 
         this.intervals         = [];
         this.workoutType       = "workout";
+        this.autoStartCounter  = 0;
         this.autoPauseCounter  = 0;
         this.hasBeenAutoPaused = false;
         this.autoPause         = false;
+        this.autoStart         = true;
         this.init();
     }
     init() {
@@ -96,9 +98,10 @@ class Watch {
     }
     onSources(value) {
         this.autoPause = value.autoPause ?? false;
+        this.autoStart = value.autoStart ?? this.autoStart;
     }
     onPower1s(power) {
-        if(!this.autoPause) { return; }
+        if(!this.autoPause || !this.autoStart) { return; }
 
         if(power === 0 && this.isStarted()) {
             this.autoPauseCounter += 1;
@@ -114,6 +117,18 @@ class Watch {
 
         if(power > 40 && this.hasBeenAutoPaused) {
             xf.dispatch(`ui:watchResume`);
+        }
+
+        if(this.autoStartCounter >= 3) {
+            this.autoStartCounter = 0;
+            xf.dispatch(`ui:watchStart`);
+            xf.dispatch('ui:workoutStart');
+        }
+        if(this.isStopped() && this.autoStart) {
+            if(power > 40) {
+                this.autoStartCounter += 1;
+                console.log(this.autoStartCounter);
+            }
         }
     }
     start() {

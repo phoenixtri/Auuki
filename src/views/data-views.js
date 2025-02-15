@@ -1535,7 +1535,9 @@ customElements.define('virtual-state-source', VirtualStateSource);
 class AutoPause extends DataView {
     postInit() {
         this.effect  = 'sources';
+        this.key     = 'autoPause';
         this.state   = { autoPause: false };
+        this.values  = {on: {autoPause: true}, off: {autoPause: false}};
     }
     getDefaults() {
         return {
@@ -1548,14 +1550,14 @@ class AutoPause extends DataView {
         this.addEventListener('pointerup', this.onEffect.bind(this), this.signal);
     }
     onUpdate(value) {
-        this.state = value.autoPause;
+        this.state = value[this.key];
         this.render();
     }
     onEffect() {
         if(equals(this.state, true)) {
-            xf.dispatch(`${this.effect}`, {autoPause: false});
+            xf.dispatch(`${this.effect}`, this.values.off);
         } else {
-            xf.dispatch(`${this.effect}`, {autoPause: true});
+            xf.dispatch(`${this.effect}`, this.values.on);
         }
     }
     render() {
@@ -1564,6 +1566,17 @@ class AutoPause extends DataView {
 }
 
 customElements.define('auto-pause', AutoPause);
+
+class AutoStart extends AutoPause {
+    postInit() {
+        this.effect  = 'sources';
+        this.key     = 'autoStart';
+        this.state   = { autoStart: true };
+        this.values  = {on: {autoStart: true}, off: {autoStart: false}};
+    }
+}
+
+customElements.define('auto-start', AutoStart);
 
 class Theme extends DataView {
     postInit() {
