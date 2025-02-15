@@ -101,30 +101,31 @@ class Watch {
         this.autoStart = value.autoStart ?? this.autoStart;
     }
     onPower1s(power) {
-        if(!this.autoPause || !this.autoStart) { return; }
+        if(this.autoPause) {
+            if(power === 0 && this.isStarted()) {
+                this.autoPauseCounter += 1;
+            } else {
+                this.autoPauseCounter = 0;
+            }
 
-        if(power === 0 && this.isStarted()) {
-            this.autoPauseCounter += 1;
-        } else {
-            this.autoPauseCounter = 0;
+            if(this.autoPauseCounter >= 4) {
+                this.autoPauseCounter = 0;
+                xf.dispatch(`ui:watchPause`);
+                this.hasBeenAutoPaused = true;
+            }
+
+            if(power > 40 && this.hasBeenAutoPaused) {
+                xf.dispatch(`ui:watchResume`);
+            }
         }
 
-        if(this.autoPauseCounter >= 4) {
-            this.autoPauseCounter = 0;
-            xf.dispatch(`ui:watchPause`);
-            this.hasBeenAutoPaused = true;
-        }
-
-        if(power > 40 && this.hasBeenAutoPaused) {
-            xf.dispatch(`ui:watchResume`);
-        }
-
-        if(this.autoStartCounter >= 3) {
-            this.autoStartCounter = 0;
-            xf.dispatch(`ui:watchStart`);
-            xf.dispatch('ui:workoutStart');
-        }
-        if(this.isStopped() && this.autoStart) {
+        if(this.autoStart && this.isStopped()) {
+            if(this.autoStartCounter >= 3) {
+                this.autoStartCounter = 0;
+                xf.dispatch(`ui:watchStart`);
+                xf.dispatch('ui:workoutStart');
+                return;
+            }
             if(power > 40) {
                 this.autoStartCounter += 1;
                 console.log(this.autoStartCounter);
@@ -258,7 +259,7 @@ class Watch {
         }
 
         if(equals(lapTime, 4) && stepTime > 0) {
-            xf.dispatch('watch:beep');
+            xf.dispatch('watch:beep', 'interval');
         }
         xf.dispatch('watch:elapsed',  elapsed);
         xf.dispatch('watch:lapTime',  lapTime);
