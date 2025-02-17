@@ -180,6 +180,7 @@ class Sources extends Model {
     }
     defaultValue() {
         const sources = {
+            // device data source map
             power:        'ble:controllable',
             cadence:      'ble:controllable',
             speed:        'ble:controllable',
@@ -189,10 +190,24 @@ class Sources extends Model {
             thb:          'ble:smo2',
             coreBodyTemperature: 'ble:coreTemp',
             skinTemperature:     'ble:coreTemp',
+
+            // settings
             virtualState: 'power',
             autoPause:    false,
             autoStart:    true,
-            theme:        'DARK'
+            theme:        'DARK',
+
+            // data tile settings
+            // ['power1s', 'power3s']
+            powerZStack: 0,
+            // ['heartRate', 'heartRateLap', 'heartRateAvg']
+            heartRateZStack: 0,
+            // ['cadence', 'cadenceLap', 'cadenceAvg', 'cadenceTarget']
+            cadenceZStack: 0,
+            // ['powerAvg', 'powerLap', 'kcal']
+            kcalZStack: 0,
+            // ['graph', 'power']
+            graphZStack: 0,
         };
         return sources;
     }
