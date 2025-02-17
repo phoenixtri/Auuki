@@ -358,6 +358,7 @@ class HeartRateValue extends DataView {
         };
     }
     transform(state) {
+        this.style = 'color: #FE340B';
         return Math.round(state);
     }
 }
@@ -405,13 +406,14 @@ class SmO2Value extends DataView {
     // this.style = 'color: #278B65';
     // this.style = 'color: #D72A1C';
     transform(state) {
-        if(state < models.smo2.zones.one) {
-            this.style = 'color: #328AFF';
-        } else if(state < models.smo2.zones.two) {
-            this.style = 'color: #56C057';
-        } else {
-            this.style = 'color: #FE340B';
-        }
+        // if(state < models.smo2.zones.one) {
+        //     this.style = 'color: #328AFF';
+        // } else if(state < models.smo2.zones.two) {
+        //     this.style = 'color: #56C057';
+        // } else {
+        //     this.style = 'color: #FE340B';
+        // }
+        this.style = 'color: #56C057';
         return toFixed(state, 1);
     }
 }
@@ -726,6 +728,7 @@ class PowerValue extends DataView {
         xf.sub(`${this.prop}`, this.onUpdate.bind(this), this.signal);
     }
     transform(state) {
+        this.style = 'color: #F8C73A';
         return Math.round(state);
     }
 }
