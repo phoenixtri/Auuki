@@ -1953,11 +1953,11 @@ navigation-action {
     align-items: center;
     justify-content: center;
     max-width: var(--inner-max-width);
-    margin: 0 auto 10px;
+    margin: 0 auto 1em;
 }
 
 .settings-switch-btn-cont {
-    margin: 10px auto;
+    margin: 0em auto;
     font-size: 1em;
 }
 
