@@ -559,6 +559,8 @@ class PowerTarget extends DataView {
     }
 }
 
+customElements.define('power-target', PowerTarget);
+
 class PowerTargetFTP extends DataView {
     getDefaults() {
         return {
@@ -651,7 +653,6 @@ class ZStack extends DataView {
 
 customElements.define('z-stack', ZStack);
 
-customElements.define('power-target', PowerTarget);
 
 class SlopeTarget extends DataView {
     getDefaults() {
