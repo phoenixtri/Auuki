@@ -1093,6 +1093,27 @@ div.graph--bar-group {
     z-index: 1;
     pointer-events: none;
 }
+
+auto-start-counter {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--progress);
+
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    font-weight: bold;
+
+    &.active {
+        display: flex;
+    }
+}
 /* END Graphs */
 
 /* Target Controls */

@@ -27,7 +27,7 @@ class Watch {
 
         this.intervals         = [];
         this.workoutType       = "workout";
-        this.autoStartCounter  = 0;
+        this.autoStartCounter  = 3;
         this.autoPauseCounter  = 0;
         this.hasBeenAutoPaused = false;
         this.autoPause         = false;
@@ -97,7 +97,7 @@ class Watch {
         return equals(this.intervalType, type);
     }
     onSources(value) {
-        this.autoPause = value.autoPause ?? false;
+        this.autoPause = value.autoPause ?? this.autoPause;
         this.autoStart = value.autoStart ?? this.autoStart;
     }
     onPower1s(power) {
@@ -120,15 +120,22 @@ class Watch {
         }
 
         if(this.autoStart && this.isStopped()) {
-            if(this.autoStartCounter >= 3) {
-                this.autoStartCounter = 0;
+            // check
+            if(this.autoStartCounter <= 0) {
+                this.autoStartCounter = -1;
                 xf.dispatch(`ui:watchStart`);
                 xf.dispatch('ui:workoutStart');
+                xf.dispatch(`ui:autoStartCounter`, -1);
                 return;
             }
+            // update
+            if(power === 0) {
+                this.autoStartCounter = 3;
+                xf.dispatch(`ui:autoStartCounter`, this.autoStartCounter);
+            }
             if(power > 40) {
-                this.autoStartCounter += 1;
-                console.log(this.autoStartCounter);
+                this.autoStartCounter -= 1;
+                xf.dispatch(`ui:autoStartCounter`, this.autoStartCounter);
             }
         }
     }
@@ -149,6 +156,9 @@ class Watch {
     startWorkout() {
         const self = this;
         // console.log(`:watch :startWorkout :isWorkoutStarted ${self.isWorkoutStarted()} :intervalIndex ${self.intervalIndex}`);
+
+        this.autoStartCounter = -1;
+        xf.dispatch(`ui:autoStartCounter`, -1);
 
         if(self.isWorkoutStarted() || (
             // check for intervalIndex allows for multiple workouts in one session

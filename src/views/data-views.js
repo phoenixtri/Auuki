@@ -89,6 +89,47 @@ class DataView extends HTMLElement {
 customElements.define('data-view', DataView);
 
 
+class AutoStartCounter extends HTMLElement {
+    constructor() {
+        super();
+        this.isVisible = false;
+    }
+    connectedCallback() {
+        const self = this;
+        this.abortController = new AbortController();
+        this.signal = { signal: self.abortController.signal };
+
+        xf.sub('ui:autoStartCounter', this.onUpdate.bind(this), this.signal);
+    }
+    disconnectedCallback() {
+        this.abortController.abort();
+    }
+    onUpdate(value) {
+        if(value === -1) {
+            this.hide();
+        } else {
+            if(!this.isVisible) {
+                this.show();
+            }
+            this.render(value);
+        }
+    }
+    show() {
+        this.classList.add('active');
+    }
+    hide() {
+        this.classList.remove('active');
+    }
+    render(value) {
+        this.textContent = value;
+    }
+}
+
+customElements.define('auto-start-counter', AutoStartCounter);
+
+
+
+
 class TimerTime extends DataView {
     getDefaults() {
         return {
@@ -493,6 +534,7 @@ class SkinTemperatureValue extends DataView {
 }
 
 customElements.define('skin-temperature-value', SkinTemperatureValue);
+
 
 
 class WorkoutName extends DataView {
