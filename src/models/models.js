@@ -193,7 +193,7 @@ class Sources extends Model {
 
             // settings
             virtualState: 'power',
-            autoPause:    false,
+            autoPause:    true,
             autoStart:    true,
             theme:        'DARK',
 
@@ -1434,7 +1434,7 @@ class VirtualState extends MetaProp {
         this.lastUpdate = now;
 
         if(equals(dt, 0)) {
-            console.warn(`dt: ${dt}, s: ${this.speed}`);
+            // console.warn(`dt: ${dt}, s: ${this.speed}`);
             return;
         };
 

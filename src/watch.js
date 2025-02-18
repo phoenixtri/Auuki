@@ -30,7 +30,7 @@ class Watch {
         this.autoStartCounter  = 3;
         this.autoPauseCounter  = 0;
         this.hasBeenAutoPaused = false;
-        this.autoPause         = false;
+        this.autoPause         = true;
         this.autoStart         = true;
         this.init();
     }
@@ -96,11 +96,15 @@ class Watch {
     isIntervalType(type) {
         return equals(this.intervalType, type);
     }
+    status() {
+        return this.state;
+    }
     onSources(value) {
         this.autoPause = value.autoPause ?? this.autoPause;
         this.autoStart = value.autoStart ?? this.autoStart;
     }
     onPower1s(power) {
+        console.log(`:status ${this.status()} :autoStartCounter ${this.autoStartCounter} :autoStart ${this.autoStart} :autoPauseCounter ${this.autoPauseCounter} :autoPause ${this.autoPause}`);
         if(this.autoPause) {
             if(power === 0 && this.isStarted()) {
                 this.autoPauseCounter += 1;
@@ -121,7 +125,8 @@ class Watch {
 
         if(this.autoStart && this.isStopped()) {
             // check
-            if(this.autoStartCounter <= 0) {
+            if(this.autoStartCounter < 0) return;
+            if(this.autoStartCounter === 0) {
                 this.autoStartCounter = -1;
                 xf.dispatch(`ui:watchStart`);
                 xf.dispatch('ui:workoutStart');
@@ -157,6 +162,7 @@ class Watch {
         const self = this;
         // console.log(`:watch :startWorkout :isWorkoutStarted ${self.isWorkoutStarted()} :intervalIndex ${self.intervalIndex}`);
 
+        // in case of pressing play button during auto start countdown
         this.autoStartCounter = -1;
         xf.dispatch(`ui:autoStartCounter`, -1);
 
