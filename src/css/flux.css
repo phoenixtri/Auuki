@@ -2127,7 +2127,7 @@ navigation-action {
 
 .device-card--header {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 3fr 1fr;
     grid-template-rows: 1fr;
 
     .device-card--header--label {
@@ -2519,13 +2519,13 @@ workout-graph-svg {
 
 .option {
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 2fr 4fr;
     align-items: center;
 }
 .option--name {
     text-align: left;
     font-size: 1.2em;
-    line-height: 4em;
+    line-height: 3em;
     text-transform: uppercase;
 }
 .option--value {
@@ -2535,23 +2535,16 @@ workout-graph-svg {
 }
 
 .sound--row {
-    display: flex;
-    vertical-align: baseline;
-    justify-content: center;
-    margin: 0em auto;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
 }
-.sound--row--item {
-    max-width: 25%;
-    width: 7em;
-    height: 3em;
-    line-height: 3em;
-}
-.sound--control {
+.sound--item {
+    place-self: center;
     cursor: pointer;
 }
 
 .sound--volume {
-    /* font-size: 2rem; */
     font-weight: bold;
 }
 
