@@ -1073,27 +1073,6 @@ class InstantPowerGraph extends HTMLElement {
 customElements.define('instant-power-graph', InstantPowerGraph);
 
 
-class PowerGraph extends HTMLElement {
-    constructor() {
-        super();
-    }
-
-    toBar(power) {
-        const zone = models.ftp.powerToZone(this.value).name;
-        const height = this.powerToHeight();
-    }
-    powerToHeight(power) {
-        return 100;
-    }
-    render(power) {
-        this.insertAdjacentHTML('beforeend', this.toBar(power));
-        this.barsCount += 1;
-    }
-}
-
-customElements.define('power-graph', PowerGraph);
-
-
 class SwitchGroup extends HTMLElement {
     constructor() {
         super();
