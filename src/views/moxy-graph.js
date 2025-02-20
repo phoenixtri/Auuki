@@ -28,8 +28,6 @@ class MoxyGraph extends HTMLElement {
         this.x = 0;
 
         this.color = {
-            // smo2: '#22976C', // original color
-            // thb: '#FC7521',  // original color
             smo2: '#57C057',
             thb: '#FF663A',
             heartRate: '#FE340B',
@@ -53,18 +51,13 @@ class MoxyGraph extends HTMLElement {
         this.abortController = new AbortController();
         this.signal = { signal: self.abortController.signal };
 
-        this.$cont     = document.querySelector('#graph-power') ?? this;
-        this.$svg      = this.querySelector(this.selectors.svg);
-        this.$path.smo2 = this.querySelector(this.selectors.path.smo2);
-        this.$path.thb  = this.querySelector(this.selectors.path.thb);
+        this.$cont           = document.querySelector('#graph-power') ?? this;
+        this.$svg            = this.querySelector(this.selectors.svg);
+        this.$path.smo2      = this.querySelector(this.selectors.path.smo2);
+        this.$path.thb       = this.querySelector(this.selectors.path.thb);
         this.$path.heartRate = this.querySelector(this.selectors.path.heartRate);
-        this.$path.power = this.querySelector(this.selectors.path.power);
+        this.$path.power     = this.querySelector(this.selectors.path.power);
         this.getWidth();
-
-        this.duration = 3540;
-        // this.xAxis.max = this.duration;
-        // this.$svg.setAttribute('viewBox', `0 0 ${this.duration} 100`);
-        // this.$svg.setAttribute('preserveAspectRati', 'none');
 
         this.$path.smo2.setAttribute('stroke', this.color.smo2);
         this.$path.thb.setAttribute('stroke', this.color.thb);
@@ -117,15 +110,6 @@ class MoxyGraph extends HTMLElement {
         this.renderStep('power');
 
         this.x += this.step;
-
-        // const x = translate(
-        //     this.step,
-        //     0,
-        //     this.duration,
-        //     this.xAxis.min,
-        //     this.xAxis.max
-        // );
-        // this.x += x;
     }
     // SmO2 range: 0 - 100,   step: 0.1, <30% - blue, 30%-70% - green, >70% red
     // THb  range: 0 - 40.00, step: 0.01, 8.0 - 15.0
@@ -158,7 +142,6 @@ class MoxyGraph extends HTMLElement {
             // push until xAxis.max is reached
             this.path[key].push(this.x);
             this.path[key].push(y);
-            // this.x += this.step;
         }
 
         const points = this.path[key].join(',');
