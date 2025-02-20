@@ -25,6 +25,8 @@ class MoxyGraph extends HTMLElement {
         this.xAxis = {min: 0, max: 100};
         this.yAxis = {min: 0, max: 100};
         this.step = 1;
+
+        this.width = 0;
         this.x = 0;
 
         this.color = {
@@ -32,10 +34,10 @@ class MoxyGraph extends HTMLElement {
             thb: '#FF663A',
             heartRate: '#FE340B',
             power: '#F8C73A',
-        },
+        };
         this.stroke = {
             width: 1,
-        },
+        };
         this.selectors = {
             svg: '#moxy-svg',
             path: {
@@ -57,6 +59,7 @@ class MoxyGraph extends HTMLElement {
         this.$path.thb       = this.querySelector(this.selectors.path.thb);
         this.$path.heartRate = this.querySelector(this.selectors.path.heartRate);
         this.$path.power     = this.querySelector(this.selectors.path.power);
+
         this.getWidth();
 
         this.$path.smo2.setAttribute('stroke', this.color.smo2);
@@ -75,8 +78,8 @@ class MoxyGraph extends HTMLElement {
         this.abortController.abort();
     }
     getWidth() {
-        this.width = this.$cont.getBoundingClientRect()?.width ?? window.innerWidth;
-        console.log(`:moxy-graph :width ${this.width}`);
+        const width = this.$cont.getBoundingClientRect()?.width ?? window.innerWidth;
+        this.width = width;
     }
     onResize() {
         this.getWidth();
@@ -104,46 +107,73 @@ class MoxyGraph extends HTMLElement {
         this.power.value = value;
     }
     onElapsed() {
-        this.renderStep('smo2');
-        this.renderStep('thb');
-        this.renderStep('heartRate');
-        this.renderStep('power');
+        // first calculate
+        for(let key in this.path) {
+            this.calcStep(key);
+        }
+
+        // render all
+        for(let key in this.path) {
+            this.renderStep(key);
+        }
 
         this.x += this.step;
     }
-    // SmO2 range: 0 - 100,   step: 0.1, <30% - blue, 30%-70% - green, >70% red
-    // THb  range: 0 - 40.00, step: 0.01, 8.0 - 15.0
-    renderStep(key) {
-        const y = this.yAxis.max - translate(
-            this[key].value,
+    translateY(key, value) {
+        return this.yAxis.max - translate(
+            value,
             this[key].min,
             this[key].max,
             this.yAxis.min,
             this.yAxis.max
         );
-
-        const length = this.path[key].length;
+    }
+    // SmO2 range: 0 - 100,   step: 0.1, <30% - blue, 30%-70% - green, >70% red
+    // THb  range: 0 - 40.00, step: 0.01, 8.0 - 15.0
+    calcStep(key) {
+        const y = this.translateY(key, this[key].value);
+        let length = this.path[key].length;
 
         if((length / 2) >= (this.width / this.step)) {
-            // when xAxis.max is reached,
-            // shift in place 2 positions back
-            // and set the last 2 position with the new data
-            // console.log(`:moxy-graph :shift :key ${key} :length ${length}`);
+            if((length / 2) - (this.width / this.step) >= 2) {
+                let p = (length / 2) - (this.width / this.step);
+                length = this.width * 2;
 
-            for(let i = 2; i < length; i+=1) {
-                if(i % 2 !== 0) {
-                    this.path[key][i-2] = this.path[key][i];
-                };
+                // splice window diff from the front and account for the one shift
+                this.path[key].splice(0, (p*2)+2);
+
+                // shift path x values to start from 0
+                for(let i = 0, j = 0; i < length; i+=1) {
+                    if(i % 2 == 0) {
+                        this.path[key][i] = j;
+                        j+=1;
+                    };
+                }
+                this.x = (length/2) - 1;
+                // shift
+                this.path[key][length-2] = this.x;
+                this.path[key][length-1] = y;
+            } else {
+                // when xAxis.max is reached,
+                // shift in place 2 positions back
+                // and set the last 2 position with the new data
+                for(let i = 2; i < length; i+=1) {
+                    if(i % 2 !== 0) {
+                        this.path[key][i-2] = this.path[key][i];
+                    };
+                }
+                this.x = (length/2) - 1; // maybe ??
+                this.path[key][length-2] = this.x;
+                this.path[key][length-1] = y;
             }
-            this.path[key][length-2] = this.x;
-            this.path[key][length-1] = y;
+
         } else {
-            // console.log(`:moxy-graph :push :key ${key} :length ${length}`);
             // push until xAxis.max is reached
             this.path[key].push(this.x);
             this.path[key].push(y);
         }
-
+    }
+    renderStep(key) {
         const points = this.path[key].join(',');
         this.$path[key].setAttribute('points', points);
     }
