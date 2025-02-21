@@ -47,7 +47,6 @@ class Watch {
         xf.sub('db:stepIndex',       index => { self.stepIndex     = index; });
         xf.sub('db:watchStatus',     state => { self.state         = state; });
         xf.sub('db:workoutStatus',   state => {
-            // console.log(`:workout :status ${state}`);
             self.stateWorkout = state;
 
             if(self.isWorkoutDone()) {
@@ -104,7 +103,6 @@ class Watch {
         this.autoStart = value.autoStart ?? this.autoStart;
     }
     onPower1s(power) {
-        console.log(`:status ${this.status()} :autoStartCounter ${this.autoStartCounter} :autoStart ${this.autoStart} :autoPauseCounter ${this.autoPauseCounter} :autoPause ${this.autoPause}`);
         if(this.autoPause) {
             if(power === 0 && this.isStarted()) {
                 this.autoPauseCounter += 1;
@@ -160,7 +158,6 @@ class Watch {
     }
     startWorkout() {
         const self = this;
-        // console.log(`:watch :startWorkout :isWorkoutStarted ${self.isWorkoutStarted()} :intervalIndex ${self.intervalIndex}`);
 
         // in case of pressing play button during auto start countdown
         this.autoStartCounter = -1;
@@ -340,7 +337,6 @@ class Watch {
         return undefined;
     }
     nextStep(intervals, intervalIndex, stepIndex) {
-        // console.log(`:interval ${intervalIndex} :step ${stepIndex}`);
         if(this.isDurationStep(intervals, intervalIndex, stepIndex)) {
             this.intervalType = 'duration';
             return this.nextDurationStep(intervals, intervalIndex, stepIndex);
@@ -445,7 +441,6 @@ xf.reg('workout:done',    (x, db) => db.workoutStatus = 'done');
 xf.reg('watch:started',   (x, db) => {
     db.watchStatus = 'started';
     if(db.lapStartTime === false) {
-        // console.log(`:watch :first-lap `, Date.now());
         db.lapStartTime = Date.now(); // if first lap
     }
 });
