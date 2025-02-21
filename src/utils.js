@@ -158,11 +158,6 @@ function translate(value, leftMin, leftMax, rightMin, rightMax) {
     return rightMin + (valueScaled * rightSpan);
 }
 
-// function translate(value, inMin, inMax, outMin, outMax) {
-//     return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-// }
-
-
 function hexColorToArray(hex) {
     return hex.replace('#','').match(/.{1,2}/g).map(x => parseInt(x, 16));
 }

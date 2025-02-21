@@ -13,8 +13,7 @@ describe('Moxy Graph View', () => {
 describe('Fill - Shift - Enlarge - Fill - Shift', () => {
 
     global.console = {
-        // log: jest.fn(),
-        log: console.log,
+        log: jest.fn(),
         error: console.error,
         warn: console.warn,
     };
@@ -93,138 +92,137 @@ describe('Fill - Shift - Enlarge - Fill - Shift', () => {
     test('init', () => {
         expect(moxy.step).toBe(1);
         expect(moxy.x).toBe(0);
-        expect(moxy.path['power']).toStrictEqual([]);
+        expect(moxy.path.power).toStrictEqual([]);
     });
 
     test(' 1s', () => {
-        moxy.onPower(100);
+        moxy.handlers.power(100);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(1);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 2));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 2));
     });
 
     test(' 2s', () => {
-        moxy.onPower(110);
+        moxy.handlers.power(110);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(2);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 4));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 4));
     });
 
     test(' 3s', () => {
-        moxy.onPower(120);
+        moxy.handlers.power(120);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(3);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 6));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 6));
     });
 
     test(' 4s', () => {
-        moxy.onPower(130);
+        moxy.handlers.power(130);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(4);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 8));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 8));
     });
 
 
     test(' 5s', () => {
-        moxy.onPower(140);
+        moxy.handlers.power(140);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(5);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 10));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 10));
     });
 
     test(' 6s', () => {
-        moxy.onPower(150);
+        moxy.handlers.power(150);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(6);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 12));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 12));
     });
 
     test(' 7s', () => {
-        moxy.onPower(160);
+        moxy.handlers.power(160);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(7);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 14));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 14));
     });
 
     test(' 8s end', () => {
-        moxy.onPower(170);
+        moxy.handlers.power(170);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(8);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 16));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 16));
     });
 
     // hit window end
 
     test(' 9s shift', () => {
         // shift 1
-        moxy.onPower(180);
+        moxy.handlers.power(180);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(8);
-        expect(moxy.path['power']).toStrictEqual(power1.slice(0, 16));
+        expect(moxy.path.power).toStrictEqual(power1.slice(0, 16));
     });
 
     test('10s shift', () => {
         // shift 2
-        moxy.onPower(190);
+        moxy.handlers.power(190);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(8);
-        expect(moxy.path['power']).toStrictEqual(power2.slice(0, 16));
+        expect(moxy.path.power).toStrictEqual(power2.slice(0, 16));
     });
 
     // enlarge window
     test('11s enlarge', () => {
         // enlarge 1
         moxy.width = 12;
-        moxy.onPower(200);
+        moxy.handlers.power(200);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(9);
-        expect(moxy.path['power']).toStrictEqual(power3.slice(0, 18));
+        expect(moxy.path.power).toStrictEqual(power3.slice(0, 18));
     });
 
     test('12s', () => {
-        moxy.onPower(210);
+        moxy.handlers.power(210);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(10);
-        expect(moxy.path['power']).toStrictEqual(power3.slice(0, 20));
+        expect(moxy.path.power).toStrictEqual(power3.slice(0, 20));
     });
 
     test('13s', () => {
-        moxy.onPower(220);
+        moxy.handlers.power(220);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(11);
-        expect(moxy.path['power']).toStrictEqual(power3.slice(0, 22));
+        expect(moxy.path.power).toStrictEqual(power3.slice(0, 22));
     });
 
     test('14s end', () => {
-        moxy.onPower(230);
+        moxy.handlers.power(230);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(12);
-        expect(moxy.path['power']).toStrictEqual(power3.slice(0, 24));
+        expect(moxy.path.power).toStrictEqual(power3.slice(0, 24));
     });
 
     test('15s shift', () => {
-        moxy.onPower(240);
+        moxy.handlers.power(240);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(12);
-        expect(moxy.path['power']).toStrictEqual(power4.slice(0, 24));
+        expect(moxy.path.power).toStrictEqual(power4.slice(0, 24));
     });
 });
-
 
 describe('Fill - Shift - Shrink - Fill - Shift', () => {
 
@@ -304,143 +302,143 @@ describe('Fill - Shift - Shrink - Fill - Shift', () => {
     test('init', () => {
         expect(moxy.step).toBe(1);
         expect(moxy.x).toBe(0);
-        expect(moxy.path['power']).toStrictEqual([]);
+        expect(moxy.path.power).toStrictEqual([]);
     });
 
     test(' 1s', () => {
-        moxy.onPower(100);
+        moxy.handlers.power(100);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(1);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 2));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 2));
     });
 
     test(' 2s', () => {
-        moxy.onPower(110);
+        moxy.handlers.power(110);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(2);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 4));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 4));
     });
 
     test(' 3s', () => {
-        moxy.onPower(120);
+        moxy.handlers.power(120);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(3);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 6));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 6));
     });
 
     test(' 4s', () => {
-        moxy.onPower(130);
+        moxy.handlers.power(130);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(4);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 8));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 8));
     });
 
 
     test(' 5s', () => {
-        moxy.onPower(140);
+        moxy.handlers.power(140);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(5);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 10));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 10));
     });
 
     test(' 6s', () => {
-        moxy.onPower(150);
+        moxy.handlers.power(150);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(6);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 12));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 12));
     });
 
     test(' 7s', () => {
-        moxy.onPower(160);
+        moxy.handlers.power(160);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(7);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 14));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 14));
     });
 
     test(' 8s', () => {
-        moxy.onPower(170);
+        moxy.handlers.power(170);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(8);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 16));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 16));
     });
 
     test(' 9s', () => {
-        moxy.onPower(180);
+        moxy.handlers.power(180);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(9);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 18));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 18));
     });
 
     test('10s', () => {
-        moxy.onPower(190);
+        moxy.handlers.power(190);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(10);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 20));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 20));
     });
 
     test('11s', () => {
-        moxy.onPower(200);
+        moxy.handlers.power(200);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(11);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 22));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 22));
     });
 
     test('12s end', () => {
-        moxy.onPower(210);
+        moxy.handlers.power(210);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(12);
-        expect(moxy.path['power']).toStrictEqual(power.slice(0, 24));
+        expect(moxy.path.power).toStrictEqual(power.slice(0, 24));
     });
 
     // hit window end
 
     test('13s shift', () => {
-        moxy.onPower(220);
+        moxy.handlers.power(220);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(12);
-        expect(moxy.path['power']).toStrictEqual(power1.slice(0, 24));
+        expect(moxy.path.power).toStrictEqual(power1.slice(0, 24));
     });
 
     test('14s shift', () => {
-        moxy.onPower(230);
+        moxy.handlers.power(230);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(12);
-        expect(moxy.path['power']).toStrictEqual(power2.slice(0, 24));
+        expect(moxy.path.power).toStrictEqual(power2.slice(0, 24));
     });
 
     // shrink window
 
     test('15s shrink - shift', () => {
         moxy.width = 8;
-        moxy.onPower(240);
+        moxy.handlers.power(240);
         moxy.onElapsed();
 
         expect(moxy.x).toBe(8);
-        // expect(moxy.path['power']).toStrictEqual(power3.slice(0, 16));
-        expect(moxy.path['power'][0]).toStrictEqual(power3[0]);
-        expect(moxy.path['power'][1]).toStrictEqual(power3[1]);
-        expect(moxy.path['power'][2]).toStrictEqual(power3[2]);
-        expect(moxy.path['power'][3]).toStrictEqual(power3[3]);
-        expect(moxy.path['power'][5]).toStrictEqual(power3[5]);
-        expect(moxy.path['power'][7]).toStrictEqual(power3[7]);
-        expect(moxy.path['power'][9]).toStrictEqual(power3[9]);
-        expect(moxy.path['power'][11]).toStrictEqual(power3[11]);
-        expect(moxy.path['power'][13]).toStrictEqual(power3[13]);
-        expect(moxy.path['power'][15]).toStrictEqual(power3[15]);
+        // expect(moxy.path.power).toStrictEqual(power3.slice(0, 16));
+        expect(moxy.path.power[0]).toStrictEqual(power3[0]);
+        expect(moxy.path.power[1]).toStrictEqual(power3[1]);
+        expect(moxy.path.power[2]).toStrictEqual(power3[2]);
+        expect(moxy.path.power[3]).toStrictEqual(power3[3]);
+        expect(moxy.path.power[5]).toStrictEqual(power3[5]);
+        expect(moxy.path.power[7]).toStrictEqual(power3[7]);
+        expect(moxy.path.power[9]).toStrictEqual(power3[9]);
+        expect(moxy.path.power[11]).toStrictEqual(power3[11]);
+        expect(moxy.path.power[13]).toStrictEqual(power3[13]);
+        expect(moxy.path.power[15]).toStrictEqual(power3[15]);
     });
 
 });
