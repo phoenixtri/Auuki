@@ -815,7 +815,7 @@ class PowerAvg extends DataView {
         xf.sub(`${this.prop}`, this.onUpdate.bind(this), this.signal);
     }
     transform(state) {
-        return Math.round(state);
+        return Math.ceil(state);
     }
 }
 
@@ -831,7 +831,7 @@ class PowerLap extends DataView {
         xf.sub(`${this.prop}`, this.onUpdate.bind(this), this.signal);
     }
     transform(state) {
-        return Math.round(state);
+        return Math.ceil(state);
     }
 }
 
