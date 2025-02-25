@@ -56,9 +56,9 @@ function time() {
     return `${hours}:${minutes}:${seconds}:${milliseconds}`;
 }
 
-function isoDate(date = new Date()) {
-    const offset = date.getTimezoneOffset();
-    const d = new Date(date.getTime() - (offset*60*1000));
+function isoDate(date = new Date(), utc = false) {
+    const offset = utc ? 0 : date.getTimezoneOffset()*60*1000;
+    const d = new Date(date.getTime() - offset);
     return date.toISOString().split('T')[0];
 }
 
