@@ -1,4 +1,4 @@
-<img alt="Auuki Indoor Cyling app for Structured Training" src="https://github.com/user-attachments/assets/82f7a94c-923d-4824-ac3a-6c1260b2a43b" />
+<img alt="Auuki Indoor Cyling app for Structured Training" src="https://github.com/user-attachments/assets/cc75ba55-258f-493d-8cc1-5f8326134629" />
 
 # Auuki
 Auuki is a powerful, no-nonsense app built for hammering out **structured workouts** on a smart trainer, right in your browser. No installs, no dependencies, no slow updates taking from precious training time.
@@ -22,6 +22,9 @@ _Status_: Currently working on creating a full suite of Apple platform native ap
 - You can find the web app at [auuki.com](https://auuki.com)
 - There is also a special development version which has the latest features available for preview: [dev.auuki.com](https://dev.auuki.com)
 - [How to create a Profile and Connect Intervals.icu](https://forum.intervals.icu/t/auuki-com-intervals-icu-integration/87105)
+
+## Sponsers 💖
+So, if you’re loving what Auuki’s bringing to the table, consider supporting the project on [GitHub Sponsors](https://github.com/sponsors/dvmarinoff)? Think of it as buying me a coffee or, heck, a whole power meter to keep this thing cranking. Hit that sponsor button and let’s keep the good times rolling!
 
 ## Supported Browsers and Platforms
 
@@ -81,13 +84,6 @@ Tacx Heart Rate monitor, Tacx Flux S trainer, and X240 laptop with Ubuntu 20.04.
 - [How to create a Profile and Connect Intervals.icu](https://forum.intervals.icu/t/auuki-com-intervals-icu-integration/87105)
 - [How-To: Using the connection settings](https://github.com/dvmarinoff/Auuki/discussions/91)
 - [How-To: Using Auuki and another app concurrently](https://github.com/dvmarinoff/Auuki/discussions/101)
-
-<!-- sponsors -->
-## Sponsers 💖
-
-While Auuki is free software and will always be, the project would benefit immensely from some funding. Raising a monthly budget we help cover the development and runnig costs for servers, databases, domains, storage, and others.
-
-You can support the development of Auuki via [Github Sponsers](https://github.com/sponsors/dvmarinoff).
 
 ### Backers
 <div>
