@@ -23,7 +23,7 @@ _Status_: Currently working on creating a full suite of Apple platform native ap
 - There is also a special development version which has the latest features available for preview: [dev.auuki.com](https://dev.auuki.com)
 - [How to create a Profile and Connect Intervals.icu](https://forum.intervals.icu/t/auuki-com-intervals-icu-integration/87105)
 
-## Sponsers 💖
+## Sponsors 💖
 So, if you’re loving what Auuki’s bringing to the table, consider supporting the project on [GitHub Sponsors](https://github.com/sponsors/dvmarinoff)? Think of it as buying me a coffee or, heck, a whole power meter to keep this thing cranking. Hit that sponsor button and let’s keep the good times rolling!
 
 ## Supported Browsers and Platforms
@@ -85,7 +85,7 @@ Tacx Heart Rate monitor, Tacx Flux S trainer, and X240 laptop with Ubuntu 20.04.
 - [How-To: Using the connection settings](https://github.com/dvmarinoff/Auuki/discussions/91)
 - [How-To: Using Auuki and another app concurrently](https://github.com/dvmarinoff/Auuki/discussions/101)
 
-### Backers
+## Backers
 <div>
     <a href="https://github.com/KlausMu" target="_blank">
         <img style="display: inline-block;" src="https://avatars.githubusercontent.com/u/14290221?v=4" width="48" height="48" />
@@ -103,4 +103,3 @@ Tacx Heart Rate monitor, Tacx Flux S trainer, and X240 laptop with Ubuntu 20.04.
         <img style="display: inline-block;" src="https://avatars.githubusercontent.com/u/25537910?v=4" width="48" height="48" />
     </a>
 </div>
-<!-- sponsors -->
