@@ -56,10 +56,16 @@ function time() {
     return `${hours}:${minutes}:${seconds}:${milliseconds}`;
 }
 
-function isoDate(date = new Date(), utc = false) {
-    const offset = utc ? 0 : date.getTimezoneOffset()*60*1000;
-    const d = new Date(date.getTime() - offset);
-    return date.toISOString().split('T')[0];
+function isoDate(date = new Date(), local = true) {
+    if(local) {
+        const day   = (date.getDate()).toString().padStart(2, '0');
+        const month = (date.getMonth()+1).toString().padStart(2, '0');
+        const year  = date.getFullYear().toString();
+        return `${year}-${month}-${day}`;
+    } else {
+        // toISOString returns always the utc date
+        return date.toISOString().split('T')[0];
+    }
 }
 
 function format(x, precision = 1000) {
