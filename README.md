@@ -1,4 +1,4 @@
-<img alt="Auuki Indoor Cyling app for Structured Training" src="https://github.com/user-attachments/assets/cc75ba55-258f-493d-8cc1-5f8326134629" />
+<img alt="Auuki Indoor Cyling app for Structured Training" src="https://github.com/user-attachments/assets/e92ebee1-6251-4114-8bf5-245f15f418f2" />
 
 # Auuki
 Auuki is a powerful, no-nonsense app built for hammering out **structured workouts** on a smart trainer, right in your browser. No installs, no dependencies, no slow updates taking from precious training time.
