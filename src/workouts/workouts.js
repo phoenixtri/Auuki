@@ -288,7 +288,7 @@ let workouts = [
     <name>5-1-5 Moxy Test</name>
     <category>Test</category>
     <subcategory>Moxy 515</subcategory>
-    <description>It's important to not warm-up before the test. You should not cycle during the rest intervals, since they are meant to track SmO2 and THb recovery rate. You are meant to fail in any of the last 3 steps. Use the Moxy Academy course for guidence on how to analyze. Muscle Oxygen Zone Assessment: https://moxy-academy.teachable.com/courses/209052/lectures/3480785.
+    <description>This Assessment identifies an athlete's physiological limiters using muscle oxygen sensors through a series of 5 minute work intervals followed by 1 minute rests. It's important to not warm-up before the test. You should not cycle during the rest intervals, since they are meant to track SmO2 and THb recovery rate. You are meant to fail in any of the last 3 steps. Use the Moxy Academy course for guidence on how to analyze. Muscle Oxygen Zone Assessment: https://moxy-academy.teachable.com/courses/209052/lectures/3480785.
 </description>
     <sporttype>bike</sporttype>
     <tags></tags>
