@@ -1,4 +1,4 @@
-import { xf, exists, debounce } from '../functions.js';
+import { xf, exists, clamp, debounce } from '../functions.js';
 import { translate } from '../utils.js';
 import { models } from '../models/models.js';
 
@@ -134,12 +134,18 @@ class MoxyGraph extends HTMLElement {
         // move x to the right for the next elapsed interval
         this.x += this.step;
     }
+    // this.smo2 =      {value: 0, x: 0, min:  0, max: 100};
+    // this.thb =       {value: 0, x: 0, min:  8, max:  15};
+    // this.heartRate = {value: 0, x: 0, min: 30, max: 200};
+    // this.power =     {value: 0, x: 0, min:  0, max: 600};
+    // this.xAxis =     {min: 0, max: 100};
+    // this.yAxis =     {min: 0, max: 100};
     translate(value, inMin, inMax, outMin, outMax) {
         return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
     }
     translateY(key, value) {
         return this.yAxis.max - this.translate(
-            value,
+            clamp(this[key].min, this[key].max, value),
             this[key].min,
             this[key].max,
             this.yAxis.min,
