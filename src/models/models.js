@@ -814,6 +814,7 @@ class Planned {
 
         if(yesterdayOrOlder(this.data.modified.intervals)) {
             console.log(`:planned :outdated :calling :wod 'intervals'`);
+            this.getAthlete('intervals');
             this.wod('intervals');
             return;
         }
