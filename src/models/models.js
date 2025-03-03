@@ -522,7 +522,7 @@ class Activity extends Model {
     name = 'activity';
     postInit(args) {
         this.api = args.api;
-        this.capacity = 3;
+        this.capacity = 7;
     }
     defaultValue() { return []; }
     createFromCurrent(db) {
