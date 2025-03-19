@@ -2313,6 +2313,22 @@ battery-level {
 /* END ANT Device Request */
 
 /* User Auth */
+
+#forgot--msg {
+    font-size: 1.4em;
+    padding: 1em;
+
+    &.loading {
+        color: var(--zone-yellow)
+    }
+    &.success {
+        color: var(--zone-green)
+    }
+    &.fail {
+        color: var(--zone-red)
+    }
+}
+
 .auth, .profile {
     display: block;
     /* min-height: 26rem; */

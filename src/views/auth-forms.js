@@ -55,6 +55,8 @@ class AuthForms extends HTMLElement {
             models.api.auth.logout();
         });
 
+        this.$forgotMsg = document.querySelector('#forgot--msg'),
+
         xf.sub('action:auth', self.onAction.bind(this));
     }
     disconnectedCallback() {
@@ -134,6 +136,27 @@ class AuthForms extends HTMLElement {
         //     this.switch('$register', this.el.passkey);
         //     return;
         // }
+        if(action === ':forgot:loading') {
+            console.log(`:view :action:auth :forgot:loading`);
+            this.$forgotMsg.textContent = "Sending reset request ...";
+            this.$forgotMsg.classList.remove('success');
+            this.$forgotMsg.classList.remove('error');
+            this.$forgotMsg.classList.add('loading');
+        }
+        if(action === ':forgot:success') {
+            console.log(`:view :action:auth :forgot:success`);
+            this.$forgotMsg.textContent = "An email with a password reset link has been sent to your email!";
+            this.$forgotMsg.classList.remove('loading');
+            this.$forgotMsg.classList.remove('error');
+            this.$forgotMsg.classList.add('success');
+        }
+        if(action === ':forgot:fail') {
+            console.log(`:view :action:auth :forgot:fail`);
+            this.$forgotMsg.textContent = "Something went wrong while sending a password reset email!";
+            this.$forgotMsg.classList.remove('loading');
+            this.$forgotMsg.classList.remove('success');
+            this.$forgotMsg.classList.add('error');
+        }
         if(action === ':error') {
             this.error('Wrong credentials or Authentication error');
             return;

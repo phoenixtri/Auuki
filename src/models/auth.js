@@ -202,6 +202,7 @@ function Auth(args = {}) {
         }
 
         try {
+            xf.dispatch('action:auth', ':forgot:loading');
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json',},
@@ -209,11 +210,17 @@ function Auth(args = {}) {
                 body: JSON.stringify(data),
             });
 
-            console.log(`:api :forgot :success`);
-            xf.dispatch('action:auth', ':password:login');
-            // TODO: display message email has been send if email exists
+            if(response.ok) {
+                console.log(`:api :forgot :success`);
+                xf.dispatch('action:auth', ':forgot:success');
+            } else {
+                console.log(`:api :forgot :fail :with ${response.status}`);
+                xf.dispatch('action:auth', ':forgot:fail');
+            }
         } catch(error) {
+            console.log(`:api :forgot :fail`);
             console.log(error);
+            xf.dispatch('action:auth', ':forgot:fail');
         }
     }
 
