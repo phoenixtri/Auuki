@@ -46,6 +46,8 @@ let db = {
     cadenceAvgCount: models.cadenceAvg.count,
     heartRateAvgCount: models.heartRateAvg.count,
 
+    heartRateMax: 0,
+
     // Targets
     powerTarget: models.powerTarget.default,
     resistanceTarget: models.resistanceTarget.default,
@@ -114,6 +116,10 @@ xf.reg(models.heartRate.prop, (heartRate, db) => {
     db.heartRateAvg = models.heartRateAvg.setState(heartRate);
     db.heartRateLapCount = models.heartRateLap.count;
     db.heartRateAvgCount = models.heartRateAvg.count;
+
+    if(heartRate > db.heartRateMax) {
+        db.heartRateMax = heartRate;
+    }
 });
 
 xf.reg('rrInterval', (rrInterval, db) => {

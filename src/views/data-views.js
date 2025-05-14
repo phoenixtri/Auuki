@@ -432,6 +432,19 @@ class HeartRateAvgValue extends DataView {
 
 customElements.define('heart-rate-avg-value', HeartRateAvgValue);
 
+class HeartRateMaxValue extends DataView {
+    getDefaults() {
+        return {
+            prop: 'db:heartRateMax',
+        };
+    }
+    transform(state) {
+        return Math.round(state);
+    }
+}
+
+customElements.define('heart-rate-max-value', HeartRateMaxValue);
+
 
 class SmO2Value extends DataView {
     getDefaults() {
