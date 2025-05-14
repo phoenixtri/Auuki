@@ -403,6 +403,10 @@ function Connectable(args = {}) {
     async function disconnect() {
         if(!_connected) { return; }
 
+        _status = Status.disconnecting;
+        // TODO: implement Disconnecting
+        onConnecting();
+
         if(services?.trainer?.reset ?? false) {
             let res = await services.trainer.reset();
         }

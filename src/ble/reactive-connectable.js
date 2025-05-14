@@ -151,6 +151,12 @@ function ReactiveConnectable(args = {}) {
         connectable.services.trainer.setSimulation({grade: slopeTarget});
     }
 
+    function onTrainerReset() {
+        if(!connectable.isConnected() ||
+           !exists(connectable.services?.trainer?.reset)) return;
+        connectable.services.trainer.reset();
+    }
+
     function start() {
         abortController = new AbortController();
         signal = { signal: abortController.signal };
@@ -163,6 +169,7 @@ function ReactiveConnectable(args = {}) {
             xf.sub('db:powerTarget',      onPowerTarget, signal);
             xf.sub('db:resistanceTarget', onResistanceTarget, signal);
             xf.sub('db:slopeTarget',      onSlopeTarget, signal);
+            xf.sub('ui:trainer:reset',    onTrainerReset, signal);
         }
     }
 
