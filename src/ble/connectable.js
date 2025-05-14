@@ -403,7 +403,11 @@ function Connectable(args = {}) {
     async function disconnect() {
         if(!_connected) { return; }
 
-        for (let key in services) {
+        if(services?.trainer?.reset ?? false) {
+            let res = await services.trainer.reset();
+        }
+
+        for(let key in services) {
             await services[key].stop();
         }
 
