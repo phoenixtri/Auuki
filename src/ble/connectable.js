@@ -402,9 +402,15 @@ function Connectable(args = {}) {
 
     async function disconnect() {
         if(!_connected) { return; }
+
+        for (let key in services) {
+            await services[key].stop();
+        }
+
         _connected = false;
         _status = Status.disconnected;
         _autoReconnect = false;
+
         abortController.abort();
 
         const res = await _device.gatt.disconnect();
