@@ -127,7 +127,41 @@ class AutoStartCounter extends HTMLElement {
 
 customElements.define('auto-start-counter', AutoStartCounter);
 
+class ModeLockToggle extends HTMLElement {
+    constructor() {
+        super();
+        this.isOn = false;
+    }
+    connectedCallback() {
+        const self = this;
+        this.abortController = new AbortController();
+        this.signal = { signal: self.abortController.signal };
+        this.$icon = this.querySelector('.mode-lock--toggle--icon');
+        this.$use = this.querySelector('use');
 
+        this.addEventListener('pointerup', this.onPointerup.bind(this), this.signal);
+        xf.sub('db:lock', this.onUpdate.bind(this), this.signal);
+    }
+    disconnectedCallback() {
+        this.abortController.abort();
+    }
+    onUpdate(value) {
+        this.isOn = value;
+        this.render();
+    }
+    onPointerup() {
+        xf.dispatch('ui:lock-set');
+    }
+    render() {
+        if(this.isOn) {
+            this.$use.setAttribute('href', '#icon--lock--close');
+        } else {
+            this.$use.setAttribute('href', '#icon--lock--open');
+        }
+    }
+}
+
+customElements.define('mode-lock-toggle', ModeLockToggle);
 
 
 class TimerTime extends DataView {

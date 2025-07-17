@@ -1148,6 +1148,7 @@ auto-start-counter {
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
+    position: relative;
     max-width: 100%;
     height: var(--mode-selector-height);
     margin: var(--mode-selector-margin);
@@ -1202,6 +1203,11 @@ auto-start-counter {
 .number-input--dec {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
+}
+.mode-lock--toggle--icon {
+    position: absolute;
+    top: 0;
+    cursor: pointer;
 }
 /* END Target Controls */
 /* END Home Page */

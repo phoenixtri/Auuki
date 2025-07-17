@@ -56,6 +56,7 @@ let db = {
 
     mode: models.mode.default,
     page: models.page.default,
+    lock: false,
 
     // Profile
     ftp: models.ftp.default,
@@ -208,6 +209,8 @@ xf.reg('ui:page-set', (page, db) => {
 
 // Modes
 xf.reg('ui:mode-set', (mode, db) => {
+    if(db.lock) return;
+
     db.mode = models.mode.set(mode);
 
     if(equals(mode, ControlMode.erg)) {
@@ -220,6 +223,15 @@ xf.reg('ui:mode-set', (mode, db) => {
         xf.dispatch(`ui:slope-target-set`, db.slopeTarget);
     }
 });
+
+xf.reg('ui:lock-set', (_, db) => {
+    db.lock = !db.lock;
+});
+
+xf.reg('ui:lock-toggle', (_, db) => {
+    db.lock = !db.lock;
+});
+
 
 // UI options
 xf.reg('ui:data-tile-switch-set', (index, db) => {

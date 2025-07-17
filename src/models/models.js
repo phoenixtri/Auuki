@@ -935,6 +935,7 @@ function Session(args = {}) {
             // Workouts
             workout: db.workout,
             mode: db.mode,
+            lock: db.lock,
             page: db.page,
 
             // Targets
