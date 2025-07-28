@@ -590,11 +590,13 @@ class Activity extends Model {
         const records = db.records;
         const laps = db.laps;
         const events = db.events;
+        const ftp = db.ftp;
 
         return fit.localActivity.encode({
             records,
             laps,
             events,
+            ftp,
         });
     }
     async restore() {
@@ -672,11 +674,13 @@ class Workout extends Model {
         const records = db.records;
         const laps = db.laps;
         const events = db.events;
+        const ftp = db.ftp;
 
         return fit.localActivity.encode({
             records,
             laps,
             events,
+            ftp,
         });
     }
     // utils

@@ -290,6 +290,7 @@ function LocalActivity(args = {}) {
         const records = args.records ?? [];
         const laps = args.laps ?? [];
         const events = args.events ?? [];
+        const ftp = args.ftp ?? 200;
 
         // printAppData(records, laps, events);
 
@@ -379,6 +380,7 @@ function LocalActivity(args = {}) {
                     total_elapsed_time,
                     total_timer_time,
                     stats,
+                    threshold_power: ftp,
                 })
             ),
 
@@ -492,6 +494,7 @@ function Session(args = {}) {
         ...args.stats,
         first_lap_index:    0,
         num_laps:           args.laps?.length ?? 1,
+        threshold_power:    args.threshold_power,
     };
 }
 // END Special Data Messages

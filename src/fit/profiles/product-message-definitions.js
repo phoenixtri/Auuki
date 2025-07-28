@@ -70,6 +70,7 @@ const productMessageDefinitions = [
         'max_power',
         'first_lap_index',
         'num_laps',
+        'threshold_power',
     ], 6],
     ['activity', [
         'timestamp',
