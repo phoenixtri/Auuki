@@ -3594,6 +3594,9 @@ and (min-width: 1024px) {
     .btn {
         /* background-color: var(--dark); */
     }
+    .mode-lock--toggle--icon {
+        left: -2em;
+    }
 
     .fixed-bottom {
         --controls-height: 100vh;
