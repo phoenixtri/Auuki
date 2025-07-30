@@ -102,4 +102,7 @@ Tacx Heart Rate monitor, Tacx Flux S trainer, and X240 laptop with Ubuntu 20.04.
     <a href="https://github.com/sharalds" target="_blank">
         <img style="display: inline-block;" src="https://avatars.githubusercontent.com/u/25537910?v=4" width="48" height="48" />
     </a>
+    <a href="https://github.com/BenSimpsonAnalytics" target="_blank">
+        <img style="display: inline-block;" src="https://avatars.githubusercontent.com/u/81325092?v=4" width="48" height="48" />
+    </a>
 </div>
