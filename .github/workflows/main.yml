@@ -22,6 +22,9 @@ jobs:
       - name: Build the project
         run: npm run build
 
+      - name: List dist directory
+        run: ls -R dist
+
   deploy:
     needs: build
     
@@ -32,7 +35,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3.0.1
         with:
           name: dist
-          path: dist
+          path: dist/
           
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4.0.5
