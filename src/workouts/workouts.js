@@ -353,6 +353,33 @@ let workouts = [
         <SteadyState Duration="60" Power="2.02" />
     </workout>
 </workout_file>`,
+`<workout_file>
+    <author>Auuki</author>
+    <name>At/Over/Under</name>
+    <category>Threshold</category>
+    <subcategory>At/Over/Under</subcategory>
+    <description>This workout features three 3-minute intervals that train your body to better manage and tolerate lactate buildup. You'll begin 'at' your FTP, increase to Zone 5 intensity (over), then finish with a Zone 3 effort (under).</description>
+    <sportType>bike</sportType>
+    <tags>
+    </tags>
+    <workout>
+        <Warmup Duration="300" PowerLow="0.25" PowerHigh="0.966"/>
+        <SteadyState Duration="120" Power="0.5">
+        <SteadyState Duration="120" Power="0.901"/>
+        <SteadyState Duration="120" Power="1.053"/>
+        <SteadyState Duration="120" Power="0.763"/>
+        <SteadyState Duration="120" Power="0.5"/>
+        <SteadyState Duration="120" Power="0.901"/>
+        <SteadyState Duration="120" Power="1.053"/>
+        <SteadyState Duration="120" Power="0.763"/>
+        <SteadyState Duration="120" Power="0.5"/>
+        <SteadyState Duration="120" Power="0.901"/>
+        <SteadyState Duration="120" Power="1.053"/>
+        <SteadyState Duration="120" Power="0.763"/>
+        <SteadyState Duration="120" Power="0.5"/>
+        <Cooldown Duration="180" PowerLow="0.75" PowerHigh="0.25"/>
+    </workout>
+</workout_file>`
 ];
 
 export { workouts };
