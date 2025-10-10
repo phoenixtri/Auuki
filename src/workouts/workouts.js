@@ -110,6 +110,129 @@ let workouts = [
 </workout_file>
 `,
 `<workout_file>
+    <author>Auuki</author>
+    <name>Quiche</name>
+    <category>HIIT</category>
+    <description>This workout features three 6-minute intervals that train your body to better manage and tolerate lactate buildup. You'll begin 'at' your FTP, increase to Zone 5 intensity (over), then finish with a Zone 3 effort (under).</description>
+    <sportType>bike</sportType>
+    <tags>
+    </tags>
+    <workout>
+        <Warmup Duration="300" PowerLow="0.25" PowerHigh="0.966"/>
+        <SteadyState Duration="120" Power="0.5"/>
+        <SteadyState Duration="120" Power="0.901"/>
+        <SteadyState Duration="120" Power="1.053"/>
+        <SteadyState Duration="120" Power="0.763"/>
+        <SteadyState Duration="120" Power="0.5"/>
+        <SteadyState Duration="120" Power="0.901"/>
+        <SteadyState Duration="120" Power="1.053"/>
+        <SteadyState Duration="120" Power="0.763"/>
+        <SteadyState Duration="120" Power="0.5"/>
+        <SteadyState Duration="120" Power="0.901"/>
+        <SteadyState Duration="120" Power="1.053"/>
+        <SteadyState Duration="120" Power="0.763"/>
+        <SteadyState Duration="120" Power="0.5"/>
+        <Cooldown Duration="180" PowerLow="0.75" PowerHigh="0.25"/>
+    </workout>
+</workout_file>`
+,
+`<workout_file>
+    <author>Auuki</author>
+    <name>Quiche +1</name>
+    <category>HIIT</category>
+    <description>This workout features two sets with 5 intervals each that train your body to better manage and tolerate lactate buildup. You'll begin 'at' your FTP, increase to Zone 5 intensity (over), then finish with a Zone 3 effort (under).</description>
+    <sportType>bike</sportType>
+    <tags>
+    </tags>
+    <workout>
+        <Warmup Duration="300" PowerLow="0.25" PowerHigh="0.966"/>
+        <SteadyState Duration="60" Power="0.5"/>
+        <SteadyState Duration="45" Power="0.901"/>
+        <SteadyState Duration="45" Power="1.053"/>
+        <SteadyState Duration="45" Power="0.763"/>
+        <SteadyState Duration="60" Power="0.5"/>
+        <SteadyState Duration="45" Power="0.901"/>
+        <SteadyState Duration="45" Power="1.053"/>
+        <SteadyState Duration="45" Power="0.763"/>
+        <SteadyState Duration="60" Power="0.5"/>
+        <SteadyState Duration="45" Power="0.901"/>
+        <SteadyState Duration="45" Power="1.053"/>
+        <SteadyState Duration="45" Power="0.763"/>
+        <SteadyState Duration="60" Power="0.5"/>
+        <SteadyState Duration="45" Power="0.901"/>
+        <SteadyState Duration="45" Power="1.053"/>
+        <SteadyState Duration="45" Power="0.763"/>
+        <SteadyState Duration="60" Power="0.5"/>
+        <SteadyState Duration="45" Power="0.901"/>
+        <SteadyState Duration="45" Power="1.053"/>
+        <SteadyState Duration="45" Power="0.763"/>
+        <SteadyState Duration="180" Power="0.5"/>
+        <SteadyState Duration="45" Power="0.901"/>
+        <SteadyState Duration="45" Power="1.053"/>
+        <SteadyState Duration="45" Power="0.763"/>
+        <SteadyState Duration="60" Power="0.5"/>
+        <SteadyState Duration="45" Power="0.901"/>
+        <SteadyState Duration="45" Power="1.053"/>
+        <SteadyState Duration="45" Power="0.763"/>
+        <SteadyState Duration="60" Power="0.5"/>
+        <SteadyState Duration="45" Power="0.901"/>
+        <SteadyState Duration="45" Power="1.053"/>
+        <SteadyState Duration="45" Power="0.763"/>
+        <SteadyState Duration="60" Power="0.5"/>
+        <SteadyState Duration="45" Power="0.901"/>
+        <SteadyState Duration="45" Power="1.053"/>
+        <SteadyState Duration="45" Power="0.763"/>
+        <SteadyState Duration="60" Power="0.5"/>
+        <SteadyState Duration="45" Power="0.901"/>
+        <SteadyState Duration="45" Power="1.053"/>
+        <SteadyState Duration="45" Power="0.763"/>
+        <SteadyState Duration="60" Power="0.5"/>
+        <Cooldown Duration="270" PowerLow="0.75" PowerHigh="0.25"/>
+    </workout>
+</workout_file>`
+,
+`<workout_file>
+    <author>Auuki</author>
+    <name>Salad</name>
+    <category>HIIT</category>
+    <description>This workout uses pyramid-structured intervals that gradually build up to your FTP threshold. These efforts enhance your body's capacity to metabolize exercise byproducts—such as lactate and convert them into usable fuel for your cardiovascular system.</description>
+    <sportType>bike</sportType>
+    <tags>
+    </tags>
+    <workout>
+        <SteadyState Duration="90" Power="0.604"/>
+        <SteadyState Duration="90" Power="0.704"/>
+        <SteadyState Duration="90" Power="0.814"/>
+        <SteadyState Duration="90" Power="0.904"/>
+        <SteadyState Duration="60" Power="0.504"/>
+        <SteadyState Duration="45" Power="1.054"/>
+        <SteadyState Duration="60" Power="0.604"/>
+        <SteadyState Duration="45" Power="1.104"/>
+        <SteadyState Duration="60" Power="0.554"/>
+        <SteadyState Duration="45" Power="1.154"/>
+        <SteadyState Duration="60" Power="0.504"/>
+        <SteadyState Duration="120" Power="0.654"/>
+        <SteadyState Duration="120" Power="0.814"/>
+        <SteadyState Duration="120" Power="0.884"/>
+        <SteadyState Duration="45" Power="1.004"/>
+        <SteadyState Duration="90" Power="0.654"/>
+        <SteadyState Duration="45" Power="1.004"/>
+        <SteadyState Duration="120" Power="0.884"/>
+        <SteadyState Duration="120" Power="0.814"/>
+        <SteadyState Duration="120" Power="0.504"/>
+        <SteadyState Duration="125" Power="0.814"/>
+        <SteadyState Duration="120" Power="0.884"/>
+        <SteadyState Duration="45" Power="1.004"/>
+        <SteadyState Duration="90" Power="0.654"/>
+        <SteadyState Duration="45" Power="1.004"/>
+        <SteadyState Duration="120" Power="0.884"/>
+        <SteadyState Duration="120" Power="0.814"/>
+        <SteadyState Duration="120" Power="0.504"/>
+        <Cooldown Duration="280" PowerLow="0.754" PowerHigh="0.504"/>
+    </workout>
+</workout_file>`
+,
+`<workout_file>
     <author>Marinov</author>
     <name>Pasta</name>
     <category>Threshold</category>
@@ -353,126 +476,6 @@ let workouts = [
         <SteadyState Duration="60" Power="2.02" />
     </workout>
 </workout_file>`,
-`<workout_file>
-    <author>Auuki</author>
-    <name>Quiche</name>
-    <category>HIIT</category>
-    <description>This workout features three 6-minute intervals that train your body to better manage and tolerate lactate buildup. You'll begin 'at' your FTP, increase to Zone 5 intensity (over), then finish with a Zone 3 effort (under).</description>
-    <sportType>bike</sportType>
-    <tags>
-    </tags>
-    <workout>
-        <Warmup Duration="300" PowerLow="0.25" PowerHigh="0.966"/>
-        <SteadyState Duration="120" Power="0.5"/>
-        <SteadyState Duration="120" Power="0.901"/>
-        <SteadyState Duration="120" Power="1.053"/>
-        <SteadyState Duration="120" Power="0.763"/>
-        <SteadyState Duration="120" Power="0.5"/>
-        <SteadyState Duration="120" Power="0.901"/>
-        <SteadyState Duration="120" Power="1.053"/>
-        <SteadyState Duration="120" Power="0.763"/>
-        <SteadyState Duration="120" Power="0.5"/>
-        <SteadyState Duration="120" Power="0.901"/>
-        <SteadyState Duration="120" Power="1.053"/>
-        <SteadyState Duration="120" Power="0.763"/>
-        <SteadyState Duration="120" Power="0.5"/>
-        <Cooldown Duration="180" PowerLow="0.75" PowerHigh="0.25"/>
-    </workout>
-</workout_file>`,
-`<workout_file>
-    <author>Auuki</author>
-    <name>Quiche +1</name>
-    <category>HIIT</category>
-    <description>This workout features two sets with 5 intervals each that train your body to better manage and tolerate lactate buildup. You'll begin 'at' your FTP, increase to Zone 5 intensity (over), then finish with a Zone 3 effort (under).</description>
-    <sportType>bike</sportType>
-    <tags>
-    </tags>
-    <workout>
-        <Warmup Duration="300" PowerLow="0.25" PowerHigh="0.966"/>
-        <SteadyState Duration="60" Power="0.5"/>
-        <SteadyState Duration="45" Power="0.901"/>
-        <SteadyState Duration="45" Power="1.053"/>
-        <SteadyState Duration="45" Power="0.763"/>
-        <SteadyState Duration="60" Power="0.5"/>
-        <SteadyState Duration="45" Power="0.901"/>
-        <SteadyState Duration="45" Power="1.053"/>
-        <SteadyState Duration="45" Power="0.763"/>
-        <SteadyState Duration="60" Power="0.5"/>
-        <SteadyState Duration="45" Power="0.901"/>
-        <SteadyState Duration="45" Power="1.053"/>
-        <SteadyState Duration="45" Power="0.763"/>
-        <SteadyState Duration="60" Power="0.5"/>
-        <SteadyState Duration="45" Power="0.901"/>
-        <SteadyState Duration="45" Power="1.053"/>
-        <SteadyState Duration="45" Power="0.763"/>
-        <SteadyState Duration="60" Power="0.5"/>
-        <SteadyState Duration="45" Power="0.901"/>
-        <SteadyState Duration="45" Power="1.053"/>
-        <SteadyState Duration="45" Power="0.763"/>
-        <SteadyState Duration="180" Power="0.5"/>
-        <SteadyState Duration="45" Power="0.901"/>
-        <SteadyState Duration="45" Power="1.053"/>
-        <SteadyState Duration="45" Power="0.763"/>
-        <SteadyState Duration="60" Power="0.5"/>
-        <SteadyState Duration="45" Power="0.901"/>
-        <SteadyState Duration="45" Power="1.053"/>
-        <SteadyState Duration="45" Power="0.763"/>
-        <SteadyState Duration="60" Power="0.5"/>
-        <SteadyState Duration="45" Power="0.901"/>
-        <SteadyState Duration="45" Power="1.053"/>
-        <SteadyState Duration="45" Power="0.763"/>
-        <SteadyState Duration="60" Power="0.5"/>
-        <SteadyState Duration="45" Power="0.901"/>
-        <SteadyState Duration="45" Power="1.053"/>
-        <SteadyState Duration="45" Power="0.763"/>
-        <SteadyState Duration="60" Power="0.5"/>
-        <SteadyState Duration="45" Power="0.901"/>
-        <SteadyState Duration="45" Power="1.053"/>
-        <SteadyState Duration="45" Power="0.763"/>
-        <SteadyState Duration="60" Power="0.5"/>
-        <Cooldown Duration="270" PowerLow="0.75" PowerHigh="0.25"/>
-    </workout>
-</workout_file>`,
-`<workout_file>
-    <author>Auuki</author>
-    <name>Salad</name>
-    <category>HIIT</category>
-    <description>This workout uses pyramid-structured intervals that gradually build up to your FTP threshold. These efforts enhance your body's capacity to metabolize exercise byproducts—such as lactate and convert them into usable fuel for your cardiovascular system.</description>
-    <sportType>bike</sportType>
-    <tags>
-    </tags>
-    <workout>
-        <SteadyState Duration="90" Power="0.604"/>
-        <SteadyState Duration="90" Power="0.704"/>
-        <SteadyState Duration="90" Power="0.814"/>
-        <SteadyState Duration="90" Power="0.904"/>
-        <SteadyState Duration="60" Power="0.504"/>
-        <SteadyState Duration="45" Power="1.054"/>
-        <SteadyState Duration="60" Power="0.604"/>
-        <SteadyState Duration="45" Power="1.104"/>
-        <SteadyState Duration="60" Power="0.554"/>
-        <SteadyState Duration="45" Power="1.154"/>
-        <SteadyState Duration="60" Power="0.504"/>
-        <SteadyState Duration="120" Power="0.654"/>
-        <SteadyState Duration="120" Power="0.814"/>
-        <SteadyState Duration="120" Power="0.884"/>
-        <SteadyState Duration="45" Power="1.004"/>
-        <SteadyState Duration="90" Power="0.654"/>
-        <SteadyState Duration="45" Power="1.004"/>
-        <SteadyState Duration="120" Power="0.884"/>
-        <SteadyState Duration="120" Power="0.814"/>
-        <SteadyState Duration="120" Power="0.504"/>
-        <SteadyState Duration="125" Power="0.814"/>
-        <SteadyState Duration="120" Power="0.884"/>
-        <SteadyState Duration="45" Power="1.004"/>
-        <SteadyState Duration="90" Power="0.654"/>
-        <SteadyState Duration="45" Power="1.004"/>
-        <SteadyState Duration="120" Power="0.884"/>
-        <SteadyState Duration="120" Power="0.814"/>
-        <SteadyState Duration="120" Power="0.504"/>
-        <Cooldown Duration="280" PowerLow="0.754" PowerHigh="0.504"/>
-    </workout>
-</workout_file>`
 ];
 
 export { workouts };
