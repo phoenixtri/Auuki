@@ -356,7 +356,7 @@ let workouts = [
 `<workout_file>
     <author>Auuki</author>
     <name>Quiche</name>
-    <category>Threshold</category>
+    <category>HIIT</category>
     <description>This workout features three 6-minute intervals that train your body to better manage and tolerate lactate buildup. You'll begin 'at' your FTP, increase to Zone 5 intensity (over), then finish with a Zone 3 effort (under).</description>
     <sportType>bike</sportType>
     <tags>
@@ -382,7 +382,7 @@ let workouts = [
 `<workout_file>
     <author>Auuki</author>
     <name>Quiche +1</name>
-    <category>Threshold</category>
+    <category>HIIT</category>
     <description>This workout features two sets with 5 intervals each that train your body to better manage and tolerate lactate buildup. You'll begin 'at' your FTP, increase to Zone 5 intensity (over), then finish with a Zone 3 effort (under).</description>
     <sportType>bike</sportType>
     <tags>
@@ -436,7 +436,7 @@ let workouts = [
 `<workout_file>
     <author>Auuki</author>
     <name>Salad</name>
-    <category>Threshold</category>
+    <category>HIIT</category>
     <description>This workout uses pyramid-structured intervals that gradually build up to your FTP threshold. These efforts enhance your body's capacity to metabolize exercise byproducts—such as lactate and convert them into usable fuel for your cardiovascular system.</description>
     <sportType>bike</sportType>
     <tags>
