@@ -276,6 +276,24 @@ let workouts = [
 ,
 `<workout_file>
     <author>Marinov</author>
+    <name>Potato Chips</name>
+    <category>Threshold</category>
+    <description>3 by 3 min at 100% of FTP with 3 min recovery in-between. Perfect to get you accustomed to your first intensive sessions after a base block, or just that new FTP value.</description>
+    <sportType>bike</sportType>
+    <tags>
+    </tags>
+    <workout>
+        <SteadyState Duration="300" Power="0.39"/>
+        <SteadyState Duration="120" Power="0.60"/>
+        <IntervalsT Repeat="2" OnDuration="30" OffDuration="30" OnPower="0.98" OffPower="0.5"/>
+        <SteadyState Duration="120" Power="0.56"/>
+        <IntervalsT Repeat="3" OnDuration="180" OffDuration="180" OnPower="1" OffPower="0.5"/>
+        <SteadyState Duration="300" Power="0.39"/>
+    </workout>
+</workout_file>`
+,
+`<workout_file>
+    <author>Marinov</author>
     <name>Maple</name>
     <category>Sweet Spot</category>
     <description>4 times 10 min sweet spot intervals with 5 min recovery in-between and warm-up ramp.</description>
