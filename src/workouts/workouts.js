@@ -258,7 +258,7 @@ let workouts = [
 ,
 `<workout_file>
     <author>Marinov</author>
-    <name>Potato Chips</name>
+    <name>Potato Chips +1</name>
     <category>Threshold</category>
     <description>5 by 5 min at 100% of FTP with 5 min recovery in-between. Perfect to get you accustomed to your first intensive sessions after a base block, or just that new FTP value.</description>
     <sportType>bike</sportType>
