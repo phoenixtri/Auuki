@@ -464,6 +464,50 @@ class Theme extends Model {
         return self.default;
     }
 }
+
+class DockMode extends Model {
+    postInit(args = {}) {
+        const self = this;
+        const storageModel = {
+            key: self.prop,
+            fallback: self.defaultValue(),
+            parse: (x) => x === 'true',
+        };
+        self.storage = new args.storage(storageModel);
+        self.values = [true, false];
+    }
+    defaultValue() { return false; }
+    switch(state) {
+        return !state;
+    }
+    apply(state) {
+        const self = this;
+        if(state && window.innerHeight > 200) {
+            self.resize();
+        }
+    }
+    calcSize() {
+        const width = window.screen.availWidth;
+        const height = 150;
+        const top = window.screen.availHeight - height;
+        return {width: width, height: height, top: top};
+    }
+    resize() {
+        const self = this;
+        let {width, height, top} = self.calcSize();
+        window.resizeTo(width, height);
+        window.moveTo(0, top);
+    }
+    open() {
+        const href = document.location.href;
+        let self = this;
+        let { width, height, top } = self.calcSize();
+
+        window.open(`${href}`, '', `width=${width},height=${height},left=0,top=${top}`);
+        window.close();
+    }
+}
+
 class Measurement extends Model {
     postInit(args = {}) {
         const self = this;
@@ -501,7 +545,6 @@ class DataTileSwitch extends Model {
         return parseInt(value);
     }
 }
-
 
 class Activity extends Model {
     // var activity = {
@@ -1546,6 +1589,7 @@ const page = new Page({prop: 'page'});
 const ftp = new FTP({prop: 'ftp', storage: LocalStorageItem});
 const weight = new Weight({prop: 'weight', storage: LocalStorageItem});
 const theme = new Theme({prop: 'theme', storage: LocalStorageItem});
+const dockMode = new DockMode({prop: 'dockMode', storage: LocalStorageItem});
 const volume = new Volume({prop: 'volume', storage: LocalStorageItem});
 const measurement = new Measurement({prop: 'measurement', storage: LocalStorageItem});
 const dataTileSwitch = new DataTileSwitch({prop: 'dataTileSwitch', storage: LocalStorageItem});
@@ -1594,6 +1638,7 @@ let models = {
     page,
     ftp,
     weight,
+    dockMode,
     volume,
     theme,
     measurement,
