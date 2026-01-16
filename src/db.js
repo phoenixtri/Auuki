@@ -62,6 +62,7 @@ let db = {
     ftp: models.ftp.default,
     weight: models.weight.default,
     theme: models.theme.default,
+    dockMode: models.dockMode.default,
     measurement: models.measurement.default,
     volume: models.volume.default,
 
@@ -163,6 +164,11 @@ xf.reg(models.sources.prop, (sources, db) => {
     db.sources = models.sources.set(db.sources, sources);
     models.sources.backup(db.sources);
     console.log(db.sources);
+});
+
+xf.reg(models.dockMode.prop, (value, db) => {
+    db.dockMode = models.dockMode.set(value);
+    models.dockMode.backup(db.dockMode);
 });
 
 xf.reg('power1s', (power, db) => {
@@ -286,6 +292,11 @@ xf.reg('ui:theme-switch', (_, db) => {
     db.theme = models.theme.switch(db.theme);
     models.theme.backup(db.theme);
 });
+
+xf.reg('ui:dock-mode-switch', (_, db) => {
+    db.theme = models.dockMode.switch(db.dockMode);
+    models.dockMode.backup(db.dockMode);
+});
 xf.reg('ui:measurement-switch', (_, db) => {
     db.measurement = models.measurement.switch(db.measurement);
     models.measurement.backup(db.measurement);
@@ -395,6 +406,9 @@ xf.reg('services', (x, db) => {
 
 //
 xf.reg('app:start', async function(_, db) {
+
+    db.dockMode = models.dockMode.set(models.dockMode.restore());
+    models.dockMode.apply(db.dockMode);
 
     db.ftp = models.ftp.set(models.ftp.restore());
     db.weight = models.weight.set(models.weight.restore());
